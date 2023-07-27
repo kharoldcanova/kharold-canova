@@ -57,15 +57,15 @@ class BannerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size.width;
+    // final size = MediaQuery.of(context).size.width;
     return Container(
       color: Theme.of(context).colorScheme.background,
-      height: 650,
+      height: 850,
       width: double.infinity,
       child: Column(
         children: [
           Expanded(
-            child: Container(
+            child: SizedBox(
               height: double.infinity,
               width: double.infinity,
               child: Stack(
@@ -90,12 +90,36 @@ class BannerWidget extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                                 color: Theme.of(context).colorScheme.secondary),
                           ),
-                          Container(
-                            width: 500,
-                            color: Theme.of(context).colorScheme.background,
-                            child: const Text(
-                                'Desarrollador de Flutter con dos años de experiencia, me encanta hacer aplicaciones con estilos personalizados ademas de innovadores, si quieres conocer mas de mi trabajo, puedes consultar mi repositorio de Git y checar algunas de mis pasiones en Linkedin. '),
-                          )
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 500,
+                                color: Theme.of(context).colorScheme.background,
+                                child: const Text(
+                                  'Desarrollador de Flutter con dos años de experiencia, me encanta hacer aplicaciones con estilos personalizados ademas de innovadores, si quieres conocer mas de mi trabajo, puedes consultar mi repositorio de Git y checar algunas de mis pasiones en Linkedin. ',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 20),
+                              ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  elevation: 10,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                  ),
+                                  backgroundColor:
+                                      Theme.of(context).colorScheme.primary,
+                                  minimumSize: const Size(250, 60),
+                                ),
+                                onPressed: () {},
+                                child: const Text('Descargar CV'),
+                              )
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -120,7 +144,7 @@ class BannerWidget extends StatelessWidget {
                               minimumSize: const Size(250, 60),
                             ),
                             onPressed: () {},
-                            child: const Text('Linkdin'),
+                            child: const Text('Linkedin'),
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
@@ -157,24 +181,129 @@ class PresentationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.black,
+      color: Theme.of(context).colorScheme.primary,
       height: 650,
       width: double.infinity,
-      child: const Column(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            'Kharold Canova',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 25, color: Colors.white),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                '¿Que es lo que puedo hacer?',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 25,
+                    color: Theme.of(context).colorScheme.onPrimary),
+              ),
+            ],
           ),
-          SizedBox(height: 10),
-          Text(
-            'Desarrollador Flutter Frontend',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 25, color: Colors.white),
+          const SizedBox(height: 60),
+          SizedBox(
+            child: Wrap(
+              spacing: 1.0,
+              runSpacing: 2.0,
+              alignment: WrapAlignment.start,
+              runAlignment: WrapAlignment.start,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 350,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          backgroundColor:
+                              Theme.of(context).colorScheme.onPrimary,
+                          radius: 80,
+                          child: Icon(
+                            Icons.web,
+                            color: Theme.of(context).colorScheme.primary,
+                            size: 100,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        ListTile(
+                          title: Text(
+                            'Paginas Web',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                          ),
+                          subtitle: Text(
+                            'Desarrollo de paginas web.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 15),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 350,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          radius: 80,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.onPrimary,
+                          child: Icon(
+                            Icons.phone_android,
+                            color: Theme.of(context).colorScheme.primary,
+                            size: 100,
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        ListTile(
+                          title: Text(
+                            'Aplicaciones moviles',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                          ),
+                          subtitle: Text(
+                            'Desarrollo de aplicaciones moviles.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-          SizedBox(height: 10),
+          const SizedBox(height: 50),
+          Text(
+            '¡Con diseños personalizados atractivos e interactivos!',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 18,
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
+          )
         ],
       ),
     );
