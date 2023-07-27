@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:kharoldcanova/config/theme/current_theme.dart';
 import 'package:kharoldcanova/screens/banner_widget.dart';
+import 'package:kharoldcanova/screens/footer_widget.dart';
+import 'package:kharoldcanova/screens/proyects_widget.dart';
 import 'package:kharoldcanova/screens/whaticando_widget.dart';
 
 void main() {
@@ -36,15 +38,12 @@ class HomeScreen extends StatelessWidget {
         title: const Text('KHAROLD'),
         toolbarHeight: 100,
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Column(
           children: [
-            const BannerWidget(),
-            const WhatICanDoWidget(),
-            Container(
-              color: Colors.blueAccent[700],
-              height: 450,
-            )
+            BannerWidget(),
+            WhatICanDoWidget(),
+            FooterWidget(),
           ],
         ),
       ),
