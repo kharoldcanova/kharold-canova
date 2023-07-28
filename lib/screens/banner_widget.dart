@@ -49,7 +49,7 @@ class _BannerWidgetState extends State<BannerWidget> {
                 alignment: Alignment.center,
                 children: [
                   Image.asset(
-                    'font-banner-3.jpg',
+                    'assets/font-banner-3.jpg',
                     fit: BoxFit.fill,
                   ),
                   Padding(
