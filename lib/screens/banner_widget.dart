@@ -21,6 +21,17 @@ class _BannerWidgetState extends State<BannerWidget> {
     }
   }
 
+  //open cv pdf
+  Future<void> openPDF() async {
+    const pdfPath = 'assets/cv-flutter.pdf';
+    if (!await launchUrl(
+      Uri.parse(pdfPath),
+      mode: LaunchMode.platformDefault,
+    )) {
+      throw Exception('No se pudo abrir el PDF');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     // final size = MediaQuery.of(context).size.width;
@@ -81,7 +92,11 @@ class _BannerWidgetState extends State<BannerWidget> {
                                       Theme.of(context).colorScheme.primary,
                                   minimumSize: const Size(250, 60),
                                 ),
-                                onPressed: () {},
+                                onPressed: () {
+                                  setState(() {
+                                    openPDF();
+                                  });
+                                },
                                 child: const Text('Descargar CV'),
                               )
                             ],
