@@ -15,6 +15,7 @@ class MainApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: 'Kharold Canova',
       debugShowCheckedModeBanner: false,
       theme: AppTheme().getTheme(),
       home: const HomeScreen(),
