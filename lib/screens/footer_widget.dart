@@ -1,7 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class FooterWidget extends StatelessWidget {
+class FooterWidget extends StatefulWidget {
   const FooterWidget({super.key});
+
+  @override
+  State<FooterWidget> createState() => _FooterWidgetState();
+}
+
+class _FooterWidgetState extends State<FooterWidget> {
+//send email
+  Future<void> sendEmail() async {
+    const toEmail = 'kharoldcanova@gmail.com';
+    const subject = 'Contacto';
+    const message = 'Hola Kharold: \n\nVi tu portafolio, ¿Podemos hablar?';
+
+    final url =
+        'mailto:$toEmail?subject=${Uri.encodeFull(subject)}&body=${Uri.encodeFull(message)}';
+    if (!await launchUrl(
+      Uri.parse(url),
+      mode: LaunchMode.platformDefault,
+    )) {
+      throw Exception('No se pudo abrir $url');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +48,12 @@ class FooterWidget extends StatelessWidget {
                   width: 250,
                   height: 50,
                   child: FilledButton(
-                      onPressed: () {}, child: const Text('Enviame un correo')),
+                      onPressed: () {
+                        setState(() {
+                          sendEmail();
+                        });
+                      },
+                      child: const Text('Enviame un correo')),
                 )
               ],
             ),

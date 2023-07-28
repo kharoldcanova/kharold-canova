@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class ProyectsWidget extends StatelessWidget {
+class ProyectsWidget extends StatefulWidget {
   const ProyectsWidget({
     super.key,
   });
+
+  @override
+  State<ProyectsWidget> createState() => _ProyectsWidgetState();
+}
+
+class _ProyectsWidgetState extends State<ProyectsWidget> {
+  //go to url
+  Future<void> goToUrl(url) async {
+    if (!await launchUrl(
+      Uri.parse(url),
+      mode: LaunchMode.platformDefault,
+    )) {
+      throw Exception('No se pudo abrir $url');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +45,7 @@ class ProyectsWidget extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 60),
-            const SizedBox(
+            SizedBox(
               child: Wrap(
                 spacing: 5.0,
                 runSpacing: 2.0,
@@ -42,18 +58,35 @@ class ProyectsWidget extends StatelessWidget {
                     title: 'Login con Flutter',
                     subtitle:
                         'Realizacion de una interfaz atractiva de un diseño creado en Figma con funcionalidad de autenticacion usando los servicios de Firebase.',
+                    function: () {
+                      setState(() {
+                        goToUrl(
+                            'https://github.com/kharoldcanova/login_flutter');
+                      });
+                    },
                   ),
                   _CustomItemProyect(
                     icon: Icons.chat,
                     title: 'Chatbot',
                     subtitle:
                         'Un chatbot que consume una API de respuestas basadas en una imagen de Yes o No usando la libreria de Dio.',
+                    function: () {
+                      setState(() {
+                        goToUrl('https://github.com/kharoldcanova/yes_no_app');
+                      });
+                    },
                   ),
                   _CustomItemProyect(
                     icon: Icons.video_call,
                     title: 'Tok Tik',
                     subtitle:
                         'Un duplicado basico de la aplicacion de Tik Tok usando librerias para reproduccion de videos.',
+                    function: () {
+                      setState(() {
+                        goToUrl(
+                            'https://github.com/kharoldcanova/toktik_app_flutter');
+                      });
+                    },
                   ),
                 ],
               ),
@@ -70,10 +103,12 @@ class _CustomItemProyect extends StatelessWidget {
   final IconData icon;
   final String title;
   final String subtitle;
+  final VoidCallback function;
   const _CustomItemProyect({
     required this.icon,
     required this.title,
     required this.subtitle,
+    required this.function,
   });
 
   @override
@@ -117,7 +152,7 @@ class _CustomItemProyect extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             FilledButton(
-              onPressed: () {},
+              onPressed: function,
               style: FilledButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.onSecondary,
                 foregroundColor: Theme.of(context).colorScheme.secondary,

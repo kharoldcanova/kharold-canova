@@ -1,9 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class BannerWidget extends StatelessWidget {
+class BannerWidget extends StatefulWidget {
   const BannerWidget({
     super.key,
   });
+
+  @override
+  State<BannerWidget> createState() => _BannerWidgetState();
+}
+
+class _BannerWidgetState extends State<BannerWidget> {
+  //go to url
+  Future<void> goToUrl(url) async {
+    if (!await launchUrl(
+      Uri.parse(url),
+      mode: LaunchMode.platformDefault,
+    )) {
+      throw Exception('No se pudo abrir $url');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +109,12 @@ class BannerWidget extends StatelessWidget {
                                   Theme.of(context).colorScheme.secondary,
                               minimumSize: const Size(250, 60),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              setState(() {
+                                goToUrl(
+                                    'https://www.linkedin.com/in/kharoldcanova/');
+                              });
+                            },
                             child: const Text('Linkedin'),
                           ),
                           ElevatedButton(
@@ -106,7 +127,11 @@ class BannerWidget extends StatelessWidget {
                                   Theme.of(context).colorScheme.secondary,
                               minimumSize: const Size(250, 60),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              setState(() {
+                                goToUrl('https://github.com/kharoldcanova');
+                              });
+                            },
                             child: const Text('GitHub'),
                           )
                         ],
