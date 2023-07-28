@@ -43,6 +43,7 @@ class HomeScreen extends StatelessWidget {
           children: [
             BannerWidget(),
             WhatICanDoWidget(),
+            ProyectsWidget(),
             FooterWidget(),
           ],
         ),

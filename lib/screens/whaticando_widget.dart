@@ -9,7 +9,7 @@ class WhatICanDoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Theme.of(context).colorScheme.primary,
-      height: 650,
+      height: 750,
       width: double.infinity,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
@@ -51,7 +51,7 @@ class WhatICanDoWidget extends StatelessWidget {
                                 Theme.of(context).colorScheme.onPrimary,
                             radius: 80,
                             child: Icon(
-                              Icons.web,
+                              Icons.web_outlined,
                               color: Theme.of(context).colorScheme.primary,
                               size: 100,
                             ),
