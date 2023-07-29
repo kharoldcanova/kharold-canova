@@ -23,7 +23,7 @@ class _BannerWidgetState extends State<BannerWidget> {
 
   //open cv pdf
   Future<void> openPDF() async {
-    const pdfPath = 'assets/cv-flutter.pdf';
+    const pdfPath = '/assets/assets/cv-flutter.pdf';
     if (!await launchUrl(
       Uri.parse(pdfPath),
       mode: LaunchMode.platformDefault,
