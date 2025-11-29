@@ -1,0 +1,106 @@
+{
+  "@@locale": "en",
+  "hello": "Hello",
+  "greetUser": "Welcome, {username}!",
+  "profile_description": "Flutter developer with almost 5 years of experience. I love making applications with custom and innovative styles. If you want to know more about my work, you can check out my Git repository and see some of my passions on LinkedIn.",
+  "download_cv": "Download CV",
+  "what_i_can_do_title": "What can I do?",
+  "web_pages": "Web pages",
+  "web_pages_description": "Development of responsive and modern web pages using Flutter, HTML, CSS, and JavaScript to ensure an optimal user experience on all devices.",
+  "mobile_apps": "Mobile applications",
+  "mobile_apps_description": "Creation of native and cross-platform mobile applications with Flutter for Android and iOS, focusing on performance, usability, and attractive design to deliver exceptional user experiences.",
+  "database_management": "Database management",
+  "database_management_description": "Documentation and administration of databases using MySQL to ensure integrity, security, and efficiency in data management for mobile and web applications.",
+  "automatizaacion_gitactions": "Automation with Git Actions",
+  "automatizaacion_gitactions_description": "Implementation of automated workflows using GitHub Actions to optimize development processes, continuous integration, and continuous deployment (CI/CD) in software projects.",
+  "proyects_title": "Some of my projects are:",
+  "go_to_project": "Go to project",
+  "login_flutter": "Login with Flutter",
+  "login_flutter_description": "Login application developed with Flutter with an attractive design that allows authentication with Firebase.",
+  "chatbot": "Chatbot",
+  "chatbot_description": "Chatbot application that consumes a response API with a Yes/No image to interact with the user.",
+  "tok_tik_clone": "TikTok clone",
+  "tok_tik_clone_description": "Clone of the popular TikTok application, developed with Flutter, which allows users to watch short videos with an interface similar to the original.",
+  "work_with_me": "Would you like to work with me?",
+  "send_me_an_email": "Send me an email",
+  "phones": "Phones",
+  "email": "Email",
+  "@hello": {
+    "description": "Saludo en inglés."
+  },
+  "@greetUser": {
+    "description": "Saludo personalizado para el usuario.",
+    "placeholders": {
+      "username": {}
+    }
+  },
+  "@profile_description": {
+    "description": "Descripción del perfil del usuario en inglés."
+  },
+  "@download_cv": {
+    "description": "Texto para el botón de descarga del CV en inglés."
+  },
+  "@what_i_can_do_title": {
+    "description": "Título de la sección de habilidades en inglés."
+  },
+  "@web_pages": {
+    "description": "Texto para la sección de páginas web en inglés."
+  },
+  "@web_pages_description": {
+    "description": "Descripción de la sección de páginas web en inglés."
+  },
+  "@mobile_apps": {
+    "description": "Título de la sección de aplicaciones móviles en inglés."
+  },
+  "@mobile_apps_description": {
+    "description": "Descripción de la sección de aplicaciones móviles en inglés."
+  },
+  "@database_management": {
+    "description": "Título de la sección de gestión de bases de datos en inglés."
+  },
+  "@database_management_description": {
+    "description": "Descripción de la sección de gestión de bases de datos en inglés."
+  },
+  "@automatizaacion_gitactions": {
+    "description": "Título de la sección de automatización con GitHub Actions en inglés."
+  },
+  "@automatizaacion_gitactions_description": {
+    "description": "Descripción de la sección de automatización con GitHub Actions en inglés."
+  },
+  "@proyects_title": {
+    "description": "Título de la sección de proyectos en inglés."
+  },
+  "@go_to_project": {
+    "description": "Texto del botón para ver el proyecto."
+  },
+  "@login_flutter": {
+    "description": "Título de la sección de Login con Flutter en inglés."
+  },
+  "@login_flutter_description": {
+    "description": "Descripción del proyecto de Login con Flutter en inglés."
+  },
+  "@chatbot": {
+    "description": "Título de la sección de Chatbot en inglés."
+  },
+  "@chatbot_description": {
+    "description": "Descripción del proyecto de Chatbot en inglés."
+  },
+  "@tok_tik_clone": {
+    "description": "Título del proyecto de clon de TikTok en inglés."
+  },
+  "@tok_tik_clone_description": {
+    "description": "Descripción del proyecto de clon de TikTok en inglés."
+  },
+  "@work_with_me": {
+    "description": "Texto para la sección de contacto en inglés."
+  },
+  "@send_me_an_email": {
+    "description": "Texto del botón para enviar correo electrónico."
+  },
+  "@phones": {
+    "description": "Título de la sección de teléfonos en inglés."
+  },
+  "@email": {
+    "description": "Título de la sección de correo electrónico en inglés."
+  }
+}

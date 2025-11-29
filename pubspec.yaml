@@ -9,8 +9,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_localizations:
+    sdk: flutter
   font_awesome_flutter: ^10.9.1
   google_fonts: ^5.1.0
+  intl: any
   url_launcher: ^6.1.12
 
 dev_dependencies:
@@ -19,7 +22,7 @@ dev_dependencies:
     sdk: flutter
 
 flutter:
+  generate: true
   uses-material-design: true
-
   assets:
     - assets/

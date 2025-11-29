@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kharoldcanova/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BannerWidget extends StatefulWidget {
@@ -35,6 +36,7 @@ class _BannerWidgetState extends State<BannerWidget> {
   @override
   Widget build(BuildContext context) {
     // final size = MediaQuery.of(context).size.width;
+    final translation = AppLocalizations.of(context)!;
     return Container(
       color: Theme.of(context).colorScheme.surface,
       height: 850,
@@ -78,9 +80,9 @@ class _BannerWidgetState extends State<BannerWidget> {
                               Container(
                                 width: 500,
                                 color: Theme.of(context).colorScheme.surface,
-                                child: const Text(
-                                  'Desarrollador de Flutter con casi 5 años de experiencia, me encanta hacer aplicaciones con estilos personalizados ademas de innovadores, si quieres conocer mas de mi trabajo, puedes consultar mi repositorio de Git y checar algunas de mis pasiones en Linkedin. ',
-                                  style: TextStyle(
+                                child: Text(
+                                  translation.profile_description,
+                                  style: const TextStyle(
                                     fontSize: 18,
                                   ),
                                 ),
@@ -102,7 +104,7 @@ class _BannerWidgetState extends State<BannerWidget> {
                                   });
                                 },
                                 child: Text(
-                                  'Descargar CV',
+                                  translation.download_cv,
                                   style: TextStyle(
                                       color: Theme.of(context)
                                           .colorScheme

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kharoldcanova/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProyectsWidget extends StatefulWidget {
@@ -23,6 +24,7 @@ class _ProyectsWidgetState extends State<ProyectsWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final translations = AppLocalizations.of(context)!;
     return Container(
       color: Theme.of(context).colorScheme.secondary,
       width: double.infinity,
@@ -34,7 +36,7 @@ class _ProyectsWidgetState extends State<ProyectsWidget> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Algunos de mis proyectos son:',
+                translations.proyects_title,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 25,
@@ -50,9 +52,8 @@ class _ProyectsWidgetState extends State<ProyectsWidget> {
                 children: [
                   _CustomItemProyect(
                     icon: Icons.login,
-                    title: 'Login con Flutter',
-                    subtitle:
-                        'Realizacion de una interfaz atractiva de un diseño creado en Figma con funcionalidad de autenticacion usando los servicios de Firebase.',
+                    title: translations.login_flutter,
+                    subtitle: translations.login_flutter_description,
                     function: () {
                       setState(() {
                         goToUrl(
@@ -62,9 +63,8 @@ class _ProyectsWidgetState extends State<ProyectsWidget> {
                   ),
                   _CustomItemProyect(
                     icon: Icons.chat,
-                    title: 'Chatbot',
-                    subtitle:
-                        'Un chatbot que consume una API de respuestas basadas en una imagen de Yes o No usando la libreria de Dio.',
+                    title: translations.chatbot,
+                    subtitle: translations.chatbot_description,
                     function: () {
                       setState(() {
                         goToUrl('https://github.com/kharoldcanova/yes_no_app');
@@ -73,9 +73,8 @@ class _ProyectsWidgetState extends State<ProyectsWidget> {
                   ),
                   _CustomItemProyect(
                     icon: Icons.video_call,
-                    title: 'Tok Tik',
-                    subtitle:
-                        'Un duplicado basico de la aplicacion de Tik Tok usando librerias para reproduccion de videos.',
+                    title: translations.tok_tik_clone,
+                    subtitle: translations.tok_tik_clone_description,
                     function: () {
                       setState(() {
                         goToUrl(
@@ -108,6 +107,7 @@ class _CustomItemProyect extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final translations = AppLocalizations.of(context)!;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 25),
       child: SizedBox(
@@ -153,7 +153,7 @@ class _CustomItemProyect extends StatelessWidget {
                 foregroundColor: Theme.of(context).colorScheme.secondary,
                 minimumSize: const Size(180, 50),
               ),
-              child: const Text('Ir al proyecto'),
+              child: Text(translations.go_to_project),
             ),
           ],
         ),

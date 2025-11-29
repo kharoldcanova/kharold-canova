@@ -4,6 +4,8 @@ import 'package:kharoldcanova/screens/banner_widget.dart';
 import 'package:kharoldcanova/screens/footer_widget.dart';
 import 'package:kharoldcanova/screens/proyects_widget.dart';
 import 'package:kharoldcanova/screens/whaticando_widget.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:kharoldcanova/l10n/app_localizations.dart';
 
 void main() {
   runApp(const MainApp());
@@ -19,6 +21,16 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme().getTheme(),
       home: const HomeScreen(),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('es'),
+      ],
     );
   }
 }

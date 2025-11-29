@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kharoldcanova/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FooterWidget extends StatefulWidget {
@@ -27,6 +28,7 @@ class _FooterWidgetState extends State<FooterWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final translations = AppLocalizations.of(context)!;
     return Column(
       children: [
         Container(
@@ -38,7 +40,7 @@ class _FooterWidgetState extends State<FooterWidget> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  '¿Te gustaria trabajar conmigo?',
+                  translations.work_with_me,
                   style: TextStyle(
                       color: Theme.of(context).colorScheme.onSecondary,
                       fontSize: 20),
@@ -48,12 +50,13 @@ class _FooterWidgetState extends State<FooterWidget> {
                   width: 250,
                   height: 50,
                   child: FilledButton(
-                      onPressed: () {
-                        setState(() {
-                          sendEmail();
-                        });
-                      },
-                      child: const Text('Enviame un correo')),
+                    onPressed: () {
+                      setState(() {
+                        sendEmail();
+                      });
+                    },
+                    child: Text(translations.send_me_an_email),
+                  ),
                 ),
                 const SizedBox(height: 50)
               ],
@@ -62,8 +65,8 @@ class _FooterWidgetState extends State<FooterWidget> {
         ),
         Container(
           color: Theme.of(context).colorScheme.surface,
-          child: const Padding(
-            padding: EdgeInsets.all(30),
+          child: Padding(
+            padding: const EdgeInsets.all(30),
             child: Wrap(
               spacing: 50,
               runSpacing: 30,
@@ -72,16 +75,16 @@ class _FooterWidgetState extends State<FooterWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Telefonos:',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      "${translations.phones} :",
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 10),
-                    Text(
+                    const SizedBox(height: 10),
+                    const Text(
                       '+51 962 268 628',
                       style: TextStyle(fontSize: 14),
                     ),
-                    Text(
+                    const Text(
                       '+51 942 174 671',
                       style: TextStyle(fontSize: 14),
                     )
@@ -92,12 +95,12 @@ class _FooterWidgetState extends State<FooterWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Correo electronico:',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                      "${translations.email} :",
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(height: 10),
-                    Text(
+                    const SizedBox(height: 10),
+                    const Text(
                       'kharoldcanova@gmail.com',
                       style: TextStyle(fontSize: 14),
                     )

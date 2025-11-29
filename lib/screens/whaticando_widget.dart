@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:kharoldcanova/l10n/app_localizations.dart';
 
 class WhatICanDoWidget extends StatelessWidget {
   const WhatICanDoWidget({super.key});
@@ -7,6 +7,7 @@ class WhatICanDoWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme;
+    final translations = AppLocalizations.of(context)!;
 
     return Container(
       color: color.primary,
@@ -17,7 +18,7 @@ class WhatICanDoWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              '¿Qué es lo que puedo hacer?',
+              translations.what_i_can_do_title,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 25,
@@ -25,33 +26,31 @@ class WhatICanDoWidget extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 60),
-            const Wrap(
+            Wrap(
               spacing: 15,
               runSpacing: 20,
               alignment: WrapAlignment.center,
               children: [
                 SkillItem(
                   icon: Icons.code_outlined,
-                  title: 'Páginas Web',
-                  description:
-                      'Desarrollo de páginas web con HTML, CSS y JavaScript. También puedo usar frameworks como Flutter Web.',
+                  title: translations.web_pages,
+                  description: translations.web_pages_description,
                 ),
                 SkillItem(
                   icon: Icons.phone_android,
-                  title: 'Aplicaciones móviles',
-                  description:
-                      'Desarrollo de aplicaciones móviles con el framework Flutter para Android e iOS.',
+                  title: translations.mobile_apps,
+                  description: translations.mobile_apps_description,
                 ),
                 SkillItem(
                   icon: Icons.storage_outlined,
-                  title: 'Bases de datos',
-                  description: 'Manejo de bases de datos SQL como MySQL.',
+                  title: translations.database_management,
+                  description: translations.database_management_description,
                 ),
                 SkillItem(
                   icon: Icons.cloud_outlined,
-                  title: 'Automatización con GitHub Actions',
+                  title: translations.automatizaacion_gitactions,
                   description:
-                      'Implementación de flujos de trabajo automatizados utilizando GitHub Actions para CI/CD.',
+                      translations.automatizaacion_gitactions_description,
                 ),
               ],
             ),
