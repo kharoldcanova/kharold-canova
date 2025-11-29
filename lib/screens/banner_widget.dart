@@ -36,7 +36,7 @@ class _BannerWidgetState extends State<BannerWidget> {
   Widget build(BuildContext context) {
     // final size = MediaQuery.of(context).size.width;
     return Container(
-      color: Theme.of(context).colorScheme.background,
+      color: Theme.of(context).colorScheme.surface,
       height: 850,
       width: double.infinity,
       child: Column(
@@ -63,7 +63,11 @@ class _BannerWidgetState extends State<BannerWidget> {
                           Text(
                             'KHAROLD CANOVA',
                             style: TextStyle(
-                                fontSize: 80,
+                                //fontSize: 80,
+                                fontSize:
+                                    MediaQuery.of(context).size.width < 600
+                                        ? 60
+                                        : 80,
                                 fontWeight: FontWeight.bold,
                                 color: Theme.of(context).colorScheme.secondary),
                           ),
@@ -73,9 +77,9 @@ class _BannerWidgetState extends State<BannerWidget> {
                             children: [
                               Container(
                                 width: 500,
-                                color: Theme.of(context).colorScheme.background,
+                                color: Theme.of(context).colorScheme.surface,
                                 child: const Text(
-                                  'Desarrollador de Flutter con dos años de experiencia, me encanta hacer aplicaciones con estilos personalizados ademas de innovadores, si quieres conocer mas de mi trabajo, puedes consultar mi repositorio de Git y checar algunas de mis pasiones en Linkedin. ',
+                                  'Desarrollador de Flutter con casi 5 años de experiencia, me encanta hacer aplicaciones con estilos personalizados ademas de innovadores, si quieres conocer mas de mi trabajo, puedes consultar mi repositorio de Git y checar algunas de mis pasiones en Linkedin. ',
                                   style: TextStyle(
                                     fontSize: 18,
                                   ),
@@ -97,7 +101,13 @@ class _BannerWidgetState extends State<BannerWidget> {
                                     openPDF();
                                   });
                                 },
-                                child: const Text('Descargar CV'),
+                                child: Text(
+                                  'Descargar CV',
+                                  style: TextStyle(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onPrimary),
+                                ),
                               )
                             ],
                           ),
@@ -106,11 +116,13 @@ class _BannerWidgetState extends State<BannerWidget> {
                     ),
                   ),
                   Positioned(
+                    left: 0,
+                    right: 0,
                     bottom: 10,
                     child: Padding(
                       padding: const EdgeInsets.all(20),
                       child: Wrap(
-                        alignment: WrapAlignment.spaceBetween,
+                        alignment: WrapAlignment.center, // centrado horizontal
                         spacing: 10,
                         runSpacing: 10,
                         children: [
@@ -125,12 +137,15 @@ class _BannerWidgetState extends State<BannerWidget> {
                               minimumSize: const Size(250, 60),
                             ),
                             onPressed: () {
-                              setState(() {
-                                goToUrl(
-                                    'https://www.linkedin.com/in/kharoldcanova/');
-                              });
+                              goToUrl(
+                                  'https://www.linkedin.com/in/kharoldcanova/');
                             },
-                            child: const Text('Linkedin'),
+                            child: Text(
+                              'Linkedin',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
+                            ),
                           ),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
@@ -143,12 +158,15 @@ class _BannerWidgetState extends State<BannerWidget> {
                               minimumSize: const Size(250, 60),
                             ),
                             onPressed: () {
-                              setState(() {
-                                goToUrl('https://github.com/kharoldcanova');
-                              });
+                              goToUrl('https://github.com/kharoldcanova');
                             },
-                            child: const Text('GitHub'),
-                          )
+                            child: Text(
+                              'GitHub',
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ),

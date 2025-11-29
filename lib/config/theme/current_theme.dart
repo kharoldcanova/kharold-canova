@@ -7,7 +7,6 @@ class AppTheme {
   List<Color> colors = [
     Colors.deepOrange,
     Colors.blueAccent[700]!,
-    Colors.greenAccent[700]!,
     Colors.redAccent[400]!,
   ];
 
@@ -24,10 +23,8 @@ class AppTheme {
         onSecondary: Colors.white,
         error: Colors.red,
         onError: Colors.white,
-        background: Colors.white,
-        onBackground: Colors.black,
-        surface: Colors.black,
-        onSurface: Colors.white,
+        surface: Colors.white,
+        onSurface: Colors.black,
       ),
       textTheme: GoogleFonts.poppinsTextTheme());
 }

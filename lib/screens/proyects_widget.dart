@@ -28,25 +28,20 @@ class _ProyectsWidgetState extends State<ProyectsWidget> {
       width: double.infinity,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Algunos de mis proyectos son:',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 25,
-                      color: Theme.of(context).colorScheme.onSecondary),
-                ),
-              ],
-            ),
-            const SizedBox(height: 60),
-            SizedBox(
-              child: Wrap(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'Algunos de mis proyectos son:',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 25,
+                    color: Theme.of(context).colorScheme.onSecondary),
+              ),
+              const SizedBox(height: 60),
+              Wrap(
                 spacing: 5.0,
                 runSpacing: 2.0,
                 alignment: WrapAlignment.center,
@@ -90,9 +85,9 @@ class _ProyectsWidgetState extends State<ProyectsWidget> {
                   ),
                 ],
               ),
-            ),
-            const SizedBox(height: 60),
-          ],
+              const SizedBox(height: 60),
+            ],
+          ),
         ),
       ),
     );

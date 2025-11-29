@@ -1,148 +1,118 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class WhatICanDoWidget extends StatelessWidget {
-  const WhatICanDoWidget({
-    super.key,
-  });
+  const WhatICanDoWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final color = Theme.of(context).colorScheme;
+
     return Container(
-      color: Theme.of(context).colorScheme.primary,
-      height: 750,
+      color: color.primary,
       width: double.infinity,
-      child: Padding(
+      child: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            Text(
+              '¿Qué es lo que puedo hacer?',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 25,
+                color: color.onPrimary,
+              ),
+            ),
+            const SizedBox(height: 60),
+            const Wrap(
+              spacing: 15,
+              runSpacing: 20,
+              alignment: WrapAlignment.center,
               children: [
-                Text(
-                  '¿Que es lo que puedo hacer?',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                      fontSize: 25,
-                      color: Theme.of(context).colorScheme.onPrimary),
+                SkillItem(
+                  icon: Icons.code_outlined,
+                  title: 'Páginas Web',
+                  description:
+                      'Desarrollo de páginas web con HTML, CSS y JavaScript. También puedo usar frameworks como Flutter Web.',
+                ),
+                SkillItem(
+                  icon: Icons.phone_android,
+                  title: 'Aplicaciones móviles',
+                  description:
+                      'Desarrollo de aplicaciones móviles con el framework Flutter para Android e iOS.',
+                ),
+                SkillItem(
+                  icon: Icons.storage_outlined,
+                  title: 'Bases de datos',
+                  description: 'Manejo de bases de datos SQL como MySQL.',
+                ),
+                SkillItem(
+                  icon: Icons.cloud_outlined,
+                  title: 'Automatización con GitHub Actions',
+                  description:
+                      'Implementación de flujos de trabajo automatizados utilizando GitHub Actions para CI/CD.',
                 ),
               ],
             ),
             const SizedBox(height: 60),
-            SizedBox(
-              child: Wrap(
-                spacing: 1.0,
-                runSpacing: 2.0,
-                alignment: WrapAlignment.start,
-                runAlignment: WrapAlignment.start,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: 350,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                            backgroundColor:
-                                Theme.of(context).colorScheme.onPrimary,
-                            radius: 80,
-                            child: Icon(
-                              Icons.web_outlined,
-                              color: Theme.of(context).colorScheme.primary,
-                              size: 100,
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          ListTile(
-                            title: Text(
-                              'Paginas Web',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Theme.of(context).colorScheme.onPrimary,
-                              ),
-                            ),
-                            subtitle: Text(
-                              'Desarrollo de paginas web.',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Theme.of(context).colorScheme.onPrimary,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 15),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      width: 350,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                            radius: 80,
-                            backgroundColor:
-                                Theme.of(context).colorScheme.onPrimary,
-                            child: Icon(
-                              Icons.phone_android,
-                              color: Theme.of(context).colorScheme.primary,
-                              size: 100,
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-                          ListTile(
-                            title: Text(
-                              'Aplicaciones moviles',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 20,
-                                color: Theme.of(context).colorScheme.onPrimary,
-                              ),
-                            ),
-                            subtitle: Text(
-                              'Desarrollo de aplicaciones moviles.',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Theme.of(context).colorScheme.onPrimary,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 60),
-            // Row(
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: [
-            //     Text(
-            //       '¡Con diseños personalizados atractivos e interactivos!',
-            //       softWrap: true,
-            //       overflow: TextOverflow.clip,
-            //       textAlign: TextAlign.center,
-            //       style: TextStyle(
-            //         fontSize: 18,
-            //         color: Theme.of(context).colorScheme.onPrimary,
-            //       ),
-            //     ),
-            //   ],
-            // ),
-            // const SizedBox(height: 30),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class SkillItem extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String description;
+
+  const SkillItem({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.description,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final color = Theme.of(context).colorScheme;
+
+    return SizedBox(
+      width: 350,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          CircleAvatar(
+            radius: 80,
+            backgroundColor: color.onPrimary,
+            child: Icon(
+              icon,
+              color: color.primary,
+              size: 100,
+            ),
+          ),
+          const SizedBox(height: 20),
+          ListTile(
+            title: Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 20,
+                color: color.onPrimary,
+              ),
+            ),
+            subtitle: Text(
+              description,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                color: color.onPrimary,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

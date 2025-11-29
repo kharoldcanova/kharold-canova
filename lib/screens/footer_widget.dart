@@ -30,9 +30,9 @@ class _FooterWidgetState extends State<FooterWidget> {
     return Column(
       children: [
         Container(
-          height: 300,
+          width: double.infinity,
           color: Theme.of(context).colorScheme.secondary,
-          child: Center(
+          child: SingleChildScrollView(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -54,16 +54,19 @@ class _FooterWidgetState extends State<FooterWidget> {
                         });
                       },
                       child: const Text('Enviame un correo')),
-                )
+                ),
+                const SizedBox(height: 50)
               ],
             ),
           ),
         ),
         Container(
-          color: Theme.of(context).colorScheme.background,
+          color: Theme.of(context).colorScheme.surface,
           child: const Padding(
             padding: EdgeInsets.all(30),
-            child: Row(
+            child: Wrap(
+              spacing: 50,
+              runSpacing: 30,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +78,7 @@ class _FooterWidgetState extends State<FooterWidget> {
                     ),
                     SizedBox(height: 10),
                     Text(
-                      '+51 963 572 573',
+                      '+51 962 268 628',
                       style: TextStyle(fontSize: 14),
                     ),
                     Text(
@@ -84,7 +87,7 @@ class _FooterWidgetState extends State<FooterWidget> {
                     )
                   ],
                 ),
-                SizedBox(width: 50),
+                //SizedBox(width: 50),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
