@@ -8,6 +8,7 @@ class AppTheme {
     Colors.deepOrange,
     Colors.blueAccent[700]!,
     Colors.redAccent[400]!,
+    Colors.deepPurple,
   ];
 
   Color getRandomColor() {
