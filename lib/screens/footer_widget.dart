@@ -64,7 +64,8 @@ class _FooterWidgetState extends State<FooterWidget> {
           ),
         ),
         Container(
-          color: Theme.of(context).colorScheme.surface,
+          width: double.infinity,
+          color: Theme.of(context).colorScheme.onSurface,
           child: Padding(
             padding: const EdgeInsets.all(30),
             child: Wrap(
@@ -76,17 +77,23 @@ class _FooterWidgetState extends State<FooterWidget> {
                   children: [
                     Text(
                       "${translations.phones} :",
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.surface),
                     ),
                     const SizedBox(height: 10),
-                    const Text(
+                    Text(
                       '+51 962 268 628',
-                      style: TextStyle(fontSize: 14),
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Theme.of(context).colorScheme.surface),
                     ),
-                    const Text(
+                    Text(
                       '+51 942 174 671',
-                      style: TextStyle(fontSize: 14),
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Theme.of(context).colorScheme.surface),
                     )
                   ],
                 ),
@@ -96,13 +103,17 @@ class _FooterWidgetState extends State<FooterWidget> {
                   children: [
                     Text(
                       "${translations.email} :",
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context).colorScheme.surface),
                     ),
                     const SizedBox(height: 10),
-                    const Text(
+                    Text(
                       'kharoldcanova@gmail.com',
-                      style: TextStyle(fontSize: 14),
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Theme.of(context).colorScheme.surface),
                     )
                   ],
                 )
