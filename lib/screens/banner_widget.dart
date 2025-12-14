@@ -1,42 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 import 'package:kharoldcanova/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BannerWidget extends StatefulWidget {
-  const BannerWidget({
-    super.key,
-  });
+  const BannerWidget({super.key});
 
   @override
   State<BannerWidget> createState() => _BannerWidgetState();
 }
 
 class _BannerWidgetState extends State<BannerWidget> {
-  //go to url
-  Future<void> goToUrl(url) async {
-    if (!await launchUrl(
-      Uri.parse(url),
-      mode: LaunchMode.platformDefault,
-    )) {
+  late final VideoPlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = VideoPlayerController.asset(
+      'assets/videos/banner-video.mp4',
+    )..initialize().then((_) {
+        _controller
+          ..setLooping(true)
+          ..setVolume(0.0) // requerido para autoplay en Web
+          ..play();
+        setState(() {});
+      });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Future<void> goToUrl(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
       throw Exception('No se pudo abrir $url');
     }
   }
 
-  //open cv pdf
   Future<void> openPDF() async {
     const pdfPath = '/assets/assets/cv-flutter.pdf';
-    if (!await launchUrl(
-      Uri.parse(pdfPath),
-      mode: LaunchMode.platformDefault,
-    )) {
+    if (!await launchUrl(Uri.parse(pdfPath))) {
       throw Exception('No se pudo abrir el PDF');
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // final size = MediaQuery.of(context).size.width;
     final translation = AppLocalizations.of(context)!;
+
     return Container(
       color: Theme.of(context).colorScheme.surface,
       height: 850,
@@ -45,15 +59,27 @@ class _BannerWidgetState extends State<BannerWidget> {
         children: [
           Expanded(
             child: SizedBox(
-              height: double.infinity,
               width: double.infinity,
+              height: double.infinity,
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  Image.asset(
-                    'assets/font-banner-3.jpg',
-                    fit: BoxFit.fill,
-                  ),
+                  // 🎥 VIDEO DE FONDO (sin recorte)
+                  if (_controller.value.isInitialized)
+                    SizedBox.expand(
+                      child: FittedBox(
+                        fit: BoxFit.contain, // muestra TODO el video
+                        child: SizedBox(
+                          width: _controller.value.size.width,
+                          height: _controller.value.size.height,
+                          child: VideoPlayer(_controller),
+                        ),
+                      ),
+                    )
+                  else
+                    const SizedBox.expand(),
+
+                  // 🔹 CONTENIDO ORIGINAL (intacto)
                   Padding(
                     padding: const EdgeInsets.all(20),
                     child: SizedBox(
@@ -65,16 +91,14 @@ class _BannerWidgetState extends State<BannerWidget> {
                           Text(
                             'KHAROLD CANOVA',
                             style: TextStyle(
-                                //fontSize: 80,
-                                fontSize:
-                                    MediaQuery.of(context).size.width < 600
-                                        ? 60
-                                        : 80,
-                                fontWeight: FontWeight.bold,
-                                color: Theme.of(context).colorScheme.secondary),
+                              fontSize: MediaQuery.of(context).size.width < 600
+                                  ? 60
+                                  : 80,
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context).colorScheme.secondary,
+                            ),
                           ),
                           Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Container(
@@ -82,41 +106,37 @@ class _BannerWidgetState extends State<BannerWidget> {
                                 color: Theme.of(context).colorScheme.surface,
                                 child: Text(
                                   translation.profile_description,
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                  ),
+                                  style: const TextStyle(fontSize: 18),
                                 ),
                               ),
                               const SizedBox(height: 20),
                               ElevatedButton(
+                                onPressed: openPDF,
                                 style: ElevatedButton.styleFrom(
                                   elevation: 10,
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(20.0),
-                                  ),
                                   backgroundColor:
                                       Theme.of(context).colorScheme.primary,
                                   minimumSize: const Size(250, 60),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
                                 ),
-                                onPressed: () {
-                                  setState(() {
-                                    openPDF();
-                                  });
-                                },
                                 child: Text(
                                   translation.download_cv,
                                   style: TextStyle(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .onPrimary),
+                                    color:
+                                        Theme.of(context).colorScheme.onPrimary,
+                                  ),
                                 ),
-                              )
+                              ),
                             ],
                           ),
                         ],
                       ),
                     ),
                   ),
+
+                  // 🔹 BOTONES SOCIALES (originales)
                   Positioned(
                     left: 0,
                     right: 0,
@@ -124,44 +144,33 @@ class _BannerWidgetState extends State<BannerWidget> {
                     child: Padding(
                       padding: const EdgeInsets.all(20),
                       child: Wrap(
-                        alignment: WrapAlignment.center, // centrado horizontal
+                        alignment: WrapAlignment.center,
                         spacing: 10,
-                        runSpacing: 10,
                         children: [
                           ElevatedButton(
+                            onPressed: () => goToUrl(
+                              'https://www.linkedin.com/in/kharoldcanova/',
+                            ),
                             style: ElevatedButton.styleFrom(
-                              elevation: 10,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
                               backgroundColor:
                                   Theme.of(context).colorScheme.secondary,
                               minimumSize: const Size(250, 60),
                             ),
-                            onPressed: () {
-                              goToUrl(
-                                  'https://www.linkedin.com/in/kharoldcanova/');
-                            },
                             child: Text(
-                              'Linkedin',
+                              'LinkedIn',
                               style: TextStyle(
                                 color: Theme.of(context).colorScheme.onPrimary,
                               ),
                             ),
                           ),
                           ElevatedButton(
+                            onPressed: () =>
+                                goToUrl('https://github.com/kharoldcanova'),
                             style: ElevatedButton.styleFrom(
-                              elevation: 10,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(20.0),
-                              ),
                               backgroundColor:
                                   Theme.of(context).colorScheme.secondary,
                               minimumSize: const Size(250, 60),
                             ),
-                            onPressed: () {
-                              goToUrl('https://github.com/kharoldcanova');
-                            },
                             child: Text(
                               'GitHub',
                               style: TextStyle(
@@ -172,7 +181,7 @@ class _BannerWidgetState extends State<BannerWidget> {
                         ],
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
