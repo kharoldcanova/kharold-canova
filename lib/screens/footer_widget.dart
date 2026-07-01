@@ -50,11 +50,7 @@ class _FooterWidgetState extends State<FooterWidget> {
                   width: 250,
                   height: 50,
                   child: FilledButton(
-                    onPressed: () {
-                      setState(() {
-                        sendEmail();
-                      });
-                    },
+                    onPressed: sendEmail,
                     child: Text(translations.send_me_an_email),
                   ),
                 ),
@@ -65,7 +61,7 @@ class _FooterWidgetState extends State<FooterWidget> {
         ),
         Container(
           width: double.infinity,
-          color: Theme.of(context).colorScheme.onSurface,
+          color: Theme.of(context).colorScheme.surface,
           child: Padding(
             padding: const EdgeInsets.all(30),
             child: Wrap(
@@ -80,20 +76,20 @@ class _FooterWidgetState extends State<FooterWidget> {
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.surface),
+                          color: Theme.of(context).colorScheme.onSurface),
                     ),
                     const SizedBox(height: 10),
                     Text(
                       '+51 962 268 628',
                       style: TextStyle(
                           fontSize: 14,
-                          color: Theme.of(context).colorScheme.surface),
+                          color: Theme.of(context).colorScheme.onSurface),
                     ),
                     Text(
                       '+51 942 174 671',
                       style: TextStyle(
                           fontSize: 14,
-                          color: Theme.of(context).colorScheme.surface),
+                          color: Theme.of(context).colorScheme.onSurface),
                     )
                   ],
                 ),
@@ -106,14 +102,14 @@ class _FooterWidgetState extends State<FooterWidget> {
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
-                          color: Theme.of(context).colorScheme.surface),
+                          color: Theme.of(context).colorScheme.onSurface),
                     ),
                     const SizedBox(height: 10),
                     Text(
                       'kharoldcanova@gmail.com',
                       style: TextStyle(
                           fontSize: 14,
-                          color: Theme.of(context).colorScheme.surface),
+                          color: Theme.of(context).colorScheme.onSurface),
                     )
                   ],
                 )

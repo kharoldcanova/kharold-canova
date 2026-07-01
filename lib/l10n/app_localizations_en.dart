@@ -18,7 +18,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profile_description =>
-      'Flutter developer with almost 5 years of experience. I love making applications with custom and innovative styles. If you want to know more about my work, you can check out my Git repository and see some of my passions on LinkedIn.';
+      'I\'m passionate about creating cross-platform applications, automating processes, and continuing to grow in DevOps. I also enjoy exploring Linux, staying up to date with the latest technologies, and leveraging artificial intelligence to enhance every project.';
 
   @override
   String get download_cv => 'Download CV';
@@ -92,4 +92,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get email => 'Email';
+
+  @override
+  String get menu => 'Menu';
+
+  @override
+  String get close => 'Close';
+
+  @override
+  String get home => 'Home';
+
+  @override
+  String get profile => 'Profile';
+
+  @override
+  String get contact => 'Contact';
+
+  @override
+  String get projects => 'Projects';
 }

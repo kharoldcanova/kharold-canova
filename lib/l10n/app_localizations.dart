@@ -113,7 +113,7 @@ abstract class AppLocalizations {
   /// Descripción del perfil del usuario en inglés.
   ///
   /// In en, this message translates to:
-  /// **'Flutter developer with almost 5 years of experience. I love making applications with custom and innovative styles. If you want to know more about my work, you can check out my Git repository and see some of my passions on LinkedIn.'**
+  /// **'I\'m passionate about creating cross-platform applications, automating processes, and continuing to grow in DevOps. I also enjoy exploring Linux, staying up to date with the latest technologies, and leveraging artificial intelligence to enhance every project.'**
   String get profile_description;
 
   /// Texto para el botón de descarga del CV en inglés.
@@ -247,6 +247,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Email'**
   String get email;
+
+  /// No description provided for @menu.
+  ///
+  /// In en, this message translates to:
+  /// **'Menu'**
+  String get menu;
+
+  /// No description provided for @close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get close;
+
+  /// No description provided for @home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
+
+  /// No description provided for @profile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profile;
+
+  /// No description provided for @contact.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact'**
+  String get contact;
+
+  /// No description provided for @projects.
+  ///
+  /// In en, this message translates to:
+  /// **'Projects'**
+  String get projects;
 }
 
 class _AppLocalizationsDelegate

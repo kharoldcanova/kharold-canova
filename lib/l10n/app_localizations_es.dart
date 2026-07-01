@@ -18,7 +18,7 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get profile_description =>
-      'Desarrollador de Flutter con casi 5 años de experiencia, me encanta hacer aplicaciones con estilos personalizados ademas de innovadores, si quieres conocer mas de mi trabajo, puedes consultar mi repositorio de Git y checar algunas de mis pasiones en Linkedin.';
+      'Me apasiona crear aplicaciones multiplataforma, automatizar procesos y seguir creciendo en DevOps. Además, disfruto explorar Linux, mantenerme al día con las últimas tecnologías y aprovechar la inteligencia artificial para potenciar cada proyecto.';
 
   @override
   String get download_cv => 'Descargar CV';
@@ -92,4 +92,22 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get email => 'Correo electrónico';
+
+  @override
+  String get menu => 'Menú';
+
+  @override
+  String get close => 'Cerrar';
+
+  @override
+  String get home => 'Inicio';
+
+  @override
+  String get profile => 'Perfil';
+
+  @override
+  String get contact => 'Contacto';
+
+  @override
+  String get projects => 'Proyectos';
 }

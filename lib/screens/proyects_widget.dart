@@ -54,33 +54,21 @@ class _ProyectsWidgetState extends State<ProyectsWidget> {
                     icon: Icons.login,
                     title: translations.login_flutter,
                     subtitle: translations.login_flutter_description,
-                    function: () {
-                      setState(() {
-                        goToUrl(
-                            'https://github.com/kharoldcanova/login_flutter');
-                      });
-                    },
+                    function: () => goToUrl(
+                        'https://github.com/kharoldcanova/login_flutter'),
                   ),
                   _CustomItemProyect(
                     icon: Icons.chat,
                     title: translations.chatbot,
                     subtitle: translations.chatbot_description,
-                    function: () {
-                      setState(() {
-                        goToUrl('https://github.com/kharoldcanova/yes_no_app');
-                      });
-                    },
+                    function: () => goToUrl('https://github.com/kharoldcanova/yes_no_app'),
                   ),
                   _CustomItemProyect(
                     icon: Icons.video_call,
                     title: translations.tok_tik_clone,
                     subtitle: translations.tok_tik_clone_description,
-                    function: () {
-                      setState(() {
-                        goToUrl(
-                            'https://github.com/kharoldcanova/toktik_app_flutter');
-                      });
-                    },
+                    function: () => goToUrl(
+                        'https://github.com/kharoldcanova/toktik_app_flutter'),
                   ),
                 ],
               ),

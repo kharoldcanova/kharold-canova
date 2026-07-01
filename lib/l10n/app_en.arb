@@ -2,7 +2,7 @@
   "@@locale": "en",
   "hello": "Hello",
   "greetUser": "Welcome, {username}!",
-  "profile_description": "Flutter developer with almost 5 years of experience. I love making applications with custom and innovative styles. If you want to know more about my work, you can check out my Git repository and see some of my passions on LinkedIn.",
+  "profile_description": "I'm passionate about creating cross-platform applications, automating processes, and continuing to grow in DevOps. I also enjoy exploring Linux, staying up to date with the latest technologies, and leveraging artificial intelligence to enhance every project.",
   "download_cv": "Download CV",
   "what_i_can_do_title": "What can I do?",
   "web_pages": "Web pages",
@@ -25,6 +25,12 @@
   "send_me_an_email": "Send me an email",
   "phones": "Phones",
   "email": "Email",
+  "menu": "Menu",
+  "close": "Close",
+  "home": "Home",
+  "profile": "Profile",
+  "contact": "Contact",
+  "projects": "Projects",
   "@hello": {
     "description": "Saludo en inglés."
   },

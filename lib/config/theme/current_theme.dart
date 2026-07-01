@@ -5,10 +5,10 @@ import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   List<Color> colors = [
-    Colors.deepOrange,
+    //Colors.deepOrange,
     Colors.blueAccent[700]!,
-    Colors.redAccent[400]!,
-    Colors.deepPurple,
+    //Colors.redAccent[400]!,
+    //Colors.deepPurple,
   ];
 
   Color getRandomColor() {
@@ -27,5 +27,5 @@ class AppTheme {
         surface: Colors.white,
         onSurface: Colors.black,
       ),
-      textTheme: GoogleFonts.poppinsTextTheme());
+      textTheme: GoogleFonts.openSansTextTheme());
 }
