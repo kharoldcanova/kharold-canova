@@ -110,4 +110,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get projects => 'Projects';
+
+  @override
+  String get profile_title => 'Flutter Developer';
+
+  @override
+  String get profile_quote => 'Building software with curiosity.';
+
+  @override
+  String get profile_since => 'Since';
+
+  @override
+  String get profile_expertise => 'AI · Linux · Cloud';
 }

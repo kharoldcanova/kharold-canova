@@ -3,14 +3,14 @@ import 'package:kharoldcanova/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+class HomeBody extends StatefulWidget {
+  const HomeBody({super.key});
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  State<HomeBody> createState() => _HomeBodyState();
 }
 
-class _MainScreenState extends State<MainScreen>
+class _HomeBodyState extends State<HomeBody>
     with SingleTickerProviderStateMixin {
   static const _animationDuration = Duration(milliseconds: 1200);
 
@@ -117,7 +117,6 @@ class _MainScreenState extends State<MainScreen>
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  // CONTENIDO CON ANIMACIÓN DE ENTRADA
                   Padding(
                     padding: const EdgeInsets.all(20),
                     child: SizedBox(
@@ -157,15 +156,6 @@ class _MainScreenState extends State<MainScreen>
                                 ),
                               ),
                               const SizedBox(height: 10),
-                              // // Text(
-                              // //   'FULLSTACK DEVELOPER',
-                              // //   style: TextStyle(
-                              // //     fontSize: 24,
-                              // //     //fontWeight: FontWeight.bold,
-                              // //     color: colorScheme.onPrimary,
-                              // //   ),
-                              // // ),
-                              // texto dentro de un recatangulo negro grande
                               Container(
                                 color: Colors.black,
                                 padding: const EdgeInsets.symmetric(
@@ -177,27 +167,11 @@ class _MainScreenState extends State<MainScreen>
                                         MediaQuery.of(context).size.width < 600
                                             ? 20
                                             : 24,
-                                    //fontWeight: FontWeight.bold,
                                     color: colorScheme.onPrimary,
                                   ),
                                 ),
                               ),
                               const SizedBox(height: 20),
-                              // ElevatedButton(
-                              //   onPressed: openPDF,
-                              //   style: ElevatedButton.styleFrom(
-                              //     backgroundColor: colorScheme.primary,
-                              //     foregroundColor: colorScheme.onPrimary,
-                              //     padding: const EdgeInsets.symmetric(
-                              //       horizontal: 24,
-                              //       vertical: 16,
-                              //     ),
-                              //   ),
-                              //   child: Text(
-                              //     translation.download_cv,
-                              //     style: const TextStyle(fontSize: 16),
-                              //   ),
-                              // ),
                             ],
                           ),
                           Column(

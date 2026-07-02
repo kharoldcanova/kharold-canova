@@ -31,7 +31,10 @@
   "profile": "Perfil",
   "contact": "Contacto",
   "projects": "Proyectos",
-
+  "profile_title": "Desarrollador Flutter",
+  "profile_quote": "Construyendo software con curiosidad.",
+  "profile_since": "Desde",
+  "profile_expertise": "IA · Linux · Cloud",
   "@hello": {
     "description": "Saludo en español."
   },

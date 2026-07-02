@@ -283,6 +283,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Projects'**
   String get projects;
+
+  /// No description provided for @profile_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Flutter Developer'**
+  String get profile_title;
+
+  /// No description provided for @profile_quote.
+  ///
+  /// In en, this message translates to:
+  /// **'Building software with curiosity.'**
+  String get profile_quote;
+
+  /// No description provided for @profile_since.
+  ///
+  /// In en, this message translates to:
+  /// **'Since'**
+  String get profile_since;
+
+  /// No description provided for @profile_expertise.
+  ///
+  /// In en, this message translates to:
+  /// **'AI · Linux · Cloud'**
+  String get profile_expertise;
 }
 
 class _AppLocalizationsDelegate
