@@ -3,20 +3,23 @@ import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
 import 'package:kharoldcanova/data/models/skill.dart';
 import 'package:kharoldcanova/l10n/app_localizations.dart';
 import 'package:kharoldcanova/screens/widgets/animate_on_visible.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AboutSkillsWidget extends StatelessWidget {
-  const AboutSkillsWidget({super.key});
+  final VoidCallback? onHireMe;
+
+  const AboutSkillsWidget({super.key, this.onHireMe});
 
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
-    final isSmallScreen = MediaQuery.of(context).size.width < 600;
+    final isSmallScreen = MediaQuery.of(context).size.width < 1200;
     final repo = PortfolioRepository();
 
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: isSmallScreen ? 24 : 80,
+        horizontal: isSmallScreen ? 24 : 260,
         vertical: 60,
       ),
       child: isSmallScreen
@@ -24,7 +27,7 @@ class AboutSkillsWidget extends StatelessWidget {
               children: [
                 _aboutImage(colorScheme, repo),
                 const SizedBox(height: 40),
-                _aboutContent(t, colorScheme, repo),
+                _aboutContent(t, colorScheme, repo, onHireMe),
               ],
             )
           : Row(
@@ -32,7 +35,7 @@ class AboutSkillsWidget extends StatelessWidget {
               children: [
                 Expanded(flex: 4, child: _aboutImage(colorScheme, repo)),
                 const SizedBox(width: 60),
-                Expanded(flex: 6, child: _aboutContent(t, colorScheme, repo)),
+                Expanded(flex: 6, child: _aboutContent(t, colorScheme, repo, onHireMe)),
               ],
             ),
     );
@@ -47,14 +50,14 @@ class AboutSkillsWidget extends StatelessWidget {
             width: 320,
             height: 400,
             decoration: BoxDecoration(
-              color: colorScheme.primary.withAlpha(30),
+              color: colorScheme.primary,
               borderRadius: BorderRadius.circular(8),
             ),
             child: Center(
               child: Icon(
-                Icons.person_outline,
+                Icons.code,
                 size: 120,
-                color: colorScheme.primary.withAlpha(100),
+                color: Colors.white,
               ),
             ),
           ),
@@ -86,6 +89,7 @@ class AboutSkillsWidget extends StatelessWidget {
     AppLocalizations t,
     ColorScheme colorScheme,
     PortfolioRepository repo,
+    VoidCallback? onHireMe,
   ) {
     final skills = repo.getSkills();
     return Column(
@@ -129,7 +133,7 @@ class AboutSkillsWidget extends StatelessWidget {
             SizedBox(
               height: 44,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: onHireMe,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: colorScheme.primary,
                   foregroundColor: Colors.white,
@@ -145,7 +149,7 @@ class AboutSkillsWidget extends StatelessWidget {
             SizedBox(
               height: 44,
               child: OutlinedButton(
-                onPressed: () {},
+                onPressed: () => launchUrl(Uri.parse(repo.getLinkedin())),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: colorScheme.onSurface,
                   side: BorderSide(color: colorScheme.onSurface.withAlpha(100)),

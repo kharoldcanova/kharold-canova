@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -8,7 +9,7 @@ class FooterWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final isSmallScreen = MediaQuery.of(context).size.width < 600;
+    final isSmallScreen = MediaQuery.of(context).size.width < 1200;
     final repo = PortfolioRepository();
 
     return Container(
@@ -24,24 +25,35 @@ class FooterWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _SocialIcon(
-                icon: Icons.mail_outline,
+                iconWidget: const Icon(
+                  Icons.mail_outline,
+                  color: Colors.white,
+                  size: 20,
+                ),
                 tooltip: repo.getEmail(),
-                onTap: () {},
-                colorScheme: colorScheme,
+                onTap: () => _openUrl(
+                  'https://mail.google.com/mail/?view=cm&fs=1&to=${repo.getEmail()}',
+                ),
               ),
               const SizedBox(width: 20),
               _SocialIcon(
-                icon: Icons.alternate_email,
+                iconWidget: const FaIcon(
+                  FontAwesomeIcons.github,
+                  color: Colors.white,
+                  size: 20,
+                ),
                 tooltip: 'GitHub',
-                onTap: () => launchUrl(Uri.parse(repo.getGithub())),
-                colorScheme: colorScheme,
+                onTap: () => _openUrl(repo.getGithub()),
               ),
               const SizedBox(width: 20),
               _SocialIcon(
-                icon: Icons.work_outline,
+                iconWidget: const FaIcon(
+                  FontAwesomeIcons.linkedin,
+                  color: Colors.white,
+                  size: 20,
+                ),
                 tooltip: 'LinkedIn',
-                onTap: () => launchUrl(Uri.parse(repo.getLinkedin())),
-                colorScheme: colorScheme,
+                onTap: () => _openUrl(repo.getLinkedin()),
               ),
             ],
           ),
@@ -58,19 +70,24 @@ class FooterWidget extends StatelessWidget {
       ),
     );
   }
+
+  Future<void> _openUrl(String urlString) async {
+    final uri = Uri.parse(urlString);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri);
+    }
+  }
 }
 
 class _SocialIcon extends StatelessWidget {
-  final IconData icon;
+  final Widget iconWidget;
   final String tooltip;
   final VoidCallback onTap;
-  final ColorScheme colorScheme;
 
   const _SocialIcon({
-    required this.icon,
+    required this.iconWidget,
     required this.tooltip,
     required this.onTap,
-    required this.colorScheme,
   });
 
   @override
@@ -87,7 +104,7 @@ class _SocialIcon extends StatelessWidget {
             color: Colors.white.withAlpha(30),
             shape: BoxShape.circle,
           ),
-          child: Icon(icon, color: Colors.white, size: 22),
+          child: Center(child: iconWidget),
         ),
       ),
     );

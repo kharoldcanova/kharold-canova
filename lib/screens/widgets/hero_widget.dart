@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kharoldcanova/l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HeroWidget extends StatelessWidget {
   const HeroWidget({super.key});
@@ -10,16 +11,15 @@ class HeroWidget extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final width = MediaQuery.of(context).size.width;
 
-    final isSmall = width < 600;
-    final isMedium = width >= 600 && width < 900;
+    final isMobile = width < 1200;
 
-    final nameSize = isSmall ? 36.0 : (isMedium ? 56.0 : 80.0);
-    final subtitleSize = isSmall ? 20.0 : (isMedium ? 30.0 : 38.0);
-    final avatarRadius = isSmall ? 100.0 : (isMedium ? 140.0 : 220.0);
+    final nameSize = isMobile ? 36.0 : 80.0;
+    final subtitleSize = isMobile ? 20.0 : 38.0;
+    final avatarRadius = isMobile ? 100.0 : 250.0;
 
     return SizedBox(
       height: MediaQuery.of(context).size.height,
-      child: isSmall
+      child: isMobile
           ? _mobileLayout(t, colorScheme, nameSize, subtitleSize, avatarRadius)
           : _desktopLayout(
               t, colorScheme, nameSize, subtitleSize, avatarRadius),
@@ -100,7 +100,9 @@ class HeroWidget extends StatelessWidget {
         SizedBox(
           height: 48,
           child: ElevatedButton(
-            onPressed: () {},
+            onPressed: () => launchUrl(
+              Uri.parse('cv-flutter.pdf'),
+            ),
             style: ElevatedButton.styleFrom(
               backgroundColor: colorScheme.primary,
               foregroundColor: Colors.white,

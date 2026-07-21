@@ -6,7 +6,6 @@ import 'package:kharoldcanova/screens/widgets/footer_widget.dart';
 import 'package:kharoldcanova/screens/widgets/header_widget.dart';
 import 'package:kharoldcanova/screens/widgets/hero_widget.dart';
 import 'package:kharoldcanova/screens/widgets/portfolio_widget.dart';
-import 'package:kharoldcanova/screens/widgets/quote_widget.dart';
 import 'package:kharoldcanova/screens/widgets/services_widget.dart';
 import 'package:kharoldcanova/screens/widgets/stats_footer_widget.dart';
 
@@ -22,8 +21,8 @@ class _PortfolioPageState extends State<PortfolioPage> {
 
   final _sectionKeys = {
     'home': GlobalKey(),
-    'projects': GlobalKey(),
     'about': GlobalKey(),
+    'projects': GlobalKey(),
     'services': GlobalKey(),
     'contact': GlobalKey(),
   };
@@ -84,7 +83,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
-    final isSmallScreen = MediaQuery.of(context).size.width < 600;
+    final isSmallScreen = MediaQuery.of(context).size.width < 1200;
 
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -97,11 +96,13 @@ class _PortfolioPageState extends State<PortfolioPage> {
         child: Column(
           children: [
             Container(key: _sectionKeys['home'], child: const HeroWidget()),
-            const QuoteWidget(),
-            Container(key: _sectionKeys['projects'], child: const PortfolioWidget()),
+            Container(
+                key: _sectionKeys['about'], child: AboutSkillsWidget(onHireMe: () => _scrollToSection('contact'))),
             const StatsFooterWidget(),
-            Container(key: _sectionKeys['about'], child: const AboutSkillsWidget()),
-            Container(key: _sectionKeys['services'], child: const ServicesWidget()),
+            Container(
+                key: _sectionKeys['projects'], child: const PortfolioWidget()),
+            Container(
+                key: _sectionKeys['services'], child: const ServicesWidget()),
             Container(
               key: _sectionKeys['contact'],
               child: const ContactWidget(),
@@ -138,16 +139,6 @@ class _PortfolioPageState extends State<PortfolioPage> {
                       },
                     ),
                     _DrawerItem(
-                      label: t.projects,
-                      icon: Icons.work,
-                      isActive: _activeSection == 'projects',
-                      colorScheme: colorScheme,
-                      onTap: () {
-                        Navigator.pop(context);
-                        _scrollToSection('projects');
-                      },
-                    ),
-                    _DrawerItem(
                       label: t.about,
                       icon: Icons.person,
                       isActive: _activeSection == 'about',
@@ -155,6 +146,16 @@ class _PortfolioPageState extends State<PortfolioPage> {
                       onTap: () {
                         Navigator.pop(context);
                         _scrollToSection('about');
+                      },
+                    ),
+                    _DrawerItem(
+                      label: t.projects,
+                      icon: Icons.work,
+                      isActive: _activeSection == 'projects',
+                      colorScheme: colorScheme,
+                      onTap: () {
+                        Navigator.pop(context);
+                        _scrollToSection('projects');
                       },
                     ),
                     _DrawerItem(

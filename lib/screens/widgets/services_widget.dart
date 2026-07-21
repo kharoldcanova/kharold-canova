@@ -8,16 +8,21 @@ class ServicesWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
-    final isSmallScreen = MediaQuery.of(context).size.width < 600;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final isSmallScreen = screenWidth < 1200;
 
     final services = [
-      _ServiceData(icon: Icons.phone_android, label: t.service_android),
-      _ServiceData(icon: Icons.phone_iphone, label: t.service_ios),
-      _ServiceData(icon: Icons.web, label: t.service_web),
+      _ServiceData(icon: Icons.android, label: t.service_android),
+      _ServiceData(icon: Icons.apple, label: t.service_ios),
+      _ServiceData(icon: Icons.html, label: t.service_web),
       _ServiceData(icon: Icons.rocket_launch, label: t.service_rag),
       _ServiceData(icon: Icons.psychology, label: t.service_scripts),
-      _ServiceData(icon: Icons.auto_awesome, label: t.service_contact),
+      _ServiceData(icon: Icons.terminal, label: t.service_contact),
     ];
+
+    // Ancho fijo por card para mantener exactamente 3 columnas en escritorio
+    final double cardWidth = isSmallScreen ? (screenWidth - 48) : 280.0;
+    final double cardHeight = 260.0; // Altura incrementada
 
     return Padding(
       padding: EdgeInsets.symmetric(
@@ -35,11 +40,24 @@ class ServicesWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 40),
-          Wrap(
-            spacing: 20,
-            runSpacing: 20,
-            alignment: WrapAlignment.center,
-            children: services.map((s) => _ServiceCard(data: s, colorScheme: colorScheme)).toList(),
+          // Constreñimos el contenedor para asegurar que máximo entren 3 columnas (280*3 + espaciados)
+          SizedBox(
+            width: isSmallScreen ? double.infinity : (280.0 * 3) + (20.0 * 2),
+            child: Wrap(
+              spacing: 20,
+              runSpacing: 20,
+              alignment: WrapAlignment.center,
+              children: services
+                  .map(
+                    (s) => _ServiceCard(
+                      data: s,
+                      colorScheme: colorScheme,
+                      width: cardWidth,
+                      height: cardHeight,
+                    ),
+                  )
+                  .toList(),
+            ),
           ),
         ],
       ),
@@ -56,8 +74,15 @@ class _ServiceData {
 class _ServiceCard extends StatefulWidget {
   final _ServiceData data;
   final ColorScheme colorScheme;
+  final double width;
+  final double height;
 
-  const _ServiceCard({required this.data, required this.colorScheme});
+  const _ServiceCard({
+    required this.data,
+    required this.colorScheme,
+    required this.width,
+    required this.height,
+  });
 
   @override
   State<_ServiceCard> createState() => _ServiceCardState();
@@ -72,12 +97,13 @@ class _ServiceCardState extends State<_ServiceCard> {
     final colorScheme = widget.colorScheme;
 
     return MouseRegion(
+      cursor: SystemMouseCursors.click,
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        width: 280,
-        height: 200,
+        width: widget.width,
+        height: widget.height,
         decoration: BoxDecoration(
           color: _hovered ? Colors.transparent : colorScheme.primary,
           border: _hovered
@@ -90,10 +116,10 @@ class _ServiceCardState extends State<_ServiceCard> {
           children: [
             Icon(
               data.icon,
-              size: 46,
+              size: 50,
               color: _hovered ? colorScheme.onSurface : Colors.white,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: Text(

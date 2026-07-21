@@ -22,7 +22,7 @@ class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
-    final isSmallScreen = MediaQuery.of(context).size.width < 600;
+    final isSmallScreen = MediaQuery.of(context).size.width < 1200;
 
     if (isSmallScreen) {
       return AppBar(
@@ -60,15 +60,15 @@ class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
             ),
             const SizedBox(width: 12),
             _NavLink(
-              label: t.projects,
-              isActive: activeSection == 'projects',
-              onTap: () => onSectionTap('projects'),
-            ),
-            const SizedBox(width: 12),
-            _NavLink(
               label: t.about,
               isActive: activeSection == 'about',
               onTap: () => onSectionTap('about'),
+            ),
+            const SizedBox(width: 12),
+            _NavLink(
+              label: t.projects,
+              isActive: activeSection == 'projects',
+              onTap: () => onSectionTap('projects'),
             ),
             const SizedBox(width: 12),
             _NavLink(

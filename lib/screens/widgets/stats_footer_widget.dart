@@ -9,71 +9,70 @@ class StatsFooterWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
-    final colorScheme = Theme.of(context).colorScheme;
-    final isSmallScreen = MediaQuery.of(context).size.width < 600;
+    final cs = Theme.of(context).colorScheme;
+    final isSmallScreen = MediaQuery.of(context).size.width < 1200;
     final repo = PortfolioRepository();
 
     final years = repo.getTotalYearsExperience();
     final repos = repo.getTotalRepos().toDouble();
 
-    return Container(
-      color: colorScheme.primary,
-      width: double.infinity,
+    return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: isSmallScreen ? 24 : 80,
-        vertical: 60,
+        vertical: 80,
       ),
       child: Column(
         children: [
           Text(
             t.portfolio_title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 36,
               fontWeight: FontWeight.bold,
-              color: Colors.white,
+              color: cs.onSurface,
             ),
           ),
-          const SizedBox(height: 40),
+          const SizedBox(height: 48),
           AnimateOnVisible(
-            builder: (context, visible) => isSmallScreen
-                ? Column(
-                    children: [
-                      _StatCard(
-                        label: t.stats_exp(''),
-                        value: years,
-                        colorScheme: colorScheme,
-                        animate: visible,
-                      ),
-                      const SizedBox(height: 20),
-                      _StatCard(
-                        label: t.stats_repos(''),
-                        value: repos,
-                        colorScheme: colorScheme,
-                        animate: visible,
-                      ),
-                    ],
-                  )
-                : Row(
-                    children: [
-                      Expanded(
-                        child: _StatCard(
-                          label: t.stats_exp(''),
-                          value: years,
-                          colorScheme: colorScheme,
-                          animate: visible,
-                        ),
-                      ),
-                      const SizedBox(width: 20),
-                      Expanded(
-                        child: _StatCard(
-                          label: t.stats_repos(''),
-                          value: repos,
-                          colorScheme: colorScheme,
-                          animate: visible,
-                        ),
-                      ),
-                    ],
+            builder: (context, visible) {
+              if (isSmallScreen) {
+                return Column(
+                  children: [
+                    _StatCard(
+                      label: t.stats_exp(''),
+                      value: years,
+                      colorScheme: cs,
+                      animate: visible,
+                    ),
+                    const SizedBox(height: 24),
+                    _StatCard(
+                      label: t.stats_repos(''),
+                      value: repos,
+                      colorScheme: cs,
+                      animate: visible,
+                    ),
+                  ],
+                );
+              }
+
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _StatCard(
+                    label: t.stats_exp(''),
+                    value: years,
+                    colorScheme: cs,
+                    animate: visible,
                   ),
+                  const SizedBox(width: 32),
+                  _StatCard(
+                    label: t.stats_repos(''),
+                    value: repos,
+                    colorScheme: cs,
+                    animate: visible,
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),
@@ -103,66 +102,82 @@ class _StatCardState extends State<_StatCard> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = widget.colorScheme;
+
     return MouseRegion(
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        width: double.infinity,
-        height: 180,
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeOutCubic,
+        width: 400,
+        height: 400,
+        transform: _hovered
+            ? (Matrix4.identity()..translate(0.0, -6.0))
+            : Matrix4.identity(),
         decoration: BoxDecoration(
-          color: _hovered
-              ? Colors.white.withAlpha(25)
-              : Colors.white.withAlpha(15),
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (widget.animate)
-              TweenAnimationBuilder<double>(
-                key: ValueKey('counter_${widget.value}'),
-                tween: Tween<double>(begin: 0, end: widget.value),
-                duration: const Duration(seconds: 2),
-                curve: Curves.easeOutCubic,
-                builder: (context, val, _) {
-                  final isDecimal = val != val.roundToDouble();
-                  return Text(
-                    isDecimal
-                        ? '+${val.toStringAsFixed(1)}'
-                        : '+${val.toInt()}',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  );
-                },
-              )
-            else
-              const Text(
-                '+0',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            const SizedBox(height: 8),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                widget.label.replaceAll(RegExp(r'\+.*? '), ''),
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  color: Colors.white70,
-                  fontSize: 16,
-                ),
-              ),
+          color: cs.primary,
+          borderRadius: BorderRadius.zero,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: _hovered ? .18 : .10),
+              blurRadius: _hovered ? 28 : 14,
+              offset: Offset(0, _hovered ? 14 : 8),
             ),
           ],
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (widget.animate)
+                TweenAnimationBuilder<double>(
+                  key: ValueKey(widget.value),
+                  tween: Tween(
+                    begin: 0,
+                    end: widget.value,
+                  ),
+                  duration: const Duration(seconds: 2),
+                  curve: Curves.easeOutCubic,
+                  builder: (context, value, child) {
+                    final hasDecimals =
+                        widget.value != widget.value.roundToDouble();
+
+                    return Text(
+                      hasDecimals
+                          ? '+${value.toStringAsFixed(1)}'
+                          : '+${value.toInt()}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 62,
+                        fontWeight: FontWeight.bold,
+                        height: 1,
+                      ),
+                    );
+                  },
+                )
+              else
+                const Text(
+                  "+0",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 42,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              const SizedBox(height: 18),
+              Text(
+                widget.label.replaceAll(RegExp(r'\+.*? '), ''),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: Colors.white.withValues(alpha: .85),
+                  fontSize: 16,
+                  height: 1.5,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
