@@ -1,20 +1,11 @@
-name: Deploy to GitHub Pages
+name: Deploy to GitHub Pages Repo
 
 on:
   push:
     branches: [main, master]
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: true
-
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,7 +13,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
-          cache: true # Activa el caché del SDK para acelerar los despliegues
+          cache: true
 
       - name: Install dependencies & generate localization
         run: |
@@ -32,15 +23,10 @@ jobs:
       - name: Build Web Application
         run: flutter build web --release --base-href "/"
 
-      - uses: actions/configure-pages@v5
-
-      - uses: actions/upload-pages-artifact@v3
+      - name: Deploy to External Repository
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: build/web
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          personal_token: ${{ secrets.TARGET_REPO_TOKEN }}
+          external_repository: kharoldcanova/kharoldcanova.github.io
+          publish_dir: ./build/web
+          publish_branch: main
