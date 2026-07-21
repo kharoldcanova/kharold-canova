@@ -28,6 +28,7 @@
   "menu": "Menú",
   "close": "Cerrar",
   "home": "Inicio",
+  "about": "Acerca",
   "profile": "Perfil",
   "contact": "Contacto",
   "projects": "Proyectos",
@@ -111,6 +112,112 @@
     "description": "Texto para la sección de teléfonos en español."
   },
   "@email": {
-    "description": "Texto para la sección de correo electrónico en español."
-  }
+    "description": "Título de la sección de correo electrónico en español."
+  },
+  "contact_me": "Contáctame",
+  "@contact_me": {
+    "description": "Botón de llamada a la acción en el header."
+  },
+  "hero_subtitle": "FullStack Developer & IA Developer",
+  "@hero_subtitle": {
+    "description": "Subtítulo de la sección Hero."
+  },
+  "hero_quote": "Me apasiona crear aplicaciones multiplataforma, automatizar procesos y seguir creciendo en DevOps. Además, disfruto explorar Linux, mantenerme al día con las últimas tecnologías y aprovechar la inteligencia artificial para potenciar cada proyecto.",
+  "@hero_quote": {
+    "description": "Sección de frase después del hero."
+  },
+  "about_title": "Conoce mi historia",
+  "@about_title": {
+    "description": "Título de la sección About."
+  },
+  "about_desc": "Me apasiona crear aplicaciones multiplataforma, automatizar procesos y seguir creciendo en DevOps. Además, disfruto explorar Linux, mantenerme al día con las últimas tecnologías y aprovechar la inteligencia artificial para potenciar cada proyecto.",
+  "@about_desc": {
+    "description": "Descripción de la sección About."
+  },
+  "hire_me": "Contrátame",
+  "@hire_me": {
+    "description": "Botón de contratación."
+  },
+  "about_me": "Sobre Mí",
+  "@about_me": {
+    "description": "Botón sobre mí."
+  },
+  "services_title": "Mis Servicios",
+  "@services_title": {
+    "description": "Título de la sección de servicios."
+  },
+  "service_android": "Desarrollo Android con Flutter",
+  "@service_android": {
+    "description": "Card de servicio: desarrollo Android con Flutter."
+  },
+  "service_ios": "Desarrollo iOS con Flutter",
+  "@service_ios": {
+    "description": "Card de servicio: desarrollo iOS con Flutter."
+  },
+  "service_web": "Desarrollo Web",
+  "@service_web": {
+    "description": "Card de servicio: desarrollo web con Vue.js."
+  },
+  "service_rag": "Automatización & CI/CD",
+  "@service_rag": {
+    "description": "Card de servicio: automatización y CI/CD."
+  },
+  "service_scripts": "Integración de IA Generativa",
+  "@service_scripts": {
+    "description": "Card de servicio: integración de IA generativa."
+  },
+  "service_contact": "Apps Script & Automatización",
+  "@service_contact": {
+    "description": "Card de servicio: Apps Script y automatización."
+  },
+  "portfolio_title": "Mi Portafolio",
+  "@portfolio_title": {
+    "description": "Título de la sección de portafolio."
+  },
+  "portfolio_desc": "Descubre mis últimos proyectos y cómo convierto ideas en realidad.",
+  "@portfolio_desc": {
+    "description": "Descripción de la sección de portafolio."
+  },
+  "filter_all": "Todo",
+  "@filter_all": {
+    "description": "Opción de filtro: todos los proyectos."
+  },
+  "filter_web_dev": "Desarrollo Web",
+  "@filter_web_dev": {
+    "description": "Opción de filtro: desarrollo web."
+  },
+  "filter_vue": "VUE",
+  "@filter_vue": {
+    "description": "Opción de filtro: VUE."
+  },
+  "filter_uiux": "UI/UX",
+  "@filter_uiux": {
+    "description": "Opción de filtro: UI/UX."
+  },
+  "filter_web_design": "Diseño Web",
+  "@filter_web_design": {
+    "description": "Opción de filtro: diseño web."
+  },
+  "view_all": "Ver Todo",
+  "@view_all": {
+    "description": "Botón para ver todos los proyectos."
+  },
+  "show_less": "Ver Menos",
+  "@show_less": {
+    "description": "Botón para mostrar menos proyectos."
+  },
+  "stats_exp": "+{years} años de experiencia",
+  "@stats_exp": {
+    "description": "Stat de experiencia con placeholder para años.",
+    "placeholders": {
+      "years": {}
+    }
+  },
+  "stats_repos": "+{count} Repositorios GitHub",
+  "@stats_repos": {
+    "description": "Stat de repositorios con placeholder para count.",
+    "placeholders": {
+      "count": {}
+    }
+}
 }

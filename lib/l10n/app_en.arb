@@ -28,6 +28,7 @@
   "menu": "Menu",
   "close": "Close",
   "home": "Home",
+  "about": "About",
   "profile": "Profile",
   "contact": "Contact",
   "projects": "Projects",
@@ -112,5 +113,111 @@
   },
   "@email": {
     "description": "Título de la sección de correo electrónico en inglés."
+  },
+  "contact_me": "Contact Me",
+  "@contact_me": {
+    "description": "Header call-to-action button."
+  },
+  "hero_subtitle": "FullStack Developer & IA Developer",
+  "@hero_subtitle": {
+    "description": "Hero section subtitle."
+  },
+  "hero_quote": "I'm passionate about creating cross-platform applications, automating processes, and continuing to grow in DevOps. I also enjoy exploring Linux, staying up to date with the latest technologies, and leveraging artificial intelligence to enhance every project.",
+  "@hero_quote": {
+    "description": "Quote section after hero."
+  },
+  "about_title": "Read About My Life Struggle Story!",
+  "@about_title": {
+    "description": "About section title."
+  },
+  "about_desc": "I'm passionate about creating cross-platform applications, automating processes, and continuing to grow in DevOps. I also enjoy exploring Linux, staying up to date with the latest technologies, and leveraging artificial intelligence to enhance every project.",
+  "@about_desc": {
+    "description": "About section description."
+  },
+  "hire_me": "Hire Me!",
+  "@hire_me": {
+    "description": "Hire me button."
+  },
+  "about_me": "About Me",
+  "@about_me": {
+    "description": "About me button."
+  },
+  "services_title": "My Services",
+  "@services_title": {
+    "description": "Services section title."
+  },
+  "service_android": "Android Development with Flutter",
+  "@service_android": {
+    "description": "Service card: Android development with Flutter."
+  },
+  "service_ios": "iOS Development with Flutter",
+  "@service_ios": {
+    "description": "Service card: iOS development with Flutter."
+  },
+  "service_web": "Web Development",
+  "@service_web": {
+    "description": "Service card: web development with Vue.js."
+  },
+  "service_rag": "Automation & CI/CD",
+  "@service_rag": {
+    "description": "Service card: automation and CI/CD pipelines."
+  },
+  "service_scripts": "Generative AI Integration",
+  "@service_scripts": {
+    "description": "Service card: generative AI integration."
+  },
+  "service_contact": "Apps Script & Automation",
+  "@service_contact": {
+    "description": "Service card: Google Apps Script and automation."
+  },
+  "portfolio_title": "My Portfolio",
+  "@portfolio_title": {
+    "description": "Portfolio section title."
+  },
+  "portfolio_desc": "Discover my latest projects and see how I bring ideas to life.",
+  "@portfolio_desc": {
+    "description": "Portfolio section description."
+  },
+  "filter_all": "All",
+  "@filter_all": {
+    "description": "Filter option: all projects."
+  },
+  "filter_web_dev": "Web Development",
+  "@filter_web_dev": {
+    "description": "Filter option: web development."
+  },
+  "filter_vue": "VUE",
+  "@filter_vue": {
+    "description": "Filter option: VUE."
+  },
+  "filter_uiux": "UI/UX",
+  "@filter_uiux": {
+    "description": "Filter option: UI/UX."
+  },
+  "filter_web_design": "Web Design",
+  "@filter_web_design": {
+    "description": "Filter option: web design."
+  },
+  "view_all": "View All",
+  "@view_all": {
+    "description": "View all projects button."
+  },
+  "show_less": "Show Less",
+  "@show_less": {
+    "description": "Show less projects button."
+  },
+  "stats_exp": "+{years} years of experience",
+  "@stats_exp": {
+    "description": "Experience stat with placeholder for years.",
+    "placeholders": {
+      "years": {}
+    }
+  },
+  "stats_repos": "+{count} GitHub Repositories",
+  "@stats_repos": {
+    "description": "Repositories stat with placeholder for count.",
+    "placeholders": {
+      "count": {}
+    }
   }
 }

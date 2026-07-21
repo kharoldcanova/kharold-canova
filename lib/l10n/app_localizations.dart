@@ -266,6 +266,12 @@ abstract class AppLocalizations {
   /// **'Home'**
   String get home;
 
+  /// No description provided for @about.
+  ///
+  /// In en, this message translates to:
+  /// **'About'**
+  String get about;
+
   /// No description provided for @profile.
   ///
   /// In en, this message translates to:
@@ -307,6 +313,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'AI · Linux · Cloud'**
   String get profile_expertise;
+
+  /// Header call-to-action button.
+  ///
+  /// In en, this message translates to:
+  /// **'Contact Me'**
+  String get contact_me;
+
+  /// Hero section subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'FullStack Developer & IA Developer'**
+  String get hero_subtitle;
+
+  /// Quote section after hero.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m passionate about creating cross-platform applications, automating processes, and continuing to grow in DevOps. I also enjoy exploring Linux, staying up to date with the latest technologies, and leveraging artificial intelligence to enhance every project.'**
+  String get hero_quote;
+
+  /// About section title.
+  ///
+  /// In en, this message translates to:
+  /// **'Read About My Life Struggle Story!'**
+  String get about_title;
+
+  /// About section description.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m passionate about creating cross-platform applications, automating processes, and continuing to grow in DevOps. I also enjoy exploring Linux, staying up to date with the latest technologies, and leveraging artificial intelligence to enhance every project.'**
+  String get about_desc;
+
+  /// Hire me button.
+  ///
+  /// In en, this message translates to:
+  /// **'Hire Me!'**
+  String get hire_me;
+
+  /// About me button.
+  ///
+  /// In en, this message translates to:
+  /// **'About Me'**
+  String get about_me;
+
+  /// Services section title.
+  ///
+  /// In en, this message translates to:
+  /// **'My Services'**
+  String get services_title;
+
+  /// Service card: Android development with Flutter.
+  ///
+  /// In en, this message translates to:
+  /// **'Android Development with Flutter'**
+  String get service_android;
+
+  /// Service card: iOS development with Flutter.
+  ///
+  /// In en, this message translates to:
+  /// **'iOS Development with Flutter'**
+  String get service_ios;
+
+  /// Service card: web development with Vue.js.
+  ///
+  /// In en, this message translates to:
+  /// **'Web Development'**
+  String get service_web;
+
+  /// Service card: automation and CI/CD pipelines.
+  ///
+  /// In en, this message translates to:
+  /// **'Automation & CI/CD'**
+  String get service_rag;
+
+  /// Service card: generative AI integration.
+  ///
+  /// In en, this message translates to:
+  /// **'Generative AI Integration'**
+  String get service_scripts;
+
+  /// Service card: Google Apps Script and automation.
+  ///
+  /// In en, this message translates to:
+  /// **'Apps Script & Automation'**
+  String get service_contact;
+
+  /// Portfolio section title.
+  ///
+  /// In en, this message translates to:
+  /// **'My Portfolio'**
+  String get portfolio_title;
+
+  /// Portfolio section description.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover my latest projects and see how I bring ideas to life.'**
+  String get portfolio_desc;
+
+  /// Filter option: all projects.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get filter_all;
+
+  /// Filter option: web development.
+  ///
+  /// In en, this message translates to:
+  /// **'Web Development'**
+  String get filter_web_dev;
+
+  /// Filter option: VUE.
+  ///
+  /// In en, this message translates to:
+  /// **'VUE'**
+  String get filter_vue;
+
+  /// Filter option: UI/UX.
+  ///
+  /// In en, this message translates to:
+  /// **'UI/UX'**
+  String get filter_uiux;
+
+  /// Filter option: web design.
+  ///
+  /// In en, this message translates to:
+  /// **'Web Design'**
+  String get filter_web_design;
+
+  /// View all projects button.
+  ///
+  /// In en, this message translates to:
+  /// **'View All'**
+  String get view_all;
+
+  /// Show less projects button.
+  ///
+  /// In en, this message translates to:
+  /// **'Show Less'**
+  String get show_less;
+
+  /// Experience stat with placeholder for years.
+  ///
+  /// In en, this message translates to:
+  /// **'+{years} years of experience'**
+  String stats_exp(Object years);
+
+  /// Repositories stat with placeholder for count.
+  ///
+  /// In en, this message translates to:
+  /// **'+{count} GitHub Repositories'**
+  String stats_repos(Object count);
 }
 
 class _AppLocalizationsDelegate

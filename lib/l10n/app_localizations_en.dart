@@ -103,6 +103,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get home => 'Home';
 
   @override
+  String get about => 'About';
+
+  @override
   String get profile => 'Profile';
 
   @override
@@ -122,4 +125,86 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profile_expertise => 'AI · Linux · Cloud';
+
+  @override
+  String get contact_me => 'Contact Me';
+
+  @override
+  String get hero_subtitle => 'FullStack Developer & IA Developer';
+
+  @override
+  String get hero_quote =>
+      'I\'m passionate about creating cross-platform applications, automating processes, and continuing to grow in DevOps. I also enjoy exploring Linux, staying up to date with the latest technologies, and leveraging artificial intelligence to enhance every project.';
+
+  @override
+  String get about_title => 'Read About My Life Struggle Story!';
+
+  @override
+  String get about_desc =>
+      'I\'m passionate about creating cross-platform applications, automating processes, and continuing to grow in DevOps. I also enjoy exploring Linux, staying up to date with the latest technologies, and leveraging artificial intelligence to enhance every project.';
+
+  @override
+  String get hire_me => 'Hire Me!';
+
+  @override
+  String get about_me => 'About Me';
+
+  @override
+  String get services_title => 'My Services';
+
+  @override
+  String get service_android => 'Android Development with Flutter';
+
+  @override
+  String get service_ios => 'iOS Development with Flutter';
+
+  @override
+  String get service_web => 'Web Development';
+
+  @override
+  String get service_rag => 'Automation & CI/CD';
+
+  @override
+  String get service_scripts => 'Generative AI Integration';
+
+  @override
+  String get service_contact => 'Apps Script & Automation';
+
+  @override
+  String get portfolio_title => 'My Portfolio';
+
+  @override
+  String get portfolio_desc =>
+      'Discover my latest projects and see how I bring ideas to life.';
+
+  @override
+  String get filter_all => 'All';
+
+  @override
+  String get filter_web_dev => 'Web Development';
+
+  @override
+  String get filter_vue => 'VUE';
+
+  @override
+  String get filter_uiux => 'UI/UX';
+
+  @override
+  String get filter_web_design => 'Web Design';
+
+  @override
+  String get view_all => 'View All';
+
+  @override
+  String get show_less => 'Show Less';
+
+  @override
+  String stats_exp(Object years) {
+    return '+$years years of experience';
+  }
+
+  @override
+  String stats_repos(Object count) {
+    return '+$count GitHub Repositories';
+  }
 }
