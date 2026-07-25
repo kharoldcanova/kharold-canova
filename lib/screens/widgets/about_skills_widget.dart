@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
-import 'package:kharoldcanova/data/models/skill.dart';
 import 'package:kharoldcanova/l10n/app_localizations.dart';
-import 'package:kharoldcanova/screens/widgets/animate_on_visible.dart';
+import 'package:kharoldcanova/screens/widgets/radar_skills_chart.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutSkillsWidget extends StatelessWidget {
@@ -53,7 +52,7 @@ class AboutSkillsWidget extends StatelessWidget {
               color: colorScheme.primary,
               borderRadius: BorderRadius.circular(8),
             ),
-            child: Center(
+            child: const Center(
               child: Icon(
                 Icons.code,
                 size: 120,
@@ -91,7 +90,6 @@ class AboutSkillsWidget extends StatelessWidget {
     PortfolioRepository repo,
     VoidCallback? onHireMe,
   ) {
-    final skills = repo.getSkills();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -113,20 +111,7 @@ class AboutSkillsWidget extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 32),
-        AnimateOnVisible(
-          builder: (context, visible) => Column(
-            children: skills
-                .asMap()
-                .entries
-                .map((entry) => _SkillBar(
-                      skill: entry.value,
-                      colorScheme: colorScheme,
-                      colorIndex: entry.key,
-                      animate: visible,
-                    ))
-                .toList(),
-          ),
-        ),
+        const RadarSkillsChart(),
         const SizedBox(height: 24),
         Row(
           children: [
@@ -164,92 +149,6 @@ class AboutSkillsWidget extends StatelessWidget {
           ],
         ),
       ],
-    );
-  }
-}
-
-class _SkillBar extends StatelessWidget {
-  final Skill skill;
-  final ColorScheme colorScheme;
-  final int colorIndex;
-  final bool animate;
-
-  static const _palette = [
-    Colors.blue,
-    Colors.redAccent,
-    Colors.green,
-    Colors.orange,
-    Colors.purple,
-    Colors.teal,
-    Colors.amber,
-    Colors.pink,
-    Colors.indigo,
-    Colors.cyan,
-  ];
-
-  const _SkillBar({
-    required this.skill,
-    required this.colorScheme,
-    required this.colorIndex,
-    required this.animate,
-  });
-
-  Color get _color => _palette[colorIndex % _palette.length];
-
-  @override
-  Widget build(BuildContext context) {
-    final barColor = _color;
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                skill.name,
-                style: TextStyle(
-                  color: colorScheme.onSurface,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-              Text(
-                '${(skill.level * 100).toInt()}%',
-                style: TextStyle(
-                  color: barColor,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 6),
-          ClipRRect(
-            borderRadius: BorderRadius.circular(2),
-            child: animate
-                ? TweenAnimationBuilder<double>(
-                    key: ValueKey('skill_${skill.name}'),
-                    tween: Tween<double>(begin: 0, end: skill.level),
-                    duration: const Duration(milliseconds: 1500),
-                    curve: Curves.easeOutCubic,
-                    builder: (context, value, _) => LinearProgressIndicator(
-                      value: value,
-                      backgroundColor: colorScheme.onSurface.withAlpha(30),
-                      valueColor: AlwaysStoppedAnimation<Color>(barColor),
-                      minHeight: 6,
-                    ),
-                  )
-                : LinearProgressIndicator(
-                    value: 0,
-                    backgroundColor: colorScheme.onSurface.withAlpha(30),
-                    valueColor: AlwaysStoppedAnimation<Color>(barColor),
-                    minHeight: 6,
-                  ),
-          ),
-        ],
-      ),
     );
   }
 }
