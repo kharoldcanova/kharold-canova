@@ -463,6 +463,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'+{count} GitHub Repositories'**
   String stats_repos(Object count);
+
+  /// Title for the stats/metrics section.
+  ///
+  /// In en, this message translates to:
+  /// **'Impact & Track Record'**
+  String get key_metrics_title;
+
+  /// Title for the certifications section.
+  ///
+  /// In en, this message translates to:
+  /// **'Technical Certifications'**
+  String get certifications_title;
+
+  /// Subtitle for the certifications section.
+  ///
+  /// In en, this message translates to:
+  /// **'Continuous learning and professional development'**
+  String get certifications_subtitle;
 }
 
 class _AppLocalizationsDelegate

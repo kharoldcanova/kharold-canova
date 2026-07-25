@@ -207,4 +207,14 @@ class AppLocalizationsEn extends AppLocalizations {
   String stats_repos(Object count) {
     return '+$count GitHub Repositories';
   }
+
+  @override
+  String get key_metrics_title => 'Impact & Track Record';
+
+  @override
+  String get certifications_title => 'Technical Certifications';
+
+  @override
+  String get certifications_subtitle =>
+      'Continuous learning and professional development';
 }

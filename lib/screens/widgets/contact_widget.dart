@@ -166,12 +166,17 @@ class _ContactCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 6),
-                SelectableText(
-                  value,
-                  style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600,
-                    color: colorScheme.onSurface,
+                FittedBox(
+                  fit: BoxFit.scaleDown,
+                  alignment: Alignment.centerLeft,
+                  child: SelectableText(
+                    value,
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontSize: 17,
+                      fontWeight: FontWeight.w600,
+                      color: colorScheme.onSurface,
+                    ),
                   ),
                 ),
               ],

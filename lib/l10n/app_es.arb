@@ -219,5 +219,17 @@
     "placeholders": {
       "count": {}
     }
-}
+  },
+  "key_metrics_title": "Impacto y Trayectoria",
+  "@key_metrics_title": {
+    "description": "Título de la sección de métricas/estadísticas."
+  },
+  "certifications_title": "Certificaciones Técnicas",
+  "@certifications_title": {
+    "description": "Título de la sección de certificaciones."
+  },
+  "certifications_subtitle": "Aprendizaje continuo y desarrollo profesional",
+  "@certifications_subtitle": {
+    "description": "Subtítulo de la sección de certificaciones."
+  }
 }

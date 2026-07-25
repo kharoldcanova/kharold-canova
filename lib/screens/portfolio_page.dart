@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kharoldcanova/l10n/app_localizations.dart';
 import 'package:kharoldcanova/screens/widgets/about_skills_widget.dart';
+import 'package:kharoldcanova/screens/widgets/certifications_section.dart';
 import 'package:kharoldcanova/screens/widgets/contact_widget.dart';
 import 'package:kharoldcanova/screens/widgets/footer_widget.dart';
 import 'package:kharoldcanova/screens/widgets/header_widget.dart';
@@ -101,6 +102,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
             const StatsFooterWidget(),
             Container(
                 key: _sectionKeys['projects'], child: const PortfolioWidget()),
+            const CertificationsSection(),
             Container(
                 key: _sectionKeys['services'], child: const ServicesWidget()),
             Container(

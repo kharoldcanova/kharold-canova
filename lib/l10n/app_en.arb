@@ -219,5 +219,17 @@
     "placeholders": {
       "count": {}
     }
+  },
+  "key_metrics_title": "Impact & Track Record",
+  "@key_metrics_title": {
+    "description": "Title for the stats/metrics section."
+  },
+  "certifications_title": "Technical Certifications",
+  "@certifications_title": {
+    "description": "Title for the certifications section."
+  },
+  "certifications_subtitle": "Continuous learning and professional development",
+  "@certifications_subtitle": {
+    "description": "Subtitle for the certifications section."
   }
 }

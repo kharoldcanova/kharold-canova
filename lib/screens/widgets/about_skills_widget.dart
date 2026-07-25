@@ -114,6 +114,7 @@ class AboutSkillsWidget extends StatelessWidget {
         const RadarSkillsChart(),
         const SizedBox(height: 24),
         Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
               height: 44,

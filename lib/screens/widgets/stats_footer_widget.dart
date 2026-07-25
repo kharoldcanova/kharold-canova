@@ -10,7 +10,6 @@ class StatsFooterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
     final cs = Theme.of(context).colorScheme;
-    final isSmallScreen = MediaQuery.of(context).size.width < 1200;
     final repo = PortfolioRepository();
 
     final years = repo.getTotalYearsExperience();
@@ -18,59 +17,79 @@ class StatsFooterWidget extends StatelessWidget {
 
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: isSmallScreen ? 24 : 80,
+        horizontal: MediaQuery.of(context).size.width < 1200 ? 24 : 80,
         vertical: 80,
       ),
       child: Column(
         children: [
-          Text(
-            t.portfolio_title,
-            style: TextStyle(
-              fontSize: 36,
-              fontWeight: FontWeight.bold,
-              color: cs.onSurface,
+          // -- Section title
+          SizedBox(
+            width: double.infinity,
+            child: Text(
+              t.key_metrics_title,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 36,
+                fontWeight: FontWeight.bold,
+                color: cs.onSurface,
+              ),
             ),
           ),
           const SizedBox(height: 48),
+
+          // -- Responsive stat cards
           AnimateOnVisible(
             builder: (context, visible) {
-              if (isSmallScreen) {
-                return Column(
-                  children: [
-                    _StatCard(
-                      label: t.stats_exp(''),
-                      value: years,
-                      colorScheme: cs,
-                      animate: visible,
-                    ),
-                    const SizedBox(height: 24),
-                    _StatCard(
-                      label: t.stats_repos(''),
-                      value: repos,
-                      colorScheme: cs,
-                      animate: visible,
-                    ),
-                  ],
-                );
-              }
+              return LayoutBuilder(
+                builder: (context, constraints) {
+                  final isCompact = constraints.maxWidth < 900;
+                  final cardWidth = isCompact
+                      ? constraints.maxWidth.clamp(0.0, 320.0)
+                      : 280.0;
 
-              return Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  _StatCard(
-                    label: t.stats_exp(''),
-                    value: years,
-                    colorScheme: cs,
-                    animate: visible,
-                  ),
-                  const SizedBox(width: 32),
-                  _StatCard(
-                    label: t.stats_repos(''),
-                    value: repos,
-                    colorScheme: cs,
-                    animate: visible,
-                  ),
-                ],
+                  if (isCompact) {
+                    return Column(
+                      children: [
+                        _StatCard(
+                          label: t.stats_exp(''),
+                          value: years,
+                          width: cardWidth,
+                          colorScheme: cs,
+                          animate: visible,
+                        ),
+                        const SizedBox(height: 24),
+                        _StatCard(
+                          label: t.stats_repos(''),
+                          value: repos,
+                          width: cardWidth,
+                          colorScheme: cs,
+                          animate: visible,
+                        ),
+                      ],
+                    );
+                  }
+
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      _StatCard(
+                        label: t.stats_exp(''),
+                        value: years,
+                        width: cardWidth,
+                        colorScheme: cs,
+                        animate: visible,
+                      ),
+                      const SizedBox(width: 32),
+                      _StatCard(
+                        label: t.stats_repos(''),
+                        value: repos,
+                        width: cardWidth,
+                        colorScheme: cs,
+                        animate: visible,
+                      ),
+                    ],
+                  );
+                },
               );
             },
           ),
@@ -83,12 +102,14 @@ class StatsFooterWidget extends StatelessWidget {
 class _StatCard extends StatefulWidget {
   final String label;
   final double value;
+  final double width;
   final ColorScheme colorScheme;
   final bool animate;
 
   const _StatCard({
     required this.label,
     required this.value,
+    required this.width,
     required this.colorScheme,
     required this.animate,
   });
@@ -110,10 +131,10 @@ class _StatCardState extends State<_StatCard> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 250),
         curve: Curves.easeOutCubic,
-        width: 400,
-        height: 400,
+        width: widget.width,
+        height: 180,
         transform: _hovered
-            ? (Matrix4.identity()..translate(0.0, -6.0))
+            ? (Matrix4.identity()..translateByDouble(0.0, -6.0, 0.0, 1.0))
             : Matrix4.identity(),
         decoration: BoxDecoration(
           color: cs.primary,
@@ -127,30 +148,27 @@ class _StatCardState extends State<_StatCard> {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(24),
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (widget.animate)
                 TweenAnimationBuilder<double>(
                   key: ValueKey(widget.value),
-                  tween: Tween(
-                    begin: 0,
-                    end: widget.value,
-                  ),
+                  tween: Tween(begin: 0, end: widget.value),
                   duration: const Duration(seconds: 2),
                   curve: Curves.easeOutCubic,
                   builder: (context, value, child) {
                     final hasDecimals =
                         widget.value != widget.value.roundToDouble();
-
                     return Text(
                       hasDecimals
                           ? '+${value.toStringAsFixed(1)}'
                           : '+${value.toInt()}',
+                      textAlign: TextAlign.center,
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 62,
+                        fontSize: 48,
                         fontWeight: FontWeight.bold,
                         height: 1,
                       ),
@@ -160,20 +178,21 @@ class _StatCardState extends State<_StatCard> {
               else
                 const Text(
                   "+0",
+                  textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 42,
+                    fontSize: 48,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-              const SizedBox(height: 18),
+              const SizedBox(height: 12),
               Text(
                 widget.label.replaceAll(RegExp(r'\+.*? '), ''),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Colors.white.withValues(alpha: .85),
-                  fontSize: 16,
-                  height: 1.5,
+                  fontSize: 14,
+                  height: 1.4,
                 ),
               ),
             ],
