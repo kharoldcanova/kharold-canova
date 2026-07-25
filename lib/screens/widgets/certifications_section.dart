@@ -87,6 +87,7 @@ class CertificationsSection extends StatelessWidget {
                         : constraints.maxWidth > 600
                             ? 2
                             : 1;
+                    final isCompact = constraints.maxWidth <= 600;
 
                     return GridView.builder(
                       shrinkWrap: true,
@@ -95,12 +96,16 @@ class CertificationsSection extends StatelessWidget {
                         crossAxisCount: crossAxisCount,
                         crossAxisSpacing: 20,
                         mainAxisSpacing: 20,
-                        childAspectRatio: 2.4,
+                        // Altura fija por fila: evita que el contenido se
+                        // desborde en pantallas angostas (mobile), donde la
+                        // proporción ancho/alto dejaba la card muy baja.
+                        mainAxisExtent: isCompact ? 132 : 160,
                       ),
                       itemCount: certifications.length,
                       itemBuilder: (context, index) {
                         return _CertificationCard(
                           certification: certifications[index],
+                          compact: isCompact,
                         );
                       },
                     );
@@ -121,8 +126,9 @@ class CertificationsSection extends StatelessWidget {
 
 class _CertificationCard extends StatefulWidget {
   final CertificationItem certification;
+  final bool compact;
 
-  const _CertificationCard({required this.certification});
+  const _CertificationCard({required this.certification, this.compact = false});
 
   @override
   State<_CertificationCard> createState() => _CertificationCardState();
@@ -134,6 +140,12 @@ class _CertificationCardState extends State<_CertificationCard> {
   @override
   Widget build(BuildContext context) {
     final cert = widget.certification;
+    final compact = widget.compact;
+    final iconSize = compact ? 38.0 : 54.0;
+    final titleSize = compact ? 17.0 : 24.0;
+    final subtitleSize = compact ? 14.0 : 18.0;
+    final dateSize = compact ? 14.0 : 18.0;
+    final padding = compact ? 14.0 : 20.0;
 
     return MouseRegion(
       onEnter: (_) => setState(() => _hovered = true),
@@ -156,13 +168,13 @@ class _CertificationCardState extends State<_CertificationCard> {
           ],
         ),
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(padding),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               // -- Icon
-              Icon(cert.icon, color: Colors.white, size: 54),
-              const SizedBox(width: 16),
+              Icon(cert.icon, color: Colors.white, size: iconSize),
+              SizedBox(width: compact ? 12 : 16),
 
               // -- Text
               Expanded(
@@ -173,32 +185,34 @@ class _CertificationCardState extends State<_CertificationCard> {
                   children: [
                     Text(
                       cert.title,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
-                        fontSize: 24,
+                        fontSize: titleSize,
                         fontWeight: FontWeight.bold,
                       ),
-                      maxLines: 1,
+                      maxLines: compact ? 2 : 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 4),
                     Text(
                       cert.subtitle,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white70,
-                        fontSize: 18,
+                        fontSize: subtitleSize,
                       ),
-                      maxLines: 2,
+                      maxLines: compact ? 1 : 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                     const SizedBox(height: 6),
                     Text(
                       cert.date,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
-                        fontSize: 18,
+                        fontSize: dateSize,
                         fontWeight: FontWeight.bold,
                       ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
