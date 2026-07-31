@@ -59,6 +59,15 @@ class PortfolioRepository {
 
   List<Project> getProjects() => [
         const Project(
+          title: 'Alma',
+          description:
+              'Asistente de voz con IA 100% local: escucha la wake word "hey jarvis" con openWakeWord, transcribe con faster-whisper, responde con Ollama y habla con Piper.',
+          techStack: ['Python', 'Ollama', 'openWakeWord'],
+          category: 'IA',
+          repoUrl: 'https://github.com/kharoldcanova/alma',
+          icon: Icons.mic_outlined,
+        ),
+        const Project(
           title: 'Telegram + Ollama Bot',
           description:
               'Bot de Telegram que conecta n8n con modelos locales de Ollama para automatización de respuestas con IA local.',
