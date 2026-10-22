@@ -103,7 +103,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get home => 'Home';
 
   @override
-  String get about => 'About';
+  String get about => 'About me';
 
   @override
   String get profile => 'Profile';
@@ -115,33 +115,33 @@ class AppLocalizationsEn extends AppLocalizations {
   String get projects => 'Projects';
 
   @override
-  String get profile_title => 'Flutter Developer';
+  String get profile_title => 'Full Stack Developer';
 
   @override
-  String get profile_quote => 'Building software with curiosity.';
+  String get profile_quote => 'Flutter · Laravel · Applied AI · Automation';
 
   @override
   String get profile_since => 'Since';
 
   @override
-  String get profile_expertise => 'AI · Linux · Cloud';
+  String get profile_expertise => 'Full Stack Development · Applied AI';
 
   @override
   String get contact_me => 'Contact Me';
 
   @override
-  String get hero_subtitle => 'FullStack Developer & IA Developer';
+  String get hero_subtitle => 'Full Stack Developer · Applied AI & Automation';
 
   @override
   String get hero_quote =>
-      'I\'m passionate about creating cross-platform applications, automating processes, and continuing to grow in DevOps. I also enjoy exploring Linux, staying up to date with the latest technologies, and leveraging artificial intelligence to enhance every project.';
+      'Systems Engineer and Full Stack Developer specializing in Flutter (Clean Architecture + BLoC) and Laravel. Passionate about applied AI and automation, with experience taking software to production through CI/CD and scalable architectures.';
 
   @override
-  String get about_title => 'Read About My Life Struggle Story!';
+  String get about_title => 'About me';
 
   @override
   String get about_desc =>
-      'I\'m passionate about creating cross-platform applications, automating processes, and continuing to grow in DevOps. I also enjoy exploring Linux, staying up to date with the latest technologies, and leveraging artificial intelligence to enhance every project.';
+      'Systems Engineer and Full Stack Developer specializing in Flutter (Clean Architecture + BLoC) and Laravel. Passionate about applied AI and automation, with experience leading the full software development lifecycle and deploying production products with CI/CD and scalable architectures.';
 
   @override
   String get hire_me => 'Hire Me!';
@@ -217,4 +217,96 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get certifications_subtitle =>
       'Continuous learning and professional development';
+
+  @override
+  String get certifications => 'Certifications';
+
+  @override
+  String get knowledge => 'Knowledge';
+
+  @override
+  String get knowledge_desc =>
+      'Tools and practices I use to build, ship, and operate software.';
+
+  @override
+  String get theme_dark => 'Switch to dark mode';
+
+  @override
+  String get theme_light => 'Switch to light mode';
+
+  @override
+  String get change_language => 'Change language';
+
+  @override
+  String get medium => 'Medium';
+
+  @override
+  String get published_skill => 'Published skill';
+
+  @override
+  String get view_skill => 'View skill';
+
+  @override
+  String get install_command => 'Install';
+
+  @override
+  String stats_certs(Object count) {
+    return '+$count certifications';
+  }
+
+  @override
+  String get footer_rights => 'All rights reserved.';
+
+  @override
+  String get contact_desc => 'Tell me about your project or just say hello.';
+
+  @override
+  String get years_experience => 'Years of experience';
+
+  @override
+  String get github_repos => 'GitHub repositories';
+
+  @override
+  String get impact => 'Impact';
+
+  @override
+  String get experience => 'Experience';
+
+  @override
+  String get experience_desc =>
+      'A track record of building products, automating processes, and leading AI initiatives.';
+
+  @override
+  String get present => 'Present';
+
+  @override
+  String get tech_stack => 'Technical stack';
+
+  @override
+  String get tech_stack_desc =>
+      'Technologies I use to build, ship, and operate software.';
+
+  @override
+  String get skill_group_ai => 'AI & MCP';
+
+  @override
+  String get skill_group_devops => 'DevOps & Cloud';
+
+  @override
+  String get skill_group_frontend => 'Frontend & Mobile';
+
+  @override
+  String get skill_group_backend => 'Backend & Data';
+
+  @override
+  String get presentation_mode => 'Start presentation';
+
+  @override
+  String get presentation_previous => 'Previous slide';
+
+  @override
+  String get presentation_next => 'Next slide';
+
+  @override
+  String get presentation_close => 'Close presentation';
 }

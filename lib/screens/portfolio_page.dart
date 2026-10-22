@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:kharoldcanova/l10n/app_localizations.dart';
+import 'package:kharoldcanova/config/theme/brand_theme.dart';
+import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
 import 'package:kharoldcanova/screens/widgets/about_skills_widget.dart';
 import 'package:kharoldcanova/screens/widgets/certifications_section.dart';
 import 'package:kharoldcanova/screens/widgets/contact_widget.dart';
 import 'package:kharoldcanova/screens/widgets/footer_widget.dart';
 import 'package:kharoldcanova/screens/widgets/header_widget.dart';
 import 'package:kharoldcanova/screens/widgets/hero_widget.dart';
+import 'package:kharoldcanova/screens/widgets/knowledge_widget.dart';
+import 'package:kharoldcanova/screens/widgets/portfolio_drawer.dart';
 import 'package:kharoldcanova/screens/widgets/portfolio_widget.dart';
-import 'package:kharoldcanova/screens/widgets/services_widget.dart';
-import 'package:kharoldcanova/screens/widgets/stats_footer_widget.dart';
+import 'package:kharoldcanova/screens/widgets/presentation_page.dart';
+import 'package:kharoldcanova/screens/widgets/terminal_landing_page.dart';
+import 'package:kharoldcanova/screens/widgets/animate_on_visible.dart';
 
 class PortfolioPage extends StatefulWidget {
   const PortfolioPage({super.key});
@@ -19,30 +23,21 @@ class PortfolioPage extends StatefulWidget {
 
 class _PortfolioPageState extends State<PortfolioPage> {
   final _scrollController = ScrollController();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
+  final _menuFocusNode = FocusNode();
+  final _repo = PortfolioRepository();
 
-  final _sectionKeys = {
+  final _sectionKeys = <String, GlobalKey>{
     'home': GlobalKey(),
     'about': GlobalKey(),
     'projects': GlobalKey(),
-    'services': GlobalKey(),
+    'certifications': GlobalKey(),
     'contact': GlobalKey(),
   };
 
   String _activeSection = 'home';
-
-  void _scrollToSection(String section) {
-    setState(() => _activeSection = section);
-
-    final ctx = _sectionKeys[section]?.currentContext;
-    if (ctx != null) {
-      Scrollable.ensureVisible(
-        ctx,
-        duration: const Duration(milliseconds: 600),
-        curve: Curves.easeInOutCubic,
-        alignment: 0.08,
-      );
-    }
-  }
+  bool _isOverHero = true;
+  double _heroHeight = 0;
 
   @override
   void initState() {
@@ -50,165 +45,180 @@ class _PortfolioPageState extends State<PortfolioPage> {
     _scrollController.addListener(_onScroll);
   }
 
-  void _onScroll() {
-    String? closest;
-    double minDist = double.infinity;
-
-    for (final entry in _sectionKeys.entries) {
-      final ctx = entry.value.currentContext;
-      if (ctx == null) continue;
-
-      final box = ctx.findRenderObject() as RenderBox?;
-      if (box == null) continue;
-
-      final offset = box.localToGlobal(Offset.zero).dy.abs();
-      if (offset < minDist) {
-        minDist = offset;
-        closest = entry.key;
-      }
-    }
-
-    if (closest != null && _activeSection != closest) {
-      setState(() => _activeSection = closest!);
-    }
-  }
-
   @override
   void dispose() {
     _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
+    _menuFocusNode.dispose();
     super.dispose();
+  }
+
+  void _onScroll() {
+    if (!_scrollController.hasClients) return;
+
+    // Keep a 1px tolerance so tapping a section that starts exactly at the
+    // hero boundary does not leave the header transparent over the hero edge.
+    final heroThreshold = (_heroHeight - BrandTheme.headerHeight - 1)
+        .clamp(0.0, double.infinity)
+        .toDouble();
+    final isOverHero = _scrollController.offset < heroThreshold;
+    if (isOverHero != _isOverHero) {
+      setState(() => _isOverHero = isOverHero);
+    }
+
+    var active = 'home';
+    for (final entry in _sectionKeys.entries) {
+      final ctx = entry.value.currentContext;
+      if (ctx == null) continue;
+      final box = ctx.findRenderObject() as RenderBox?;
+      if (box == null) continue;
+      final top = box.localToGlobal(Offset.zero).dy;
+      if (top <= BrandTheme.headerHeight + 24) {
+        active = entry.key;
+      }
+    }
+
+    // The last section can be shorter than the viewport, so its top may never
+    // reach the header threshold. At the bottom of the page, activate it
+    // explicitly so the final destination is reachable.
+    final position = _scrollController.position;
+    if (position.maxScrollExtent > 0 &&
+        _scrollController.offset >= position.maxScrollExtent - 8) {
+      active = _sectionKeys.keys.last;
+    }
+
+    if (active != _activeSection) {
+      setState(() => _activeSection = active);
+    }
+  }
+
+  void _scrollToSection(String section) {
+    final ctx = _sectionKeys[section]?.currentContext;
+    if (ctx == null) return;
+
+    final box = ctx.findRenderObject() as RenderBox?;
+    if (box == null || !_scrollController.hasClients) return;
+
+    final target = (_scrollController.offset +
+            box.localToGlobal(Offset.zero).dy -
+            BrandTheme.headerHeight)
+        .clamp(0.0, _scrollController.position.maxScrollExtent);
+
+    setState(() => _activeSection = section);
+    _scrollController.animateTo(
+      target,
+      duration: const Duration(milliseconds: 600),
+      curve: Curves.easeInOutCubic,
+    );
+  }
+
+  void _openDrawer() {
+    _scaffoldKey.currentState?.openDrawer();
+  }
+
+  void _closeDrawer() {
+    _scaffoldKey.currentState?.closeDrawer();
+    _menuFocusNode.requestFocus();
+  }
+
+  List<Widget> _buildSections({required String cvUrl, required double height}) {
+    Widget reveal(Widget child) => AnimateOnVisible(
+          builder: (context, isVisible) => child,
+        );
+    return [
+      reveal(HeroWidget(
+        cvUrl: cvUrl,
+        onContact: () => _scrollToSection('contact'),
+        height: height,
+      )),
+      reveal(AboutSkillsWidget(onHireMe: () => _scrollToSection('contact'))),
+      reveal(const KnowledgeWidget()),
+      reveal(const PortfolioWidget()),
+      reveal(const CertificationsSection()),
+      reveal(const ContactWidget()),
+    ];
+  }
+
+  void _openPresentation() {
+    Navigator.of(context).push<void>(
+      PageRouteBuilder<void>(
+        fullscreenDialog: true,
+        pageBuilder: (_, __, ___) => PresentationPage(
+          slides: _buildSections(cvUrl: _repo.getCvUrl(), height: _heroHeight),
+        ),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          if (MediaQuery.disableAnimationsOf(context)) return child;
+          return FadeTransition(opacity: animation, child: child);
+        },
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context)!;
-    final colorScheme = Theme.of(context).colorScheme;
-    final isSmallScreen = MediaQuery.of(context).size.width < 1200;
+    final width = MediaQuery.sizeOf(context).width;
+    final isSmallScreen = width < 1200;
+    _heroHeight = heroHeightFor(context);
+    if (Theme.of(context).brightness == Brightness.dark) {
+      return const TerminalLandingPage();
+    }
+
+    final mediumUrl = _repo.getMedium();
+    final cvUrl = _repo.getCvUrl();
+    final sections = _buildSections(cvUrl: cvUrl, height: _heroHeight);
 
     return Scaffold(
+      key: _scaffoldKey,
       extendBodyBehindAppBar: true,
       appBar: HeaderWidget(
         activeSection: _activeSection,
         onSectionTap: _scrollToSection,
+        isOverHero: _isOverHero,
+        onMenuTap: _openDrawer,
+        onPresentationTap: _openPresentation,
+        mediumUrl: mediumUrl,
+        menuFocusNode: _menuFocusNode,
       ),
+      drawer: isSmallScreen
+          ? PortfolioDrawer(
+              activeSection: _activeSection,
+              onSectionTap: _scrollToSection,
+              onClose: _closeDrawer,
+              onPresentationTap: _openPresentation,
+              cvUrl: cvUrl,
+              mediumUrl: mediumUrl,
+            )
+          : null,
       body: SingleChildScrollView(
         controller: _scrollController,
         child: Column(
           children: [
-            Container(key: _sectionKeys['home'], child: const HeroWidget()),
             Container(
-                key: _sectionKeys['about'], child: AboutSkillsWidget(onHireMe: () => _scrollToSection('contact'))),
-            const StatsFooterWidget(),
+              key: _sectionKeys['home'],
+              child: sections[0],
+            ),
             Container(
-                key: _sectionKeys['projects'], child: const PortfolioWidget()),
-            const CertificationsSection(),
+              key: _sectionKeys['about'],
+              child: StaggeredReveal(
+                children: [sections[1], sections[2]],
+              ),
+            ),
             Container(
-                key: _sectionKeys['services'], child: const ServicesWidget()),
+              key: _sectionKeys['projects'],
+              child: sections[3],
+            ),
+            Container(
+              key: _sectionKeys['certifications'],
+              child: sections[4],
+            ),
             Container(
               key: _sectionKeys['contact'],
-              child: const ContactWidget(),
+              child: sections[5],
             ),
-            const FooterWidget(),
+            FooterWidget(mediumUrl: mediumUrl),
           ],
         ),
       ),
-      drawer: isSmallScreen
-          ? Drawer(
-              child: Container(
-                color: colorScheme.surface,
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  children: [
-                    DrawerHeader(
-                      decoration: BoxDecoration(color: colorScheme.primary),
-                      child: Text(
-                        t.menu,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 24,
-                        ),
-                      ),
-                    ),
-                    _DrawerItem(
-                      label: t.home,
-                      icon: Icons.home,
-                      isActive: _activeSection == 'home',
-                      colorScheme: colorScheme,
-                      onTap: () {
-                        Navigator.pop(context);
-                        _scrollToSection('home');
-                      },
-                    ),
-                    _DrawerItem(
-                      label: t.about,
-                      icon: Icons.person,
-                      isActive: _activeSection == 'about',
-                      colorScheme: colorScheme,
-                      onTap: () {
-                        Navigator.pop(context);
-                        _scrollToSection('about');
-                      },
-                    ),
-                    _DrawerItem(
-                      label: t.projects,
-                      icon: Icons.work,
-                      isActive: _activeSection == 'projects',
-                      colorScheme: colorScheme,
-                      onTap: () {
-                        Navigator.pop(context);
-                        _scrollToSection('projects');
-                      },
-                    ),
-                    _DrawerItem(
-                      label: t.contact,
-                      icon: Icons.mail,
-                      isActive: _activeSection == 'contact',
-                      colorScheme: colorScheme,
-                      onTap: () {
-                        Navigator.pop(context);
-                        _scrollToSection('contact');
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            )
-          : null,
-    );
-  }
-}
-
-class _DrawerItem extends StatelessWidget {
-  final String label;
-  final IconData icon;
-  final bool isActive;
-  final ColorScheme colorScheme;
-  final VoidCallback onTap;
-
-  const _DrawerItem({
-    required this.label,
-    required this.icon,
-    required this.isActive,
-    required this.colorScheme,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(
-        icon,
-        color: isActive ? colorScheme.primary : colorScheme.onSurface,
-      ),
-      title: Text(
-        label,
-        style: TextStyle(
-          color: isActive ? colorScheme.primary : colorScheme.onSurface,
-          fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
-        ),
-      ),
-      onTap: onTap,
     );
   }
 }

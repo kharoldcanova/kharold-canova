@@ -1,0 +1,19 @@
+- generic [ref=f1e5]:
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - generic "Menú de navegación":
+              - group "Cambiar idioma Kharold Canova FullStack Developer & IA Developer" [active]:
+                - generic:
+                  - group:
+                    - button "Inicio" [ref=f1e149]
+                    - button "Sobre mí" [ref=f1e150]
+                    - button "Proyectos" [ref=f1e151]
+                    - button "Certificaciones" [ref=f1e152]
+                    - button "Contacto" [ref=f1e153]
+                - button "Activar modo oscuro" [ref=f1e154]
+                - button "ES / EN" [ref=f1e155]
+                - button "Descargar CV" [ref=f1e156]
+            - button "Cerrar" [ref=f1e157]

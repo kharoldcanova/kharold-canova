@@ -1,10 +1,21 @@
 part of 'theme_bloc.dart';
 
-class ToggleTheme extends ThemeEvent {
-  ToggleTheme();
-}
+abstract class ThemeEvent extends Equatable {
+  const ThemeEvent();
 
-class ThemeEvent extends Equatable {
   @override
   List<Object?> get props => [];
+}
+
+class ToggleTheme extends ThemeEvent {
+  const ToggleTheme();
+}
+
+class SetThemeMode extends ThemeEvent {
+  const SetThemeMode(this.mode);
+
+  final ThemeMode mode;
+
+  @override
+  List<Object?> get props => [mode];
 }

@@ -28,14 +28,14 @@
   "menu": "Menu",
   "close": "Close",
   "home": "Home",
-  "about": "About",
+  "about": "About me",
   "profile": "Profile",
   "contact": "Contact",
   "projects": "Projects",
-  "profile_title": "Flutter Developer",
-  "profile_quote": "Building software with curiosity.",
+  "profile_title": "Full Stack Developer",
+  "profile_quote": "Flutter · Laravel · Applied AI · Automation",
   "profile_since": "Since",
-  "profile_expertise": "AI · Linux · Cloud",
+  "profile_expertise": "Full Stack Development · Applied AI",
   "@hello": {
     "description": "Saludo en inglés."
   },
@@ -118,19 +118,19 @@
   "@contact_me": {
     "description": "Header call-to-action button."
   },
-  "hero_subtitle": "FullStack Developer & IA Developer",
+  "hero_subtitle": "Full Stack Developer · Applied AI & Automation",
   "@hero_subtitle": {
     "description": "Hero section subtitle."
   },
-  "hero_quote": "I'm passionate about creating cross-platform applications, automating processes, and continuing to grow in DevOps. I also enjoy exploring Linux, staying up to date with the latest technologies, and leveraging artificial intelligence to enhance every project.",
+  "hero_quote": "Systems Engineer and Full Stack Developer specializing in Flutter (Clean Architecture + BLoC) and Laravel. Passionate about applied AI and automation, with experience taking software to production through CI/CD and scalable architectures.",
   "@hero_quote": {
     "description": "Quote section after hero."
   },
-  "about_title": "Read About My Life Struggle Story!",
+  "about_title": "About me",
   "@about_title": {
     "description": "About section title."
   },
-  "about_desc": "I'm passionate about creating cross-platform applications, automating processes, and continuing to grow in DevOps. I also enjoy exploring Linux, staying up to date with the latest technologies, and leveraging artificial intelligence to enhance every project.",
+  "about_desc": "Systems Engineer and Full Stack Developer specializing in Flutter (Clean Architecture + BLoC) and Laravel. Passionate about applied AI and automation, with experience leading the full software development lifecycle and deploying production products with CI/CD and scalable architectures.",
   "@about_desc": {
     "description": "About section description."
   },
@@ -231,5 +231,112 @@
   "certifications_subtitle": "Continuous learning and professional development",
   "@certifications_subtitle": {
     "description": "Subtitle for the certifications section."
-  }
+  },
+  "certifications": "Certifications",
+  "@certifications": {
+    "description": "Navigation label for the certifications section."
+  },
+  "knowledge": "Knowledge",
+  "@knowledge": {
+    "description": "Heading for the knowledge and capabilities block."
+  },
+  "knowledge_desc": "Tools and practices I use to build, ship, and operate software.",
+  "@knowledge_desc": {
+    "description": "Description for the knowledge block."
+  },
+  "theme_dark": "Switch to dark mode",
+  "@theme_dark": {
+    "description": "Tooltip for the control that enables dark mode."
+  },
+  "theme_light": "Switch to light mode",
+  "@theme_light": {
+    "description": "Tooltip for the control that enables light mode."
+  },
+  "change_language": "Change language",
+  "@change_language": {
+    "description": "Tooltip for the language toggle."
+  },
+  "medium": "Medium",
+  "@medium": {
+    "description": "Medium profile link label."
+  },
+  "published_skill": "Published skill",
+  "@published_skill": {
+    "description": "Eyebrow label for the featured published skill."
+  },
+  "view_skill": "View skill",
+  "@view_skill": {
+    "description": "Link label for the featured published skill."
+  },
+  "install_command": "Install",
+  "@install_command": {
+    "description": "Label before the skill install command."
+  },
+  "stats_certs": "+{count} certifications",
+  "@stats_certs": {
+    "description": "Certifications stat with placeholder for the count.",
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "footer_rights": "All rights reserved.",
+  "@footer_rights": {
+    "description": "Footer copyright suffix."
+  },
+  "contact_desc": "Tell me about your project or just say hello.",
+  "@contact_desc": {
+    "description": "Description inside the contact block."
+  },
+  "years_experience": "Years of experience",
+  "@years_experience": {
+    "description": "Stats panel label."
+  },
+  "github_repos": "GitHub repositories",
+  "@github_repos": {
+    "description": "Stats panel label."
+  },
+  "impact": "Impact",
+  "@impact": {
+    "description": "Stats panel eyebrow."
+  },
+  "experience": "Experience",
+  "@experience": {
+    "description": "Heading for the professional experience timeline."
+  },
+  "experience_desc": "A track record of building products, automating processes, and leading AI initiatives.",
+  "@experience_desc": {
+    "description": "Description for the professional experience timeline."
+  },
+  "present": "Present",
+  "@present": {
+    "description": "Label for an ongoing role in the experience timeline."
+  },
+  "tech_stack": "Technical stack",
+  "@tech_stack": {
+    "description": "Heading for the grouped technical stack."
+  },
+  "tech_stack_desc": "Technologies I use to build, ship, and operate software.",
+  "@tech_stack_desc": {
+    "description": "Description for the grouped technical stack."
+  },
+  "skill_group_ai": "AI & MCP",
+  "@skill_group_ai": {
+    "description": "Technical stack group for AI and MCP."
+  },
+  "skill_group_devops": "DevOps & Cloud",
+  "@skill_group_devops": {
+    "description": "Technical stack group for DevOps and cloud."
+  },
+  "skill_group_frontend": "Frontend & Mobile",
+  "@skill_group_frontend": {
+    "description": "Technical stack group for frontend and mobile."
+  },
+  "skill_group_backend": "Backend & Data",
+  "@skill_group_backend": {
+    "description": "Technical stack group for backend and data."
+  },
+  "presentation_mode": "Start presentation",
+  "presentation_previous": "Previous slide",
+  "presentation_next": "Next slide",
+  "presentation_close": "Close presentation"
 }

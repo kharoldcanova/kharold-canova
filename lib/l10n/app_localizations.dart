@@ -269,7 +269,7 @@ abstract class AppLocalizations {
   /// No description provided for @about.
   ///
   /// In en, this message translates to:
-  /// **'About'**
+  /// **'About me'**
   String get about;
 
   /// No description provided for @profile.
@@ -293,13 +293,13 @@ abstract class AppLocalizations {
   /// No description provided for @profile_title.
   ///
   /// In en, this message translates to:
-  /// **'Flutter Developer'**
+  /// **'Full Stack Developer'**
   String get profile_title;
 
   /// No description provided for @profile_quote.
   ///
   /// In en, this message translates to:
-  /// **'Building software with curiosity.'**
+  /// **'Flutter · Laravel · Applied AI · Automation'**
   String get profile_quote;
 
   /// No description provided for @profile_since.
@@ -311,7 +311,7 @@ abstract class AppLocalizations {
   /// No description provided for @profile_expertise.
   ///
   /// In en, this message translates to:
-  /// **'AI · Linux · Cloud'**
+  /// **'Full Stack Development · Applied AI'**
   String get profile_expertise;
 
   /// Header call-to-action button.
@@ -323,25 +323,25 @@ abstract class AppLocalizations {
   /// Hero section subtitle.
   ///
   /// In en, this message translates to:
-  /// **'FullStack Developer & IA Developer'**
+  /// **'Full Stack Developer · Applied AI & Automation'**
   String get hero_subtitle;
 
   /// Quote section after hero.
   ///
   /// In en, this message translates to:
-  /// **'I\'m passionate about creating cross-platform applications, automating processes, and continuing to grow in DevOps. I also enjoy exploring Linux, staying up to date with the latest technologies, and leveraging artificial intelligence to enhance every project.'**
+  /// **'Systems Engineer and Full Stack Developer specializing in Flutter (Clean Architecture + BLoC) and Laravel. Passionate about applied AI and automation, with experience taking software to production through CI/CD and scalable architectures.'**
   String get hero_quote;
 
   /// About section title.
   ///
   /// In en, this message translates to:
-  /// **'Read About My Life Struggle Story!'**
+  /// **'About me'**
   String get about_title;
 
   /// About section description.
   ///
   /// In en, this message translates to:
-  /// **'I\'m passionate about creating cross-platform applications, automating processes, and continuing to grow in DevOps. I also enjoy exploring Linux, staying up to date with the latest technologies, and leveraging artificial intelligence to enhance every project.'**
+  /// **'Systems Engineer and Full Stack Developer specializing in Flutter (Clean Architecture + BLoC) and Laravel. Passionate about applied AI and automation, with experience leading the full software development lifecycle and deploying production products with CI/CD and scalable architectures.'**
   String get about_desc;
 
   /// Hire me button.
@@ -481,6 +481,180 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Continuous learning and professional development'**
   String get certifications_subtitle;
+
+  /// Navigation label for the certifications section.
+  ///
+  /// In en, this message translates to:
+  /// **'Certifications'**
+  String get certifications;
+
+  /// Heading for the knowledge and capabilities block.
+  ///
+  /// In en, this message translates to:
+  /// **'Knowledge'**
+  String get knowledge;
+
+  /// Description for the knowledge block.
+  ///
+  /// In en, this message translates to:
+  /// **'Tools and practices I use to build, ship, and operate software.'**
+  String get knowledge_desc;
+
+  /// Tooltip for the control that enables dark mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to dark mode'**
+  String get theme_dark;
+
+  /// Tooltip for the control that enables light mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Switch to light mode'**
+  String get theme_light;
+
+  /// Tooltip for the language toggle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change language'**
+  String get change_language;
+
+  /// Medium profile link label.
+  ///
+  /// In en, this message translates to:
+  /// **'Medium'**
+  String get medium;
+
+  /// Eyebrow label for the featured published skill.
+  ///
+  /// In en, this message translates to:
+  /// **'Published skill'**
+  String get published_skill;
+
+  /// Link label for the featured published skill.
+  ///
+  /// In en, this message translates to:
+  /// **'View skill'**
+  String get view_skill;
+
+  /// Label before the skill install command.
+  ///
+  /// In en, this message translates to:
+  /// **'Install'**
+  String get install_command;
+
+  /// Certifications stat with placeholder for the count.
+  ///
+  /// In en, this message translates to:
+  /// **'+{count} certifications'**
+  String stats_certs(Object count);
+
+  /// Footer copyright suffix.
+  ///
+  /// In en, this message translates to:
+  /// **'All rights reserved.'**
+  String get footer_rights;
+
+  /// Description inside the contact block.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell me about your project or just say hello.'**
+  String get contact_desc;
+
+  /// Stats panel label.
+  ///
+  /// In en, this message translates to:
+  /// **'Years of experience'**
+  String get years_experience;
+
+  /// Stats panel label.
+  ///
+  /// In en, this message translates to:
+  /// **'GitHub repositories'**
+  String get github_repos;
+
+  /// Stats panel eyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Impact'**
+  String get impact;
+
+  /// Heading for the professional experience timeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Experience'**
+  String get experience;
+
+  /// Description for the professional experience timeline.
+  ///
+  /// In en, this message translates to:
+  /// **'A track record of building products, automating processes, and leading AI initiatives.'**
+  String get experience_desc;
+
+  /// Label for an ongoing role in the experience timeline.
+  ///
+  /// In en, this message translates to:
+  /// **'Present'**
+  String get present;
+
+  /// Heading for the grouped technical stack.
+  ///
+  /// In en, this message translates to:
+  /// **'Technical stack'**
+  String get tech_stack;
+
+  /// Description for the grouped technical stack.
+  ///
+  /// In en, this message translates to:
+  /// **'Technologies I use to build, ship, and operate software.'**
+  String get tech_stack_desc;
+
+  /// Technical stack group for AI and MCP.
+  ///
+  /// In en, this message translates to:
+  /// **'AI & MCP'**
+  String get skill_group_ai;
+
+  /// Technical stack group for DevOps and cloud.
+  ///
+  /// In en, this message translates to:
+  /// **'DevOps & Cloud'**
+  String get skill_group_devops;
+
+  /// Technical stack group for frontend and mobile.
+  ///
+  /// In en, this message translates to:
+  /// **'Frontend & Mobile'**
+  String get skill_group_frontend;
+
+  /// Technical stack group for backend and data.
+  ///
+  /// In en, this message translates to:
+  /// **'Backend & Data'**
+  String get skill_group_backend;
+
+  /// No description provided for @presentation_mode.
+  ///
+  /// In en, this message translates to:
+  /// **'Start presentation'**
+  String get presentation_mode;
+
+  /// No description provided for @presentation_previous.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous slide'**
+  String get presentation_previous;
+
+  /// No description provided for @presentation_next.
+  ///
+  /// In en, this message translates to:
+  /// **'Next slide'**
+  String get presentation_next;
+
+  /// No description provided for @presentation_close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close presentation'**
+  String get presentation_close;
 }
 
 class _AppLocalizationsDelegate

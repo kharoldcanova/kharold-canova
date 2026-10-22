@@ -1,12 +1,15 @@
 {
-    "name": "kharoldcanova",
-    "short_name": "kharoldcanova",
+    "name": "Kharold Canova — AI & DevOps Engineer",
+    "short_name": "Kharold Canova",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
-    "orientation": "portrait-primary",
+    "background_color": "#FFFFFF",
+    "theme_color": "#0033CC",
+    "description": "Portafolio de Kharold Canova, ingeniero AI & DevOps. Proyectos de desarrollo web, automatización, cloud y ciencia de datos.",
+    "lang": "es",
+    "dir": "ltr",
+    "orientation": "any",
+    "categories": ["portfolio", "developer", "technology"],
     "prefer_related_applications": false,
     "icons": [
         {

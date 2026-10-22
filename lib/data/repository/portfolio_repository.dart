@@ -1,28 +1,47 @@
 import 'package:flutter/material.dart';
 import 'package:kharoldcanova/data/models/experience.dart';
-import 'package:kharoldcanova/data/models/skill.dart';
 import 'package:kharoldcanova/data/models/project.dart';
+import 'package:kharoldcanova/data/models/published_skill.dart';
+import 'package:kharoldcanova/data/models/skill_group.dart';
 import 'package:kharoldcanova/screens/widgets/certifications_section.dart';
 
 class PortfolioRepository {
   List<Experience> getExperiences() => [
         Experience(
-          company: 'ONG Mil Mujeres Legal Services EE.UU',
-          role: 'Desarrollador Full Stack',
+          company: 'Mil Mujeres Legal Services',
+          role: 'Desarrollador Fullstack',
+          roleEn: 'Full-stack Developer',
+          location: 'EE.UU. (Remoto)',
+          locationEn: 'Remote (US)',
           startDate: DateTime(2023, 9, 1),
-          endDate: null,
+          endDate: DateTime(2026, 9, 1),
+          highlights: const [
+            'Desarrollo en producción para miles de usuarios con Flutter, Clean Architecture y BLoC en iOS, Android y Web.',
+            'Construcción de APIs RESTful y optimización de bases de datos con Laravel, PHP 8.x y MySQL/Eloquent; interfaces con Vue.js.',
+            'Automatización de CI/CD con GitHub Actions y de procesos críticos con Google Apps Script, usando un flujo AI-Augmented Development.',
+          ],
+          highlightsEn: const [
+            'Production development serving thousands of users with Flutter, Clean Architecture and BLoC across iOS, Android and Web.',
+            'Built RESTful APIs and optimized databases with Laravel, PHP 8.x and MySQL/Eloquent; interfaces with Vue.js.',
+            'Automated CI/CD with GitHub Actions and critical processes with Google Apps Script, using an AI-Augmented Development workflow.',
+          ],
         ),
         Experience(
-          company: 'TECLEAR S.A.C.',
-          role: 'Desarrollador Full Stack',
+          company: 'Teclear S.A.C.',
+          role: 'Desarrollador Fullstack',
+          roleEn: 'Full-stack Developer',
+          location: 'Perú',
+          locationEn: 'Peru',
           startDate: DateTime(2022, 9, 1),
-          endDate: DateTime(2022, 12, 1),
-        ),
-        Experience(
-          company: 'Centro de Empleo Sullana',
-          role: 'Administrador / Community Manager',
-          startDate: DateTime(2022, 5, 1),
-          endDate: DateTime(2022, 6, 1),
+          endDate: DateTime(2023, 9, 1),
+          highlights: const [
+            'Desarrollo de aplicaciones móviles Flutter desde el diseño de UI hasta la publicación en tiendas.',
+            'Integración de Firebase Authentication, Realtime Database y Cloud Firestore; Provider y catálogo de widgets modulares reutilizables.',
+          ],
+          highlightsEn: const [
+            'Built Flutter mobile applications from UI design through app store release.',
+            'Integrated Firebase Authentication, Realtime Database and Cloud Firestore; used Provider and a catalog of reusable modular widgets.',
+          ],
         ),
       ];
 
@@ -35,16 +54,62 @@ class PortfolioRepository {
     return total;
   }
 
-  List<Skill> getSkills() => [
-        const Skill(name: 'Flutter / Dart', category: 'Mobile', level: 0.95),
-        const Skill(name: 'Laravel / PHP', category: 'Backend', level: 0.90),
-        const Skill(name: 'MySQL / SQL', category: 'Backend', level: 0.85),
-        const Skill(
-            name: 'Git / GitHub Actions', category: 'DevOps', level: 0.85),
-        const Skill(name: 'Linux / Docker', category: 'DevOps', level: 0.80),
-        const Skill(name: 'Python / FastAPI', category: 'Backend', level: 0.70),
-        const Skill(
-            name: 'Vue.js / JavaScript', category: 'Frontend', level: 0.70),
+  List<SkillGroup> getSkillGroups() => const [
+        SkillGroup(
+          id: 'ai',
+          technologies: [
+            'Ollama',
+            'RAG',
+            'LlamaIndex',
+            'Python',
+            'FastAPI',
+            'MCP',
+            'n8n',
+          ],
+        ),
+        SkillGroup(
+          id: 'devops',
+          technologies: [
+            'Docker',
+            'Docker Compose',
+            'GitHub Actions',
+            'Linux',
+            'VPS',
+            'Nginx',
+            'Bash',
+            'Git',
+            'CI/CD',
+          ],
+        ),
+        SkillGroup(
+          id: 'frontend',
+          technologies: [
+            'Flutter',
+            'Clean Architecture',
+            'BLoC',
+            'Riverpod',
+            'GoRouter',
+            'Drift',
+            'SQLite',
+            'TypeScript',
+            'React',
+            'Vue.js',
+            'Tailwind CSS',
+          ],
+        ),
+        SkillGroup(
+          id: 'backend',
+          technologies: [
+            'Laravel 10',
+            'PHP 8.x',
+            'REST APIs',
+            'MySQL',
+            'Firebase',
+            'Authentication',
+            'Cloud Firestore',
+            'FCM',
+          ],
+        ),
       ];
 
   int getTotalRepos() => 30;
@@ -57,60 +122,90 @@ class PortfolioRepository {
 
   String getLinkedin() => 'https://linkedin.com/in/kharoldcanova';
 
+  String getCvUrl() => 'cv-kharold-canova.pdf';
+
+  /// Set this when the owner provides the Medium profile URL.
+  String? getMedium() => 'https://medium.com/@kharoldcanova';
+
+  /// Set this when the owner provides the published skill details.
+  PublishedSkill? getPublishedSkill() => null;
+
   List<Project> getProjects() => [
+        const Project(
+          title: 'design-md',
+          description:
+              'Skill publicada para diseño de interfaces: editor visual, verificación de tokens de diseño y servidor local.',
+          descriptionEn:
+              'Published interface-design skill with a visual editor, design-token validation, and a local server.',
+          techStack: ['Design systems', 'Editor visual', 'Apache-2.0'],
+          techStackEn: ['Design systems', 'Visual editor', 'Apache-2.0'],
+          category: 'Open source',
+          categoryEn: 'Open source',
+          repoUrl: 'https://github.com/kharoldcanova/design-md',
+          icon: Icons.design_services_outlined,
+        ),
+        const Project(
+          title: 'mm2',
+          description:
+              'Aplicación Flutter para clientes de servicios legales, con Clean Architecture, BLoC, API Laravel y publicación móvil automatizada.',
+          descriptionEn:
+              'Flutter application for legal-services clients, built with Clean Architecture, BLoC, a Laravel API, and automated mobile releases.',
+          techStack: ['Flutter', 'BLoC', 'Laravel API', 'GitHub Actions'],
+          techStackEn: ['Flutter', 'BLoC', 'Laravel API', 'GitHub Actions'],
+          category: 'Proyecto interno',
+          categoryEn: 'Internal project',
+          icon: Icons.gavel_outlined,
+        ),
+        const Project(
+          title: 'Kipu',
+          description:
+              'Wallet personal para finanzas con Flutter, Clean Architecture, BLoC y almacenamiento offline-first con Drift y SQLite.',
+          descriptionEn:
+              'Personal finance wallet built with Flutter, Clean Architecture, BLoC, and offline-first storage using Drift and SQLite.',
+          techStack: ['Flutter', 'BLoC', 'Drift', 'SQLite', 'Offline-first'],
+          techStackEn: ['Flutter', 'BLoC', 'Drift', 'SQLite', 'Offline-first'],
+          category: 'Proyecto interno',
+          categoryEn: 'Internal project',
+          icon: Icons.account_balance_wallet_outlined,
+        ),
         const Project(
           title: 'Alma',
           description:
-              'Asistente de voz con IA 100% local: escucha la wake word "hey jarvis" con openWakeWord, transcribe con faster-whisper, responde con Ollama y habla con Piper.',
-          techStack: ['Python', 'Ollama', 'openWakeWord'],
+              'Asistente de IA local desarrollado en Python, con más de 2.5k líneas y 36 pruebas automatizadas.',
+          descriptionEn:
+              'Local AI assistant built in Python, with over 2.5k lines of code and 36 automated tests.',
+          techStack: ['Python', 'IA local', 'TFLite', '36 tests'],
+          techStackEn: ['Python', 'Local AI', 'TFLite', '36 tests'],
           category: 'IA',
+          categoryEn: 'AI',
           repoUrl: 'https://github.com/kharoldcanova/alma',
-          icon: Icons.mic_outlined,
+          icon: Icons.psychology_outlined,
         ),
         const Project(
-          title: 'Telegram + Ollama Bot',
+          title: 'ia-sql',
           description:
-              'Bot de Telegram que conecta n8n con modelos locales de Ollama para automatización de respuestas con IA local.',
-          techStack: ['n8n', 'Ollama', 'Docker'],
+              'RAG de lenguaje natural a SQL (NL2SQL) sobre un esquema real, con guardas de solo lectura.',
+          descriptionEn:
+              'Natural-language-to-SQL (NL2SQL) RAG over a real schema, with read-only safeguards.',
+          techStack: ['RAG', 'NL2SQL', 'SQL', 'Read-only guard'],
+          techStackEn: ['RAG', 'NL2SQL', 'SQL', 'Read-only safeguards'],
           category: 'IA',
-          repoUrl: 'https://github.com/kharoldcanova/telegram-ollama-bot',
-          icon: Icons.smart_toy_outlined,
+          categoryEn: 'AI',
+          repoUrl: 'https://github.com/kharoldcanova/ia-sql',
+          icon: Icons.storage_outlined,
         ),
         const Project(
-          title: 'backup-glpi-drive',
+          title: 'kharold-canova',
           description:
-              'Script en Bash para respaldo automatizado y programado de bases de datos MySQL en Google Drive.',
-          techStack: ['Bash', 'MySQL', 'crontab'],
-          category: 'DevOps',
-          repoUrl: 'https://github.com/kharoldcanova/backup-glpi-drive',
-          icon: Icons.backup_outlined,
-        ),
-        const Project(
-          title: 'Login con Flutter',
-          description:
-              'Aplicación de inicio de sesión con diseño atractivo que permite autenticarse con Firebase.',
-          techStack: ['Flutter', 'Firebase'],
-          category: 'Mobile',
-          repoUrl: 'https://github.com/kharoldcanova/login_flutter',
-          icon: Icons.login_outlined,
-        ),
-        const Project(
-          title: 'Yes / No Chatbot',
-          description:
-              'Chatbot que consume una API de respuestas con imágenes Yes/No para interactuar con el usuario.',
-          techStack: ['Flutter', 'REST API'],
-          category: 'Mobile',
-          repoUrl: 'https://github.com/kharoldcanova/yes_no_app',
-          icon: Icons.help_outline,
-        ),
-        const Project(
-          title: 'TokTik Clone',
-          description:
-              'Clone de TikTok desarrollado con Flutter para visualizar videos cortos con interfaz similar a la original.',
-          techStack: ['Flutter'],
-          category: 'Mobile',
-          repoUrl: 'https://github.com/kharoldcanova/toktik_app_flutter',
-          icon: Icons.videocam_outlined,
+              'Portafolio web personal construido con Flutter Web y contenido actualizado desde mi CV.',
+          descriptionEn:
+              'Personal web portfolio built with Flutter Web and content updated from my CV.',
+          techStack: ['Flutter Web', 'Dart', 'Responsive'],
+          techStackEn: ['Flutter Web', 'Dart', 'Responsive'],
+          category: 'Web',
+          categoryEn: 'Web',
+          repoUrl: 'https://github.com/kharoldcanova/kharold-canova',
+          icon: Icons.web_outlined,
         ),
       ];
 
@@ -118,93 +213,66 @@ class PortfolioRepository {
         CertificationItem(
           title: 'Google',
           subtitle: 'Gen AI: Navigate the Landscape',
+          subtitleEn: 'Gen AI: Navigate the Landscape',
           date: 'Julio 2026',
-          color: Colors.blue,
+          dateEn: 'July 2026',
           icon: Icons.travel_explore,
         ),
         CertificationItem(
           title: 'Google',
           subtitle: 'Gen AI: Unlock Foundational Concepts',
+          subtitleEn: 'Gen AI: Unlock Foundational Concepts',
           date: 'Julio 2026',
-          color: Colors.blueAccent,
+          dateEn: 'July 2026',
           icon: Icons.lightbulb,
         ),
         CertificationItem(
           title: 'Google',
           subtitle: 'Gen AI: Beyond the Chatbot',
+          subtitleEn: 'Gen AI: Beyond the Chatbot',
           date: 'Julio 2026',
-          color: Colors.indigo,
+          dateEn: 'July 2026',
           icon: Icons.smart_toy,
         ),
         CertificationItem(
           title: 'Google',
           subtitle: 'Introduction to Generative AI',
+          subtitleEn: 'Introduction to Generative AI',
           date: 'Julio 2026',
-          color: Colors.blueGrey,
+          dateEn: 'July 2026',
           icon: Icons.auto_awesome,
         ),
         CertificationItem(
           title: 'Anthropic',
           subtitle: 'AI Fluency Framework & Foundations',
+          subtitleEn: 'AI Fluency Framework & Foundations',
           date: 'Julio 2026',
-          color: Colors.deepOrange,
+          dateEn: 'July 2026',
           icon: Icons.psychology,
         ),
         CertificationItem(
           title: 'BIG School',
           subtitle: 'Desarrollo con IA: Programa con Agentes',
+          subtitleEn: 'AI-driven development: Agent Program',
           date: 'Junio 2026',
-          color: Colors.teal,
+          dateEn: 'June 2026',
           icon: Icons.hub,
         ),
         CertificationItem(
           title: 'Platzi',
           subtitle: 'Curso de Automatizaciones con n8n',
+          subtitleEn: 'n8n Automation Course',
           date: 'Diciembre 2025',
-          color: Colors.green,
+          dateEn: 'December 2025',
           icon: Icons.bolt,
-        ),
-        CertificationItem(
-          title: 'Hacker Mentor',
-          subtitle: 'Curso Ethical Hacking / Red Team (3ra edición)',
-          date: 'Marzo 2023',
-          color: Colors.purple,
-          icon: Icons.security,
-        ),
-        CertificationItem(
-          title: 'Hacker Mentor',
-          subtitle: 'Curso Hacking Wi-Fi',
-          date: 'Abril 2022',
-          color: Colors.indigo,
-          icon: Icons.wifi_lock,
-        ),
-        CertificationItem(
-          title: 'INCIBE',
-          subtitle: 'Protege tu Negocio: Ciberseguridad en el Teletrabajo',
-          date: 'Marzo 2023',
-          color: Colors.cyan,
-          icon: Icons.shield,
-        ),
-        CertificationItem(
-          title: 'Escalab',
-          subtitle: 'JavaScript Fundamentals',
-          date: 'Mayo 2022',
-          color: Colors.amber,
-          icon: Icons.javascript,
         ),
         CertificationItem(
           title: 'EF SET',
           subtitle: 'EF SET English Certificate (B1 Intermediate - 42/100)',
+          subtitleEn: 'EF SET English Certificate (B1 Intermediate - 42/100)',
           date: 'Febrero 2023',
-          color: Colors.redAccent,
+          dateEn: 'February 2023',
           icon: Icons.translate,
-        ),
-        CertificationItem(
-          title: 'Cisco Networking Academy',
-          subtitle: 'Ciberseguridad y Redes Informáticas',
-          date: 'Julio 2023',
-          color: Colors.deepPurple,
-          icon: Icons.router,
         ),
       ];
 }

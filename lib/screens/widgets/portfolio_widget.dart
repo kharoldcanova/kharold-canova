@@ -1,52 +1,161 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:kharoldcanova/config/theme/brand_theme.dart';
+import 'package:kharoldcanova/config/theme/portfolio_tokens.dart';
 import 'package:kharoldcanova/data/models/project.dart';
+import 'package:kharoldcanova/data/models/published_skill.dart';
 import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
 import 'package:kharoldcanova/l10n/app_localizations.dart';
+import 'package:kharoldcanova/screens/widgets/section_shell.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class PortfolioWidget extends StatelessWidget {
-  const PortfolioWidget({super.key});
+  const PortfolioWidget({
+    super.key,
+    this.publishedSkill,
+    this.projects,
+  });
+
+  final PublishedSkill? publishedSkill;
+  final List<Project>? projects;
 
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
-    final cs = Theme.of(context).colorScheme;
-    final width = MediaQuery.of(context).size.width;
-    final isDesktop = width >= 1200;
-    final horizontalPadding = isDesktop ? 80.0 : 24.0;
-    final projects = PortfolioRepository().getProjects();
+    final repo = PortfolioRepository();
+    final skill = publishedSkill ?? repo.getPublishedSkill();
+    final items = projects ?? repo.getProjects();
 
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: horizontalPadding,
-        vertical: 60,
+    return SectionContainer(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SectionHeader(
+            index: '03',
+            title: t.projects,
+            description: t.portfolio_desc,
+          ),
+          if (skill != null) ...[
+            const SizedBox(height: BrandTheme.space2XL),
+            _PublishedSkillCard(skill: skill),
+          ],
+          const SizedBox(height: BrandTheme.space2XL),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final columns = constraints.maxWidth >= 1000
+                  ? 3
+                  : constraints.maxWidth >= 640
+                      ? 2
+                      : 1;
+              const gap = BrandTheme.spaceLG;
+              const cardHeight = 390.0;
+              final cardWidth =
+                  (constraints.maxWidth - gap * (columns - 1)) / columns;
+
+              return Wrap(
+                spacing: gap,
+                runSpacing: gap,
+                children: [
+                  for (final project in items)
+                    _ProjectCard(
+                      project: project,
+                      width: cardWidth,
+                      height: cardHeight,
+                    ),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PublishedSkillCard extends StatelessWidget {
+  const _PublishedSkillCard({required this.skill});
+
+  final PublishedSkill skill;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+    final tokens = Theme.of(context).extension<PortfolioTokens>()!;
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(BrandTheme.spaceXL),
+      decoration: BoxDecoration(
+        color: colorScheme.surface,
+        borderRadius: BorderRadius.circular(BrandTheme.radiusLG),
+        border: Border.all(color: colorScheme.outline, width: 1),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            t.portfolio_title,
-            style: TextStyle(
-              fontSize: 36,
-              fontWeight: FontWeight.bold,
-              color: cs.onSurface,
+          Container(
+            padding: const EdgeInsets.symmetric(
+              horizontal: BrandTheme.spaceSM,
+              vertical: BrandTheme.spaceXS,
+            ),
+            decoration: BoxDecoration(
+              color: colorScheme.tertiary,
+              borderRadius: BorderRadius.circular(BrandTheme.radiusSM),
+            ),
+            child: Text(
+              t.published_skill.toUpperCase(),
+              style: BrandTextStyles.mono(
+                fontSize: 11,
+                weight: FontWeight.w500,
+                color: Colors.white,
+                letterSpacing: 1.2,
+              ),
             ),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: BrandTheme.spaceMD),
           Text(
-            t.portfolio_desc,
-            style: TextStyle(
-              fontSize: 16,
-              color: cs.onSurface.withAlpha(180),
-            ),
+            skill.name,
+            style: Theme.of(context).textTheme.headlineMedium,
           ),
-          const SizedBox(height: 50),
-          Wrap(
-            spacing: 24,
-            runSpacing: 24,
-            children: projects.map((project) {
-              return _ProjectCard(project: project, isDesktop: isDesktop);
-            }).toList(),
+          const SizedBox(height: BrandTheme.spaceSM),
+          Text(
+            skill.description,
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                ),
+          ),
+          if (skill.installCommand != null) ...[
+            const SizedBox(height: BrandTheme.spaceLG),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(
+                horizontal: BrandTheme.spaceMD,
+                vertical: BrandTheme.spaceSM + 4,
+              ),
+              decoration: BoxDecoration(
+                color: tokens.elevated,
+                borderRadius: BorderRadius.circular(BrandTheme.radius),
+                border: Border.all(color: colorScheme.outlineVariant, width: 1),
+              ),
+              child: Text(
+                skill.installCommand!,
+                style: BrandTextStyles.mono(
+                  fontSize: 13,
+                  color: colorScheme.onSurface,
+                ),
+              ),
+            ),
+          ],
+          const SizedBox(height: BrandTheme.spaceLG),
+          OutlinedButton.icon(
+            onPressed: () => launchUrl(
+              Uri.parse(skill.url),
+              mode: LaunchMode.externalApplication,
+              webOnlyWindowName: '_blank',
+            ),
+            icon: const Icon(Icons.open_in_new, size: 16),
+            label: Text(t.view_skill),
           ),
         ],
       ),
@@ -55,173 +164,182 @@ class PortfolioWidget extends StatelessWidget {
 }
 
 class _ProjectCard extends StatefulWidget {
-  final Project project;
-  final bool isDesktop;
-
   const _ProjectCard({
     required this.project,
-    required this.isDesktop,
-    super.key,
+    required this.width,
+    required this.height,
   });
+
+  final Project project;
+  final double width;
+  final double height;
 
   @override
   State<_ProjectCard> createState() => _ProjectCardState();
 }
 
 class _ProjectCardState extends State<_ProjectCard> {
-  bool _isExpanded = false;
+  bool _hovered = false;
+  bool _focused = false;
+
+  bool get _hasLink =>
+      widget.project.repoUrl != null && widget.project.repoUrl!.isNotEmpty;
+
+  void _open() {
+    if (!_hasLink) return;
+    launchUrl(
+      Uri.parse(widget.project.repoUrl!),
+      mode: LaunchMode.externalApplication,
+      webOnlyWindowName: '_blank',
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final width = MediaQuery.of(context).size.width;
-
-    final double paddingHorizontal = widget.isDesktop ? 160.0 : 48.0;
-    final double cardWidth = widget.isDesktop
-        ? ((width - paddingHorizontal - 48) / 3).clamp(300.0, 500.0)
-        : (width - paddingHorizontal);
+    final t = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+    final languageCode = Localizations.localeOf(context).languageCode;
+    final borderColor =
+        _hovered || _focused ? colorScheme.primary : colorScheme.outline;
 
     return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      onEnter: (_) => _setExpanded(true),
-      onExit: (_) => _setExpanded(false),
-      child: GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: () => _setExpanded(!_isExpanded),
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOutCubic,
-          width: cardWidth,
-          transform: _isExpanded
-              ? (Matrix4.identity()..translate(0.0, -6.0))
-              : Matrix4.identity(),
-          // Usamos ClipRRect para que el contenido respete las esquinas redondeadas
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Container(
-              decoration: BoxDecoration(
-                color: _isExpanded ? cs.surfaceContainerHighest : cs.surface,
-                borderRadius: BorderRadius.circular(12),
-                // Borde uniforme -> Adiós al error
-                border: Border.all(
-                  color: _isExpanded
-                      ? cs.primary
-                      : cs.outlineVariant.withAlpha(128),
-                  width: _isExpanded ? 1.5 : 1.0,
+      cursor: _hasLink ? SystemMouseCursors.click : MouseCursor.defer,
+      onEnter: (_) => setState(() => _hovered = true),
+      onExit: (_) => setState(() => _hovered = false),
+      child: CallbackShortcuts(
+        bindings: _hasLink
+            ? <ShortcutActivator, VoidCallback>{
+                const SingleActivator(LogicalKeyboardKey.enter): _open,
+                const SingleActivator(LogicalKeyboardKey.space): _open,
+              }
+            : const <ShortcutActivator, VoidCallback>{},
+        child: Focus(
+          canRequestFocus: _hasLink,
+          onFocusChange: (value) => setState(() => _focused = value),
+          child: GestureDetector(
+            onTap: _hasLink ? _open : null,
+            child: Semantics(
+              button: _hasLink,
+              label: widget.project.title,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 180),
+                curve: Curves.easeOut,
+                width: widget.width,
+                height: widget.height,
+                padding: const EdgeInsets.all(BrandTheme.spaceLG),
+                decoration: BoxDecoration(
+                  color: colorScheme.surface,
+                  borderRadius: BorderRadius.circular(BrandTheme.radiusLG),
+                  border: Border.all(color: borderColor, width: 1),
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(_isExpanded ? 0.12 : 0.04),
-                    blurRadius: _isExpanded ? 24 : 8,
-                    offset: Offset(0, _isExpanded ? 12 : 4),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Línea de acento superior que aparece al expandirse
-                  AnimatedContainer(
-                    duration: const Duration(milliseconds: 300),
-                    height: _isExpanded ? 4 : 0,
-                    width: double.infinity,
-                    color: cs.primary,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
                       children: [
-                        Text(
-                          widget.project.title,
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.w700,
-                            color: cs.onSurface,
-                          ),
-                        ),
-                        AnimatedCrossFade(
-                          firstChild:
-                              const SizedBox(width: double.infinity, height: 0),
-                          secondChild: Padding(
-                            padding: const EdgeInsets.only(top: 16.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  widget.project.description,
-                                  maxLines: 4,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    height: 1.6,
-                                    color: cs.onSurfaceVariant,
-                                  ),
-                                ),
-                                const SizedBox(height: 16),
-                                Text(
-                                  widget.project.techStack.join(' · '),
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    fontWeight: FontWeight.w500,
-                                    color: cs.onSurface.withAlpha(140),
-                                  ),
-                                ),
-                                if (widget.project.repoUrl != null) ...[
-                                  const SizedBox(height: 16),
-                                  Align(
-                                    alignment: Alignment.centerRight,
-                                    child: InkWell(
-                                      borderRadius: BorderRadius.circular(4),
-                                      onTap: () async {
-                                        final uri =
-                                            Uri.parse(widget.project.repoUrl!);
-                                        if (await canLaunchUrl(uri)) {
-                                          await launchUrl(uri);
-                                        }
-                                      },
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 8,
-                                          vertical: 4,
-                                        ),
-                                        child: Text(
-                                          'GitHub →',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.w600,
-                                            color: cs.primary,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ],
+                        Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                BorderRadius.circular(BrandTheme.radius),
+                            border: Border.all(
+                              color: colorScheme.outlineVariant,
+                              width: 1,
                             ),
                           ),
-                          crossFadeState: _isExpanded
-                              ? CrossFadeState.showSecond
-                              : CrossFadeState.showFirst,
-                          duration: const Duration(milliseconds: 300),
-                          sizeCurve: Curves.easeOutCubic,
+                          child: Icon(
+                            widget.project.icon,
+                            size: 20,
+                            color: colorScheme.primary,
+                          ),
+                        ),
+                        const Spacer(),
+                        Text(
+                          widget.project
+                              .localizedCategory(languageCode)
+                              .toUpperCase(),
+                          style: BrandTextStyles.mono(
+                            fontSize: 11,
+                            color: colorScheme.onSurfaceVariant,
+                            letterSpacing: 0.8,
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                ],
+                    const SizedBox(height: BrandTheme.spaceLG),
+                    Text(
+                      widget.project.title,
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    const SizedBox(height: BrandTheme.spaceSM),
+                    Text(
+                      widget.project.localizedDescription(languageCode),
+                      maxLines: 4,
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: colorScheme.onSurfaceVariant,
+                            height: 1.6,
+                          ),
+                    ),
+                    const Spacer(),
+                    Wrap(
+                      spacing: BrandTheme.spaceXS + 2,
+                      runSpacing: BrandTheme.spaceXS + 2,
+                      children: [
+                        for (final tech
+                            in widget.project.localizedTechStack(languageCode))
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: BrandTheme.spaceSM,
+                              vertical: BrandTheme.spaceXS,
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(
+                                BrandTheme.radiusSM,
+                              ),
+                              border: Border.all(
+                                color: colorScheme.outlineVariant,
+                                width: 1,
+                              ),
+                            ),
+                            child: Text(
+                              tech,
+                              style: BrandTextStyles.mono(
+                                fontSize: 11,
+                                color: colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
+                    if (_hasLink) ...[
+                      const SizedBox(height: BrandTheme.spaceMD + 4),
+                      Row(
+                        children: [
+                          Text(
+                            t.go_to_project,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelLarge
+                                ?.copyWith(color: colorScheme.primary),
+                          ),
+                          const SizedBox(width: BrandTheme.spaceXS),
+                          Icon(
+                            Icons.arrow_outward,
+                            size: 14,
+                            color: colorScheme.primary,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ],
+                ),
               ),
             ),
           ),
         ),
       ),
     );
-  }
-
-  void _setExpanded(bool value) {
-    if (mounted && value != _isExpanded) {
-      setState(() => _isExpanded = value);
-    }
   }
 }

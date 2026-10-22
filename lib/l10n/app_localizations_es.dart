@@ -103,7 +103,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get home => 'Inicio';
 
   @override
-  String get about => 'Acerca';
+  String get about => 'Sobre mí';
 
   @override
   String get profile => 'Perfil';
@@ -115,33 +115,35 @@ class AppLocalizationsEs extends AppLocalizations {
   String get projects => 'Proyectos';
 
   @override
-  String get profile_title => 'Desarrollador Flutter';
+  String get profile_title => 'Desarrollador Full Stack';
 
   @override
-  String get profile_quote => 'Construyendo software con curiosidad.';
+  String get profile_quote =>
+      'Flutter · Laravel · IA aplicada · Automatización';
 
   @override
   String get profile_since => 'Desde';
 
   @override
-  String get profile_expertise => 'IA · Linux · Cloud';
+  String get profile_expertise => 'Desarrollo Full Stack · IA Aplicada';
 
   @override
   String get contact_me => 'Contáctame';
 
   @override
-  String get hero_subtitle => 'FullStack Developer & IA Developer';
+  String get hero_subtitle =>
+      'Desarrollador Full Stack · IA aplicada y automatización';
 
   @override
   String get hero_quote =>
-      'Me apasiona crear aplicaciones multiplataforma, automatizar procesos y seguir creciendo en DevOps. Además, disfruto explorar Linux, mantenerme al día con las últimas tecnologías y aprovechar la inteligencia artificial para potenciar cada proyecto.';
+      'Ingeniero de Sistemas y Desarrollador Full Stack especializado en Flutter (Clean Architecture + BLoC) y Laravel. Apasionado por la IA aplicada y la automatización, con experiencia llevando software a producción mediante CI/CD y arquitecturas escalables.';
 
   @override
-  String get about_title => 'Conoce mi historia';
+  String get about_title => 'Sobre mí';
 
   @override
   String get about_desc =>
-      'Me apasiona crear aplicaciones multiplataforma, automatizar procesos y seguir creciendo en DevOps. Además, disfruto explorar Linux, mantenerme al día con las últimas tecnologías y aprovechar la inteligencia artificial para potenciar cada proyecto.';
+      'Ingeniero de Sistemas y Desarrollador Full Stack especializado en Flutter (Clean Architecture + BLoC) y Laravel. Apasionado por la IA aplicada y la automatización, con experiencia liderando el ciclo completo de desarrollo y desplegando productos a producción con CI/CD y arquitecturas escalables.';
 
   @override
   String get hire_me => 'Contrátame';
@@ -217,4 +219,96 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get certifications_subtitle =>
       'Aprendizaje continuo y desarrollo profesional';
+
+  @override
+  String get certifications => 'Certificaciones';
+
+  @override
+  String get knowledge => 'Conocimientos';
+
+  @override
+  String get knowledge_desc =>
+      'Herramientas y prácticas que uso para construir, desplegar y operar software.';
+
+  @override
+  String get theme_dark => 'Activar modo oscuro';
+
+  @override
+  String get theme_light => 'Activar modo claro';
+
+  @override
+  String get change_language => 'Cambiar idioma';
+
+  @override
+  String get medium => 'Medium';
+
+  @override
+  String get published_skill => 'Skill publicada';
+
+  @override
+  String get view_skill => 'Ver skill';
+
+  @override
+  String get install_command => 'Instalar';
+
+  @override
+  String stats_certs(Object count) {
+    return '+$count certificaciones';
+  }
+
+  @override
+  String get footer_rights => 'Todos los derechos reservados.';
+
+  @override
+  String get contact_desc => 'Cuéntame sobre tu proyecto o simplemente saluda.';
+
+  @override
+  String get years_experience => 'Años de experiencia';
+
+  @override
+  String get github_repos => 'Repositorios de GitHub';
+
+  @override
+  String get impact => 'Impacto';
+
+  @override
+  String get experience => 'Experiencia';
+
+  @override
+  String get experience_desc =>
+      'Trayectoria construyendo productos, automatizando procesos y liderando iniciativas de IA.';
+
+  @override
+  String get present => 'Presente';
+
+  @override
+  String get tech_stack => 'Stack técnico';
+
+  @override
+  String get tech_stack_desc =>
+      'Tecnologías que uso para construir, desplegar y operar software.';
+
+  @override
+  String get skill_group_ai => 'IA & MCP';
+
+  @override
+  String get skill_group_devops => 'DevOps & Cloud';
+
+  @override
+  String get skill_group_frontend => 'Frontend & Móvil';
+
+  @override
+  String get skill_group_backend => 'Backend & Datos';
+
+  @override
+  String get presentation_mode => 'Iniciar presentación';
+
+  @override
+  String get presentation_previous => 'Diapositiva anterior';
+
+  @override
+  String get presentation_next => 'Diapositiva siguiente';
+
+  @override
+  String get presentation_close => 'Cerrar presentación';
 }

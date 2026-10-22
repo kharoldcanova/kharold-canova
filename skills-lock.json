@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "design-md": {
+      "source": "kharoldcanova/design-md",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "9ddbdfa588a72780d09383dacd03c756c7880777d725e1be6d997d804d86a01e"
+    }
+  }
+}

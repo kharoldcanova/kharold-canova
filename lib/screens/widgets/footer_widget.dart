@@ -1,110 +1,160 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:kharoldcanova/config/theme/brand_theme.dart';
 import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
+import 'package:kharoldcanova/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FooterWidget extends StatelessWidget {
-  const FooterWidget({super.key});
+  const FooterWidget({super.key, this.mediumUrl});
+
+  final String? mediumUrl;
 
   @override
   Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
-    final isSmallScreen = MediaQuery.of(context).size.width < 1200;
     final repo = PortfolioRepository();
+    final width = MediaQuery.sizeOf(context).width;
+    final isCompact = width < 760;
 
-    return Container(
-      color: colorScheme.primary.withAlpha(230),
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(
-        horizontal: isSmallScreen ? 24 : 80,
-        vertical: 32,
-      ),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _SocialIcon(
-                iconWidget: const Icon(
-                  Icons.mail_outline,
-                  color: Colors.white,
-                  size: 20,
-                ),
-                tooltip: repo.getEmail(),
-                onTap: () => _openUrl(
-                  'https://mail.google.com/mail/?view=cm&fs=1&to=${repo.getEmail()}',
-                ),
-              ),
-              const SizedBox(width: 20),
-              _SocialIcon(
-                iconWidget: const FaIcon(
-                  FontAwesomeIcons.github,
-                  color: Colors.white,
-                  size: 20,
-                ),
-                tooltip: 'GitHub',
-                onTap: () => _openUrl(repo.getGithub()),
-              ),
-              const SizedBox(width: 20),
-              _SocialIcon(
-                iconWidget: const FaIcon(
-                  FontAwesomeIcons.linkedin,
-                  color: Colors.white,
-                  size: 20,
-                ),
-                tooltip: 'LinkedIn',
-                onTap: () => _openUrl(repo.getLinkedin()),
-              ),
-            ],
+    final copyright = Text(
+      '© ${DateTime.now().year} Kharold Canova. ${t.footer_rights}',
+      style: Theme.of(context).textTheme.bodySmall?.copyWith(
+            color: colorScheme.onSurfaceVariant,
           ),
-          const SizedBox(height: 20),
-          Text(
-            '© ${DateTime.now().year} Kharold Canova. All rights reserved.',
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Colors.white.withAlpha(179),
-              fontSize: 13,
+    );
+
+    final socials = Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _SocialIcon(
+          tooltip: t.email,
+          icon: const Icon(Icons.mail_outline, size: 18),
+          onTap: () => launchUrl(
+            Uri(scheme: 'mailto', path: repo.getEmail()),
+            mode: LaunchMode.externalApplication,
+          ),
+        ),
+        const SizedBox(width: BrandTheme.spaceSM),
+        _SocialIcon(
+          tooltip: 'GitHub',
+          icon: const FaIcon(FontAwesomeIcons.github, size: 18),
+          onTap: () => launchUrl(
+            Uri.parse(repo.getGithub()),
+            mode: LaunchMode.externalApplication,
+            webOnlyWindowName: '_blank',
+          ),
+        ),
+        const SizedBox(width: BrandTheme.spaceSM),
+        _SocialIcon(
+          tooltip: 'LinkedIn',
+          icon: const FaIcon(FontAwesomeIcons.linkedin, size: 18),
+          onTap: () => launchUrl(
+            Uri.parse(repo.getLinkedin()),
+            mode: LaunchMode.externalApplication,
+            webOnlyWindowName: '_blank',
+          ),
+        ),
+        if (mediumUrl != null) ...[
+          const SizedBox(width: BrandTheme.spaceSM),
+          _SocialIcon(
+            tooltip: t.medium,
+            icon: const FaIcon(FontAwesomeIcons.medium, size: 18),
+            onTap: () => launchUrl(
+              Uri.parse(mediumUrl!),
+              mode: LaunchMode.externalApplication,
+              webOnlyWindowName: '_blank',
             ),
           ),
         ],
+      ],
+    );
+
+    return Container(
+      width: double.infinity,
+      color: colorScheme.surface,
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(
+            maxWidth: BrandTheme.contentMaxWidth,
+          ),
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: isCompact
+                  ? BrandTheme.gutterMobile
+                  : BrandTheme.gutterDesktop,
+              vertical: BrandTheme.spaceLG,
+            ),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    color: colorScheme.outlineVariant,
+                    width: 1,
+                  ),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(top: BrandTheme.spaceLG),
+                child: isCompact
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          copyright,
+                          const SizedBox(height: BrandTheme.spaceMD),
+                          socials,
+                        ],
+                      )
+                    : Row(
+                        children: [
+                          Expanded(child: copyright),
+                          socials,
+                        ],
+                      ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
-  }
-
-  Future<void> _openUrl(String urlString) async {
-    final uri = Uri.parse(urlString);
-    if (await canLaunchUrl(uri)) {
-      await launchUrl(uri);
-    }
   }
 }
 
 class _SocialIcon extends StatelessWidget {
-  final Widget iconWidget;
-  final String tooltip;
-  final VoidCallback onTap;
-
   const _SocialIcon({
-    required this.iconWidget,
     required this.tooltip,
+    required this.icon,
     required this.onTap,
   });
 
+  final String tooltip;
+  final Widget icon;
+  final VoidCallback onTap;
+
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Tooltip(
       message: tooltip,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(BrandTheme.radius),
         child: Container(
-          width: 44,
-          height: 44,
+          width: 40,
+          height: 40,
           decoration: BoxDecoration(
-            color: Colors.white.withAlpha(30),
-            shape: BoxShape.circle,
+            borderRadius: BorderRadius.circular(BrandTheme.radius),
+            border: Border.all(
+              color: colorScheme.outlineVariant,
+              width: 1,
+            ),
           ),
-          child: Center(child: iconWidget),
+          child: IconTheme(
+            data: IconThemeData(color: colorScheme.onSurface, size: 18),
+            child: Center(child: icon),
+          ),
         ),
       ),
     );

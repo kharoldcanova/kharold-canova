@@ -1,31 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:kharoldcanova/config/theme/brand_theme.dart';
 import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
 import 'package:kharoldcanova/l10n/app_localizations.dart';
-import 'package:kharoldcanova/screens/widgets/animate_on_visible.dart';
-
-// ---------------------------------------------------------------------------
-// Data Model
-// ---------------------------------------------------------------------------
+import 'package:kharoldcanova/screens/widgets/section_shell.dart';
 
 class CertificationItem {
-  final String title;
-  final String subtitle;
-  final String date;
-  final Color color;
-  final IconData icon;
-
   const CertificationItem({
     required this.title,
     required this.subtitle,
+    this.subtitleEn,
     required this.date,
-    required this.color,
-    required this.icon,
+    this.dateEn,
+    this.icon = Icons.workspace_premium_outlined,
   });
-}
 
-// ---------------------------------------------------------------------------
-// Widget: CertificationsSection
-// ---------------------------------------------------------------------------
+  final String title;
+  final String subtitle;
+  final String? subtitleEn;
+  final String date;
+  final String? dateEn;
+  final IconData icon;
+
+  String localizedSubtitle(String languageCode) =>
+      languageCode == 'en' ? (subtitleEn ?? subtitle) : subtitle;
+
+  String localizedDate(String languageCode) =>
+      languageCode == 'en' ? (dateEn ?? date) : date;
+}
 
 class CertificationsSection extends StatelessWidget {
   const CertificationsSection({super.key});
@@ -33,193 +34,120 @@ class CertificationsSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
-    final cs = Theme.of(context).colorScheme;
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isDesktop = screenWidth >= 1200;
-    final horizontalPadding = isDesktop ? 80.0 : 24.0;
+    final colorScheme = Theme.of(context).colorScheme;
     final certifications = PortfolioRepository().getCertifications();
 
-    return AnimateOnVisible(
-      builder: (context, visible) {
-        return AnimatedOpacity(
-          opacity: visible ? 1.0 : 0.0,
-          duration: const Duration(milliseconds: 700),
-          curve: Curves.easeOutCubic,
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: horizontalPadding,
-              vertical: 60,
-            ),
-            child: Column(
-              children: [
-                // -- Title
-                SizedBox(
-                  width: double.infinity,
-                  child: Text(
-                    t.certifications_title,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 36,
-                      fontWeight: FontWeight.bold,
-                      color: cs.onSurface,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 12),
-                SizedBox(
-                  width: double.infinity,
-                  child: Text(
-                    t.certifications_subtitle,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: cs.onSurface.withAlpha(180),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 48),
-
-                // -- Responsive grid
-                LayoutBuilder(
-                  builder: (context, constraints) {
-                    final crossAxisCount = constraints.maxWidth > 1100
-                        ? 3
-                        : constraints.maxWidth > 600
-                            ? 2
-                            : 1;
-                    final isCompact = constraints.maxWidth <= 600;
-
-                    return GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: crossAxisCount,
-                        crossAxisSpacing: 20,
-                        mainAxisSpacing: 20,
-                        // Altura fija por fila: evita que el contenido se
-                        // desborde en pantallas angostas (mobile), donde la
-                        // proporción ancho/alto dejaba la card muy baja.
-                        mainAxisExtent: isCompact ? 132 : 160,
-                      ),
-                      itemCount: certifications.length,
-                      itemBuilder: (context, index) {
-                        return _CertificationCard(
-                          certification: certifications[index],
-                          compact: isCompact,
-                        );
-                      },
-                    );
-                  },
-                ),
-              ],
-            ),
+    return SectionContainer(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SectionHeader(
+            index: '04',
+            title: t.certifications_title,
+            description: t.certifications_subtitle,
           ),
-        );
-      },
+          const SizedBox(height: BrandTheme.space2XL),
+          LayoutBuilder(
+            builder: (context, constraints) {
+              final columns = constraints.maxWidth >= 900 ? 2 : 1;
+              const gap = BrandTheme.space2XL;
+              final itemWidth =
+                  (constraints.maxWidth - gap * (columns - 1)) / columns;
+
+              return Wrap(
+                spacing: gap,
+                runSpacing: 0,
+                children: [
+                  for (final certification in certifications)
+                    SizedBox(
+                      width: itemWidth,
+                      child: _CertificationRow(
+                        item: certification,
+                        colorScheme: colorScheme,
+                      ),
+                    ),
+                ],
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 }
 
-// ---------------------------------------------------------------------------
-// Card Widget — solid color background, white text
-// ---------------------------------------------------------------------------
+class _CertificationRow extends StatelessWidget {
+  const _CertificationRow({
+    required this.item,
+    required this.colorScheme,
+  });
 
-class _CertificationCard extends StatefulWidget {
-  final CertificationItem certification;
-  final bool compact;
-
-  const _CertificationCard({required this.certification, this.compact = false});
-
-  @override
-  State<_CertificationCard> createState() => _CertificationCardState();
-}
-
-class _CertificationCardState extends State<_CertificationCard> {
-  bool _hovered = false;
+  final CertificationItem item;
+  final ColorScheme colorScheme;
 
   @override
   Widget build(BuildContext context) {
-    final cert = widget.certification;
-    final compact = widget.compact;
-    final iconSize = compact ? 38.0 : 54.0;
-    final titleSize = compact ? 17.0 : 24.0;
-    final subtitleSize = compact ? 14.0 : 18.0;
-    final dateSize = compact ? 14.0 : 18.0;
-    final padding = compact ? 14.0 : 20.0;
-
-    return MouseRegion(
-      onEnter: (_) => setState(() => _hovered = true),
-      onExit: (_) => setState(() => _hovered = false),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 250),
-        curve: Curves.easeOutCubic,
-        transform: _hovered
-            ? (Matrix4.identity()..translateByDouble(0.0, -4.0, 0.0, 1.0))
-            : Matrix4.identity(),
-        decoration: BoxDecoration(
-          color: cert.color,
-          borderRadius: BorderRadius.zero,
-          boxShadow: [
-            BoxShadow(
-              color: cert.color.withValues(alpha: _hovered ? 0.35 : 0.20),
-              blurRadius: _hovered ? 20 : 10,
-              offset: Offset(0, _hovered ? 8 : 4),
-            ),
-          ],
+    final languageCode = Localizations.localeOf(context).languageCode;
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        vertical: BrandTheme.spaceMD + 4,
+      ),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: colorScheme.outlineVariant, width: 1),
         ),
-        child: Padding(
-          padding: EdgeInsets.all(padding),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              // -- Icon
-              Icon(cert.icon, color: Colors.white, size: iconSize),
-              SizedBox(width: compact ? 12 : 16),
-
-              // -- Text
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      cert.title,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: titleSize,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      maxLines: compact ? 2 : 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      cert.subtitle,
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: subtitleSize,
-                      ),
-                      maxLines: compact ? 1 : 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      cert.date,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: dateSize,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                ),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 32,
+            height: 32,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(BrandTheme.radius),
+              border: Border.all(
+                color: colorScheme.outlineVariant,
+                width: 1,
               ),
-            ],
+            ),
+            child: Icon(
+              item.icon,
+              size: 16,
+              color: colorScheme.onSurfaceVariant,
+            ),
           ),
-        ),
+          const SizedBox(width: BrandTheme.spaceMD),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  item.title.toUpperCase(),
+                  style: BrandTextStyles.mono(
+                    fontSize: 11,
+                    weight: FontWeight.w500,
+                    color: colorScheme.onSurfaceVariant,
+                    letterSpacing: 1,
+                  ),
+                ),
+                const SizedBox(height: BrandTheme.spaceXS),
+                Text(
+                  item.localizedSubtitle(languageCode),
+                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w500,
+                      ),
+                ),
+                const SizedBox(height: BrandTheme.spaceXS),
+                Text(
+                  item.localizedDate(languageCode),
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

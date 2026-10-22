@@ -28,14 +28,14 @@
   "menu": "Menú",
   "close": "Cerrar",
   "home": "Inicio",
-  "about": "Acerca",
+  "about": "Sobre mí",
   "profile": "Perfil",
   "contact": "Contacto",
   "projects": "Proyectos",
-  "profile_title": "Desarrollador Flutter",
-  "profile_quote": "Construyendo software con curiosidad.",
+  "profile_title": "Desarrollador Full Stack",
+  "profile_quote": "Flutter · Laravel · IA aplicada · Automatización",
   "profile_since": "Desde",
-  "profile_expertise": "IA · Linux · Cloud",
+  "profile_expertise": "Desarrollo Full Stack · IA Aplicada",
   "@hello": {
     "description": "Saludo en español."
   },
@@ -118,19 +118,19 @@
   "@contact_me": {
     "description": "Botón de llamada a la acción en el header."
   },
-  "hero_subtitle": "FullStack Developer & IA Developer",
+  "hero_subtitle": "Desarrollador Full Stack · IA aplicada y automatización",
   "@hero_subtitle": {
     "description": "Subtítulo de la sección Hero."
   },
-  "hero_quote": "Me apasiona crear aplicaciones multiplataforma, automatizar procesos y seguir creciendo en DevOps. Además, disfruto explorar Linux, mantenerme al día con las últimas tecnologías y aprovechar la inteligencia artificial para potenciar cada proyecto.",
+  "hero_quote": "Ingeniero de Sistemas y Desarrollador Full Stack especializado en Flutter (Clean Architecture + BLoC) y Laravel. Apasionado por la IA aplicada y la automatización, con experiencia llevando software a producción mediante CI/CD y arquitecturas escalables.",
   "@hero_quote": {
     "description": "Sección de frase después del hero."
   },
-  "about_title": "Conoce mi historia",
+  "about_title": "Sobre mí",
   "@about_title": {
     "description": "Título de la sección About."
   },
-  "about_desc": "Me apasiona crear aplicaciones multiplataforma, automatizar procesos y seguir creciendo en DevOps. Además, disfruto explorar Linux, mantenerme al día con las últimas tecnologías y aprovechar la inteligencia artificial para potenciar cada proyecto.",
+  "about_desc": "Ingeniero de Sistemas y Desarrollador Full Stack especializado en Flutter (Clean Architecture + BLoC) y Laravel. Apasionado por la IA aplicada y la automatización, con experiencia liderando el ciclo completo de desarrollo y desplegando productos a producción con CI/CD y arquitecturas escalables.",
   "@about_desc": {
     "description": "Descripción de la sección About."
   },
@@ -231,5 +231,112 @@
   "certifications_subtitle": "Aprendizaje continuo y desarrollo profesional",
   "@certifications_subtitle": {
     "description": "Subtítulo de la sección de certificaciones."
-  }
+  },
+  "certifications": "Certificaciones",
+  "@certifications": {
+    "description": "Navigation label for the certifications section."
+  },
+  "knowledge": "Conocimientos",
+  "@knowledge": {
+    "description": "Heading for the knowledge and capabilities block."
+  },
+  "knowledge_desc": "Herramientas y prácticas que uso para construir, desplegar y operar software.",
+  "@knowledge_desc": {
+    "description": "Description for the knowledge block."
+  },
+  "theme_dark": "Activar modo oscuro",
+  "@theme_dark": {
+    "description": "Tooltip for the control that enables dark mode."
+  },
+  "theme_light": "Activar modo claro",
+  "@theme_light": {
+    "description": "Tooltip for the control that enables light mode."
+  },
+  "change_language": "Cambiar idioma",
+  "@change_language": {
+    "description": "Tooltip for the language toggle."
+  },
+  "medium": "Medium",
+  "@medium": {
+    "description": "Medium profile link label."
+  },
+  "published_skill": "Skill publicada",
+  "@published_skill": {
+    "description": "Eyebrow label for the featured published skill."
+  },
+  "view_skill": "Ver skill",
+  "@view_skill": {
+    "description": "Link label for the featured published skill."
+  },
+  "install_command": "Instalar",
+  "@install_command": {
+    "description": "Label before the skill install command."
+  },
+  "stats_certs": "+{count} certificaciones",
+  "@stats_certs": {
+    "description": "Certifications stat with placeholder for the count.",
+    "placeholders": {
+      "count": {}
+    }
+  },
+  "footer_rights": "Todos los derechos reservados.",
+  "@footer_rights": {
+    "description": "Footer copyright suffix."
+  },
+  "contact_desc": "Cuéntame sobre tu proyecto o simplemente saluda.",
+  "@contact_desc": {
+    "description": "Description inside the contact block."
+  },
+  "years_experience": "Años de experiencia",
+  "@years_experience": {
+    "description": "Stats panel label."
+  },
+  "github_repos": "Repositorios de GitHub",
+  "@github_repos": {
+    "description": "Stats panel label."
+  },
+  "impact": "Impacto",
+  "@impact": {
+    "description": "Stats panel eyebrow."
+  },
+  "experience": "Experiencia",
+  "@experience": {
+    "description": "Heading for the professional experience timeline."
+  },
+  "experience_desc": "Trayectoria construyendo productos, automatizando procesos y liderando iniciativas de IA.",
+  "@experience_desc": {
+    "description": "Description for the professional experience timeline."
+  },
+  "present": "Presente",
+  "@present": {
+    "description": "Label for an ongoing role in the experience timeline."
+  },
+  "tech_stack": "Stack técnico",
+  "@tech_stack": {
+    "description": "Heading for the grouped technical stack."
+  },
+  "tech_stack_desc": "Tecnologías que uso para construir, desplegar y operar software.",
+  "@tech_stack_desc": {
+    "description": "Description for the grouped technical stack."
+  },
+  "skill_group_ai": "IA & MCP",
+  "@skill_group_ai": {
+    "description": "Technical stack group for AI and MCP."
+  },
+  "skill_group_devops": "DevOps & Cloud",
+  "@skill_group_devops": {
+    "description": "Technical stack group for DevOps and cloud."
+  },
+  "skill_group_frontend": "Frontend & Móvil",
+  "@skill_group_frontend": {
+    "description": "Technical stack group for frontend and mobile."
+  },
+  "skill_group_backend": "Backend & Datos",
+  "@skill_group_backend": {
+    "description": "Technical stack group for backend and data."
+  },
+  "presentation_mode": "Iniciar presentación",
+  "presentation_previous": "Diapositiva anterior",
+  "presentation_next": "Diapositiva siguiente",
+  "presentation_close": "Cerrar presentación"
 }

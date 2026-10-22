@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:kharoldcanova/config/theme/brand_theme.dart';
 import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
 import 'package:kharoldcanova/l10n/app_localizations.dart';
+import 'package:kharoldcanova/screens/widgets/section_shell.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactWidget extends StatelessWidget {
@@ -9,180 +12,218 @@ class ContactWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
-    final colorScheme = Theme.of(context).colorScheme;
-    final isSmallScreen = MediaQuery.of(context).size.width < 1200;
+    final baseTheme = Theme.of(context);
+    final colorScheme = baseTheme.colorScheme;
+    final isDark = baseTheme.brightness == Brightness.dark;
+    final sectionForeground = isDark ? Colors.white : colorScheme.onPrimary;
+    final sectionBackground =
+        isDark ? BrandColors.darkContactBackground : colorScheme.primary;
     final repo = PortfolioRepository();
 
-    return Container(
-      width: double.infinity,
-      color: colorScheme.primary.withAlpha(15),
-      padding: const EdgeInsets.symmetric(vertical: 80),
-      child: Center(
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 1100),
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: isSmallScreen ? 24 : 40,
+    // Light mode keeps the blue contact block. Dark mode instead uses a
+    // deep-green terminal panel with white text for accessible contrast.
+    final contactTheme = baseTheme.copyWith(
+      colorScheme: colorScheme.copyWith(
+        primary: sectionForeground,
+        surface: Colors.transparent,
+        onSurface: sectionForeground,
+        onSurfaceVariant: sectionForeground.withValues(alpha: 0.82),
+        outline: sectionForeground.withValues(alpha: 0.4),
+        outlineVariant: sectionForeground.withValues(alpha: 0.4),
+      ),
+      textTheme: baseTheme.textTheme.apply(
+        bodyColor: sectionForeground,
+        displayColor: sectionForeground,
+      ),
+    );
+
+    return Theme(
+      data: contactTheme,
+      child: SectionContainer(
+        background: sectionBackground,
+        topBorder: true,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SectionHeader(
+              index: '05',
+              title: t.contact,
+              description: t.contact_desc,
             ),
-            child: Column(
-              children: [
-                Text(
-                  t.work_with_me,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontSize: isSmallScreen ? 28 : 36,
-                    fontWeight: FontWeight.bold,
-                    color: colorScheme.onSurface,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 700),
-                  child: Text(
-                    t.portfolio_desc,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: 16,
-                      height: 1.7,
-                      color: colorScheme.onSurface.withAlpha(180),
+            const SizedBox(height: BrandTheme.spaceXL),
+            Text(
+              t.work_with_me,
+              style: contactTheme.textTheme.headlineLarge,
+            ),
+            const SizedBox(height: BrandTheme.spaceXL),
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final isWide = constraints.maxWidth >= 760;
+                final cards = [
+                  _ContactCard(
+                    icon: Icons.email_outlined,
+                    label: t.email,
+                    value: repo.getEmail(),
+                    onTap: () => launchUrl(
+                      Uri.https('mail.google.com', '/mail/', {
+                        'view': 'cm',
+                        'fs': '1',
+                        'to': repo.getEmail(),
+                      }),
+                      mode: LaunchMode.externalApplication,
+                      webOnlyWindowName: '_blank',
                     ),
                   ),
-                ),
-                const SizedBox(height: 56),
-                if (isSmallScreen)
-                  Column(
-                    children: [
-                      _ContactCard(
-                        icon: Icons.email_outlined,
-                        label: t.email,
-                        value: repo.getEmail(),
-                        colorScheme: colorScheme,
+                  _ContactCard(
+                    icon: Icons.phone_outlined,
+                    label: t.phones,
+                    value: repo.getPhone(),
+                    onTap: () => launchUrl(
+                      Uri(
+                        scheme: 'tel',
+                        path: repo.getPhone().replaceAll(' ', ''),
                       ),
-                      const SizedBox(height: 20),
-                      _ContactCard(
-                        icon: Icons.phone_outlined,
-                        label: t.phones,
-                        value: repo.getPhone(),
-                        colorScheme: colorScheme,
-                      ),
-                    ],
-                  )
-                else
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _ContactCard(
-                        icon: Icons.email_outlined,
-                        label: t.email,
-                        value: repo.getEmail(),
-                        colorScheme: colorScheme,
-                      ),
-                      const SizedBox(width: 32),
-                      _ContactCard(
-                        icon: Icons.phone_outlined,
-                        label: t.phones,
-                        value: repo.getPhone(),
-                        colorScheme: colorScheme,
-                      ),
-                    ],
-                  ),
-                const SizedBox(height: 56),
-                FilledButton.icon(
-                  onPressed: () {
-                    launchUrl(
-                      Uri.parse('https://mail.google.com/mail/?view=cm&fs=1&to=kharoldcanova@gmail.com'),
-                    );
-                  },
-                  icon: const Icon(Icons.send_outlined),
-                  label: Text(t.send_me_an_email),
-                  style: FilledButton.styleFrom(
-                    minimumSize: const Size(240, 52),
-                    backgroundColor: colorScheme.primary,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                      mode: LaunchMode.externalApplication,
                     ),
                   ),
-                ),
-              ],
+                ];
+
+                if (!isWide) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      cards.first,
+                      const SizedBox(height: BrandTheme.spaceMD),
+                      cards.last,
+                    ],
+                  );
+                }
+
+                return Row(
+                  children: [
+                    Expanded(child: cards.first),
+                    const SizedBox(width: BrandTheme.spaceMD),
+                    Expanded(child: cards.last),
+                  ],
+                );
+              },
             ),
-          ),
+            const SizedBox(height: BrandTheme.spaceXL),
+            Text(
+              t.profile_expertise,
+              style: BrandTextStyles.mono(
+                fontSize: 12,
+                color: contactTheme.colorScheme.onSurfaceVariant,
+                letterSpacing: 0.8,
+              ),
+            ),
+          ],
         ),
       ),
     );
   }
 }
 
-class _ContactCard extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final String value;
-  final ColorScheme colorScheme;
-
+class _ContactCard extends StatefulWidget {
   const _ContactCard({
     required this.icon,
     required this.label,
     required this.value,
-    required this.colorScheme,
+    required this.onTap,
   });
+
+  final IconData icon;
+  final String label;
+  final String value;
+  final VoidCallback onTap;
+
+  @override
+  State<_ContactCard> createState() => _ContactCardState();
+}
+
+class _ContactCardState extends State<_ContactCard> {
+  bool _hovered = false;
+  bool _focused = false;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 340,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: colorScheme.surface,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: colorScheme.outline.withAlpha(40),
-        ),
-      ),
-      child: Row(
-        children: [
-          Container(
-            width: 52,
-            height: 52,
-            decoration: BoxDecoration(
-              color: colorScheme.primary.withAlpha(20),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(
-              icon,
-              color: colorScheme.primary,
-              size: 24,
-            ),
-          ),
-          const SizedBox(width: 18),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: colorScheme.onSurface.withAlpha(150),
-                  ),
-                ),
-                const SizedBox(height: 6),
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  alignment: Alignment.centerLeft,
-                  child: SelectableText(
-                    value,
-                    maxLines: 1,
-                    style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w600,
-                      color: colorScheme.onSurface,
+    final colorScheme = Theme.of(context).colorScheme;
+    final borderColor =
+        _hovered || _focused ? colorScheme.primary : colorScheme.outline;
+
+    return CallbackShortcuts(
+      bindings: <ShortcutActivator, VoidCallback>{
+        const SingleActivator(LogicalKeyboardKey.enter): widget.onTap,
+        const SingleActivator(LogicalKeyboardKey.space): widget.onTap,
+      },
+      child: Focus(
+        onFocusChange: (value) => setState(() => _focused = value),
+        child: MouseRegion(
+          cursor: SystemMouseCursors.click,
+          onEnter: (_) => setState(() => _hovered = true),
+          onExit: (_) => setState(() => _hovered = false),
+          child: GestureDetector(
+            onTap: widget.onTap,
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 180),
+              padding: const EdgeInsets.all(BrandTheme.spaceLG),
+              decoration: BoxDecoration(
+                color: colorScheme.surface,
+                borderRadius: BorderRadius.circular(BrandTheme.radiusLG),
+                border: Border.all(color: borderColor, width: 1),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(BrandTheme.radius),
+                      border: Border.all(
+                        color: colorScheme.outlineVariant,
+                        width: 1,
+                      ),
+                    ),
+                    child: Icon(
+                      widget.icon,
+                      size: 18,
+                      color: colorScheme.primary,
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(width: BrandTheme.spaceMD),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.label.toUpperCase(),
+                          style: BrandTextStyles.mono(
+                            fontSize: 11,
+                            color: colorScheme.onSurfaceVariant,
+                            letterSpacing: 1,
+                          ),
+                        ),
+                        const SizedBox(height: BrandTheme.spaceXS),
+                        Text(
+                          widget.value,
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall
+                              ?.copyWith(fontWeight: FontWeight.w500),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_outward,
+                    size: 16,
+                    color: colorScheme.onSurfaceVariant,
+                  ),
+                ],
+              ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
