@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kharoldcanova/config/theme/brand_theme.dart';
 import 'package:kharoldcanova/config/theme/portfolio_tokens.dart';
+import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
 import 'package:kharoldcanova/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -33,24 +35,36 @@ class HeroWidget extends StatelessWidget {
     super.key,
     required this.cvUrl,
     required this.onContact,
+    required this.onExploreAi,
     required this.height,
   });
 
   final String cvUrl;
   final VoidCallback onContact;
+  final VoidCallback onExploreAi;
   final double height;
 
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
+    final repo = PortfolioRepository();
     final tokens = Theme.of(context).extension<PortfolioTokens>()!;
     final width = MediaQuery.sizeOf(context).width;
     final isMobile = width < 1200;
+    final isCompact = width < 700;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final image =
         isMobile ? 'assets/hero-mobile.webp' : 'assets/hero-desktop.webp';
     final heroFont = isDark ? BrandTheme.monoFamily : BrandTheme.fontFamily;
+
+    // Desktop sits over the dark mountains and keeps the on-image roles.
+    // Compact layouts sit over the light sky, so they switch to ink roles.
+    final colorScheme = Theme.of(context).colorScheme;
+    final heroForeground = isMobile ? colorScheme.onSurface : tokens.onImage;
+    final heroMuted =
+        isMobile ? colorScheme.onSurfaceVariant : tokens.onImageMuted;
+    final heroBorder = isMobile ? colorScheme.outline : tokens.onImageBorder;
 
     final nameSize = isMobile ? 36.0 : 80.0;
     final roleSize = isMobile ? 20.0 : 38.0;
@@ -65,7 +79,7 @@ class HeroWidget extends StatelessWidget {
         children: [
           if (isDark)
             const ColoredBox(color: Colors.black)
-          else ...[
+          else
             Image.asset(
               image,
               fit: BoxFit.cover,
@@ -76,7 +90,6 @@ class HeroWidget extends StatelessWidget {
                 );
               },
             ),
-          ],
           Align(
             alignment: isMobile ? Alignment.centerLeft : Alignment.bottomLeft,
             child: Padding(
@@ -84,11 +97,11 @@ class HeroWidget extends StatelessWidget {
                 horizontal,
                 0,
                 horizontal,
-                isMobile ? BrandTheme.space2XL : 96,
+                isMobile ? BrandTheme.spaceLG : 80,
               ),
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                  maxWidth: isMobile ? 460 : 820,
+                  maxWidth: isMobile ? 460 : 860,
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -104,7 +117,7 @@ class HeroWidget extends StatelessWidget {
                           height: 1,
                           fontWeight: FontWeight.w500,
                           letterSpacing: isMobile ? -0.8 : -1.6,
-                          color: tokens.onImage,
+                          color: heroForeground,
                         ),
                       ),
                     ),
@@ -113,55 +126,276 @@ class HeroWidget extends StatelessWidget {
                           ? BrandTheme.spaceSM
                           : BrandTheme.spaceSM + 4,
                     ),
+                    Semantics(
+                      header: true,
+                      child: Text(
+                        t.hero_subtitle,
+                        style: TextStyle(
+                          fontFamily: heroFont,
+                          fontSize: roleSize,
+                          height: 1.1,
+                          fontWeight: FontWeight.w400,
+                          letterSpacing: isMobile ? 0 : -0.5,
+                          color: heroMuted,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: BrandTheme.spaceSM + 4),
                     Text(
-                      t.hero_subtitle,
-                      style: TextStyle(
-                        fontFamily: heroFont,
-                        fontSize: roleSize,
-                        height: 1.1,
-                        fontWeight: FontWeight.w400,
-                        letterSpacing: isMobile ? 0 : -0.5,
-                        color: tokens.onImageMuted,
+                      t.hero_eyebrow,
+                      style: BrandTextStyles.mono(
+                        fontSize: 11,
+                        weight: FontWeight.w500,
+                        color: heroMuted,
+                        letterSpacing: 1.2,
                       ),
                     ),
                     SizedBox(
                       height:
                           isMobile ? BrandTheme.spaceLG : BrandTheme.spaceXL,
                     ),
-                    Wrap(
-                      spacing: BrandTheme.spaceSM + 4,
-                      runSpacing: BrandTheme.spaceSM + 4,
-                      children: [
-                        ElevatedButton.icon(
-                          onPressed: () => launchUrl(
-                            Uri.base.resolve(cvUrl),
-                            mode: LaunchMode.externalApplication,
-                            webOnlyWindowName: '_blank',
-                          ),
-                          icon: const Icon(Icons.download_outlined, size: 18),
-                          label: Text(t.download_cv),
-                        ),
-                        OutlinedButton.icon(
-                          onPressed: onContact,
-                          icon: const Icon(Icons.mail_outline, size: 18),
-                          label: Text(t.contact_me),
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: tokens.onImage,
-                            side: BorderSide(
-                              color: tokens.onImageBorder,
-                              width: 1,
-                            ),
-                            backgroundColor: Colors.transparent,
-                          ),
-                        ),
-                      ],
+                    _HeroActions(
+                      cvUrl: cvUrl,
+                      foreground: heroForeground,
+                      borderColor: heroBorder,
+                      onContact: onContact,
+                      onExploreAi: onExploreAi,
+                      showContact: !isCompact,
+                      showSocials: isMobile,
+                      socialUrls: (
+                        github: repo.getGithub(),
+                        linkedin: repo.getLinkedin(),
+                        email: repo.getEmail(),
+                      ),
                     ),
                   ],
                 ),
               ),
             ),
           ),
+          if (!isMobile)
+            Positioned(
+              right: BrandTheme.gutterDesktop,
+              bottom: 80,
+              child: _HeroSocialRail(
+                foreground: heroForeground,
+                borderColor: heroBorder,
+                githubUrl: repo.getGithub(),
+                linkedinUrl: repo.getLinkedin(),
+                email: repo.getEmail(),
+              ),
+            ),
         ],
+      ),
+    );
+  }
+}
+
+class _HeroActions extends StatelessWidget {
+  const _HeroActions({
+    required this.cvUrl,
+    required this.foreground,
+    required this.borderColor,
+    required this.onContact,
+    required this.onExploreAi,
+    required this.showContact,
+    required this.showSocials,
+    required this.socialUrls,
+  });
+
+  final String cvUrl;
+  final Color foreground;
+  final Color borderColor;
+  final VoidCallback onContact;
+  final VoidCallback onExploreAi;
+  final bool showContact;
+  final bool showSocials;
+  final ({String github, String linkedin, String email}) socialUrls;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+
+    return Wrap(
+      spacing: BrandTheme.spaceSM + 4,
+      runSpacing: BrandTheme.spaceSM + 4,
+      crossAxisAlignment: WrapCrossAlignment.center,
+      children: [
+        ElevatedButton.icon(
+          key: const Key('hero-cv'),
+          onPressed: () => launchUrl(
+            Uri.base.resolve(cvUrl),
+            mode: LaunchMode.externalApplication,
+            webOnlyWindowName: '_blank',
+          ),
+          icon: const Icon(Icons.download_outlined, size: 18),
+          label: Text(t.download_cv),
+        ),
+        OutlinedButton.icon(
+          key: const Key('hero-explore-ai'),
+          onPressed: onExploreAi,
+          icon: const Icon(Icons.auto_awesome_outlined, size: 18),
+          label: Text(t.hero_explore_ai),
+          style: _outlinedOnImage(),
+        ),
+        if (showContact)
+          OutlinedButton.icon(
+            key: const Key('hero-contact'),
+            onPressed: onContact,
+            icon: const Icon(Icons.mail_outline, size: 18),
+            label: Text(t.contact_me),
+            style: _outlinedOnImage(),
+          ),
+        if (showSocials) ...[
+          _HeroIconLink(
+            key: const Key('hero-github'),
+            tooltip: 'GitHub',
+            color: foreground,
+            borderColor: borderColor,
+            icon: const FaIcon(FontAwesomeIcons.github, size: 18),
+            onPressed: () => _open(socialUrls.github),
+          ),
+          _HeroIconLink(
+            key: const Key('hero-linkedin'),
+            tooltip: 'LinkedIn',
+            color: foreground,
+            borderColor: borderColor,
+            icon: const FaIcon(FontAwesomeIcons.linkedin, size: 18),
+            onPressed: () => _open(socialUrls.linkedin),
+          ),
+        ],
+      ],
+    );
+  }
+
+  ButtonStyle _outlinedOnImage() {
+    return OutlinedButton.styleFrom(
+      foregroundColor: foreground,
+      side: BorderSide(color: borderColor, width: 1),
+      backgroundColor: Colors.transparent,
+    );
+  }
+
+  void _open(String url) {
+    launchUrl(
+      Uri.parse(url),
+      mode: LaunchMode.externalApplication,
+      webOnlyWindowName: '_blank',
+    );
+  }
+}
+
+class _HeroSocialRail extends StatelessWidget {
+  const _HeroSocialRail({
+    required this.foreground,
+    required this.borderColor,
+    required this.githubUrl,
+    required this.linkedinUrl,
+    required this.email,
+  });
+
+  final Color foreground;
+  final Color borderColor;
+  final String githubUrl;
+  final String linkedinUrl;
+  final String email;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _HeroIconLink(
+          key: const Key('hero-github-rail'),
+          tooltip: 'GitHub',
+          color: foreground,
+          borderColor: borderColor,
+          icon: const FaIcon(FontAwesomeIcons.github, size: 18),
+          onPressed: () => launchUrl(
+            Uri.parse(githubUrl),
+            mode: LaunchMode.externalApplication,
+            webOnlyWindowName: '_blank',
+          ),
+        ),
+        const SizedBox(height: BrandTheme.spaceSM),
+        _HeroIconLink(
+          key: const Key('hero-linkedin-rail'),
+          tooltip: 'LinkedIn',
+          color: foreground,
+          borderColor: borderColor,
+          icon: const FaIcon(FontAwesomeIcons.linkedin, size: 18),
+          onPressed: () => launchUrl(
+            Uri.parse(linkedinUrl),
+            mode: LaunchMode.externalApplication,
+            webOnlyWindowName: '_blank',
+          ),
+        ),
+        const SizedBox(height: BrandTheme.spaceSM),
+        _HeroIconLink(
+          key: const Key('hero-email-rail'),
+          tooltip: AppLocalizations.of(context)!.email,
+          color: foreground,
+          borderColor: borderColor,
+          icon: const Icon(Icons.mail_outline, size: 18),
+          onPressed: () => launchUrl(
+            Uri(scheme: 'mailto', path: email),
+            mode: LaunchMode.externalApplication,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _HeroIconLink extends StatelessWidget {
+  const _HeroIconLink({
+    super.key,
+    required this.tooltip,
+    required this.color,
+    required this.borderColor,
+    required this.icon,
+    required this.onPressed,
+  });
+
+  final String tooltip;
+  final Color color;
+  final Color borderColor;
+  final Widget icon;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: tooltip,
+      child: IconButton(
+        onPressed: onPressed,
+        icon: icon,
+        color: color,
+        style: ButtonStyle(
+          minimumSize: const WidgetStatePropertyAll(Size(44, 44)),
+          padding: const WidgetStatePropertyAll(EdgeInsets.zero),
+          foregroundColor: WidgetStatePropertyAll(color),
+          overlayColor: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.focused)) {
+              return color.withValues(alpha: 0.2);
+            }
+            if (states.contains(WidgetState.hovered)) {
+              return color.withValues(alpha: 0.1);
+            }
+            return null;
+          }),
+          side: WidgetStateProperty.resolveWith((states) {
+            if (states.contains(WidgetState.focused)) {
+              return BorderSide(color: color, width: 2);
+            }
+            return BorderSide(color: borderColor, width: 1);
+          }),
+          shape: WidgetStatePropertyAll(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(BrandTheme.radius),
+            ),
+          ),
+        ),
       ),
     );
   }

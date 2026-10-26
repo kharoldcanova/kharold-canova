@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kharoldcanova/config/theme/brand_theme.dart';
 import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
 import 'package:kharoldcanova/l10n/app_localizations.dart';
@@ -46,7 +47,7 @@ class ContactWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SectionHeader(
-              index: '05',
+              index: '06',
               title: t.contact,
               description: t.contact_desc,
             ),
@@ -61,7 +62,7 @@ class ContactWidget extends StatelessWidget {
                 final isWide = constraints.maxWidth >= 760;
                 final cards = [
                   _ContactCard(
-                    icon: Icons.email_outlined,
+                    icon: const Icon(Icons.email_outlined),
                     label: t.email,
                     value: repo.getEmail(),
                     onTap: () => launchUrl(
@@ -75,7 +76,7 @@ class ContactWidget extends StatelessWidget {
                     ),
                   ),
                   _ContactCard(
-                    icon: Icons.phone_outlined,
+                    icon: const Icon(Icons.phone_outlined),
                     label: t.phones,
                     value: repo.getPhone(),
                     onTap: () => launchUrl(
@@ -86,24 +87,41 @@ class ContactWidget extends StatelessWidget {
                       mode: LaunchMode.externalApplication,
                     ),
                   ),
+                  _ContactCard(
+                    key: const Key('contact-github'),
+                    icon: const FaIcon(FontAwesomeIcons.github),
+                    label: 'GitHub',
+                    value: repo.getGithub().replaceFirst('https://', ''),
+                    onTap: () => launchUrl(
+                      Uri.parse(repo.getGithub()),
+                      mode: LaunchMode.externalApplication,
+                      webOnlyWindowName: '_blank',
+                    ),
+                  ),
+                  _ContactCard(
+                    key: const Key('contact-linkedin'),
+                    icon: const FaIcon(FontAwesomeIcons.linkedin),
+                    label: 'LinkedIn',
+                    value: repo.getLinkedin().replaceFirst('https://', ''),
+                    onTap: () => launchUrl(
+                      Uri.parse(repo.getLinkedin()),
+                      mode: LaunchMode.externalApplication,
+                      webOnlyWindowName: '_blank',
+                    ),
+                  ),
                 ];
 
-                if (!isWide) {
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      cards.first,
-                      const SizedBox(height: BrandTheme.spaceMD),
-                      cards.last,
-                    ],
-                  );
-                }
+                final columns = isWide ? 2 : 1;
+                const gap = BrandTheme.spaceMD;
+                final width =
+                    (constraints.maxWidth - gap * (columns - 1)) / columns;
 
-                return Row(
+                return Wrap(
+                  spacing: gap,
+                  runSpacing: gap,
                   children: [
-                    Expanded(child: cards.first),
-                    const SizedBox(width: BrandTheme.spaceMD),
-                    Expanded(child: cards.last),
+                    for (final card in cards)
+                      SizedBox(width: width, child: card),
                   ],
                 );
               },
@@ -126,13 +144,14 @@ class ContactWidget extends StatelessWidget {
 
 class _ContactCard extends StatefulWidget {
   const _ContactCard({
+    super.key,
     required this.icon,
     required this.label,
     required this.value,
     required this.onTap,
   });
 
-  final IconData icon;
+  final Widget icon;
   final String label;
   final String value;
   final VoidCallback onTap;
@@ -184,10 +203,12 @@ class _ContactCardState extends State<_ContactCard> {
                         width: 1,
                       ),
                     ),
-                    child: Icon(
-                      widget.icon,
-                      size: 18,
-                      color: colorScheme.primary,
+                    child: IconTheme(
+                      data: IconThemeData(
+                        color: colorScheme.primary,
+                        size: 18,
+                      ),
+                      child: Center(child: widget.icon),
                     ),
                   ),
                   const SizedBox(width: BrandTheme.spaceMD),

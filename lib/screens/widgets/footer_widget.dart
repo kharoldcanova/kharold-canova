@@ -25,8 +25,10 @@ class FooterWidget extends StatelessWidget {
           ),
     );
 
-    final socials = Row(
-      mainAxisSize: MainAxisSize.min,
+    final socials = Wrap(
+      spacing: BrandTheme.spaceSM,
+      runSpacing: BrandTheme.spaceSM,
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         _SocialIcon(
           tooltip: t.email,
@@ -36,7 +38,6 @@ class FooterWidget extends StatelessWidget {
             mode: LaunchMode.externalApplication,
           ),
         ),
-        const SizedBox(width: BrandTheme.spaceSM),
         _SocialIcon(
           tooltip: 'GitHub',
           icon: const FaIcon(FontAwesomeIcons.github, size: 18),
@@ -46,7 +47,6 @@ class FooterWidget extends StatelessWidget {
             webOnlyWindowName: '_blank',
           ),
         ),
-        const SizedBox(width: BrandTheme.spaceSM),
         _SocialIcon(
           tooltip: 'LinkedIn',
           icon: const FaIcon(FontAwesomeIcons.linkedin, size: 18),
@@ -56,8 +56,7 @@ class FooterWidget extends StatelessWidget {
             webOnlyWindowName: '_blank',
           ),
         ),
-        if (mediumUrl != null) ...[
-          const SizedBox(width: BrandTheme.spaceSM),
+        if (mediumUrl != null)
           _SocialIcon(
             tooltip: t.medium,
             icon: const FaIcon(FontAwesomeIcons.medium, size: 18),
@@ -67,7 +66,27 @@ class FooterWidget extends StatelessWidget {
               webOnlyWindowName: '_blank',
             ),
           ),
-        ],
+        OutlinedButton.icon(
+          key: const Key('footer-cv'),
+          onPressed: () => launchUrl(
+            Uri.base.resolve(repo.getCvUrl()),
+            mode: LaunchMode.externalApplication,
+            webOnlyWindowName: '_blank',
+          ),
+          icon: const Icon(Icons.download_outlined, size: 17),
+          label: Text(t.footer_cv),
+          style: OutlinedButton.styleFrom(
+            foregroundColor: colorScheme.onSurface,
+            side: BorderSide(color: colorScheme.outlineVariant, width: 1),
+            minimumSize: const Size(0, 40),
+            padding: const EdgeInsets.symmetric(
+              horizontal: BrandTheme.spaceMD,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(BrandTheme.radius),
+            ),
+          ),
+        ),
       ],
     );
 
