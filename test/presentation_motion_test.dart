@@ -20,7 +20,7 @@ void main() {
 
   Future<void> pumpPortfolio(WidgetTester tester) async {
     tester.view.devicePixelRatio = 1;
-    tester.view.physicalSize = const Size(1300, 900);
+    tester.view.physicalSize = const Size(1400, 900);
     addTearDown(tester.view.resetDevicePixelRatio);
     addTearDown(tester.view.resetPhysicalSize);
     await tester.pumpWidget(const MainApp());

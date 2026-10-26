@@ -30,6 +30,7 @@ void main() {
     expect(find.byKey(const Key('terminal-window-maximize')), findsOneWidget);
     expect(find.byType(HeroWidget), findsNothing);
     for (final tab in [
+      'ai',
       'about',
       'skills',
       'projects',

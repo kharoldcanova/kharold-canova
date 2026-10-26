@@ -45,7 +45,7 @@ void main() {
 
   group('header optional Medium control', () {
     testWidgets('is hidden when no URL is configured', (tester) async {
-      useWidth(tester, 1300);
+      useWidth(tester, 1400);
       await tester.pumpWidget(
         harness(
           Scaffold(
@@ -64,7 +64,7 @@ void main() {
     });
 
     testWidgets('renders when a URL is supplied', (tester) async {
-      useWidth(tester, 1300);
+      useWidth(tester, 1400);
       await tester.pumpWidget(
         harness(
           Scaffold(

@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kharoldcanova/config/theme/brand_theme.dart';
+import 'package:kharoldcanova/config/theme/portfolio_tokens.dart';
 import 'package:kharoldcanova/config/theme/theme_preferences.dart';
 import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
 import 'package:kharoldcanova/main.dart';
+import 'package:kharoldcanova/screens/widgets/about_skills_widget.dart';
+import 'package:kharoldcanova/screens/widgets/ai_systems_widget.dart';
 import 'package:kharoldcanova/screens/widgets/contact_widget.dart';
 import 'package:kharoldcanova/screens/widgets/experience_timeline.dart';
 import 'package:kharoldcanova/screens/widgets/header_widget.dart';
@@ -81,6 +84,94 @@ void main() {
     expect(find.text('Kharold Canova'), findsOneWidget);
     expect(find.byType(CircleAvatar), findsNothing);
     expect(find.text('Descargar CV'), findsOneWidget);
+  });
+
+  testWidgets('AI section is the first content block and precedes about',
+      (tester) async {
+    await pumpApp(tester, size: const Size(1300, 900));
+
+    final aiTop = tester.getTopLeft(find.byType(AISystemsWidget)).dy;
+    final aboutTop = tester.getTopLeft(find.byType(AboutSkillsWidget)).dy;
+    expect(aiTop, lessThan(aboutTop));
+
+    for (final project in <String>['ia-sql', 'Alma', 'LAIN']) {
+      expect(
+        find.descendant(
+          of: find.byType(AISystemsWidget),
+          matching: find.text(project),
+        ),
+        findsOneWidget,
+        reason: project,
+      );
+      expect(find.byKey(Key('ai-project-link-$project')), findsOneWidget);
+    }
+  });
+
+  testWidgets('hero surfaces the applied AI role and key links',
+      (tester) async {
+    await pumpApp(tester, size: const Size(1300, 900));
+
+    expect(
+      find.text('Ingeniero de Sistemas, Full-Stack y Applied AI Engineer'),
+      findsOneWidget,
+    );
+    expect(find.text('RAG · AGENTES · NL2SQL · MULTIMODAL'), findsOneWidget);
+    expect(find.text('Explorar sistemas de IA'), findsOneWidget);
+
+    for (final key in <String>[
+      'hero-cv',
+      'hero-github-rail',
+      'hero-linkedin-rail',
+    ]) {
+      expect(find.byKey(Key(key)), findsOneWidget, reason: key);
+    }
+  });
+
+  testWidgets('mobile hero keeps GitHub and LinkedIn reachable',
+      (tester) async {
+    await pumpApp(tester);
+
+    for (final key in <String>['hero-github', 'hero-linkedin']) {
+      expect(find.byKey(Key(key)), findsOneWidget, reason: key);
+    }
+    expect(find.byKey(const Key('hero-github-rail')), findsNothing);
+  });
+
+  testWidgets('compact hero uses ink roles over the light wallpaper sky',
+      (tester) async {
+    await pumpApp(tester);
+
+    final scaffold = tester.element(find.byType(Scaffold));
+    final name = tester.widget<Text>(find.text('Kharold Canova'));
+    expect(name.style?.color, Theme.of(scaffold).colorScheme.onSurface);
+  });
+
+  testWidgets('desktop hero keeps on-image roles over the mountains',
+      (tester) async {
+    await pumpApp(tester, size: const Size(1300, 900));
+
+    final scaffold = tester.element(find.byType(Scaffold));
+    final tokens = Theme.of(scaffold).extension<PortfolioTokens>()!;
+    final name = tester.widget<Text>(find.text('Kharold Canova'));
+    expect(name.style?.color, tokens.onImage);
+  });
+
+  testWidgets('hero AI action scrolls to the AI section and marks it active',
+      (tester) async {
+    await pumpApp(tester, size: const Size(1300, 900));
+
+    await tester.tap(find.byKey(const Key('hero-explore-ai')));
+    await tester.pumpAndSettle();
+
+    expect(underlineColor(tester, 'IA'), const Color(0xFF0033CC));
+  });
+
+  testWidgets('contact exposes GitHub and LinkedIn next to email and phone',
+      (tester) async {
+    await pumpApp(tester, size: const Size(1300, 900));
+
+    expect(find.byKey(const Key('contact-github')), findsOneWidget);
+    expect(find.byKey(const Key('contact-linkedin')), findsOneWidget);
   });
 
   testWidgets('hero stays shorter than the viewport on mobile and desktop',
@@ -224,12 +315,13 @@ void main() {
     expect(prefs.getString(ThemePreferences.storageKey), 'dark');
   });
 
-  testWidgets('desktop navigation exposes five labels and scrolls to projects',
+  testWidgets('desktop navigation exposes six labels and scrolls to projects',
       (tester) async {
     await pumpApp(tester, size: const Size(1300, 900));
 
     for (final label in <String>[
       'Inicio',
+      'IA',
       'Sobre mí',
       'Proyectos',
       'Certificaciones',
@@ -309,9 +401,9 @@ void main() {
       (tester) async {
     await pumpApp(tester, size: const Size(1300, 900));
 
-    // Over the hero the active underline uses the on-image token so it stays
-    // legible against the illustration.
-    expect(underlineColor(tester, 'Inicio'), const Color(0xFFFFFFFF));
+    // The wallpaper stays bright at the top, so the header uses the regular
+    // text/primary roles over the hero instead of white-on-image.
+    expect(underlineColor(tester, 'Inicio'), const Color(0xFF0033CC));
     expect(underlineColor(tester, 'Proyectos'), Colors.transparent);
 
     await tester.tap(headerText('Proyectos'));
@@ -390,6 +482,7 @@ void main() {
     expect(find.byType(Drawer), findsOneWidget);
     for (final label in <String>[
       'Inicio',
+      'IA',
       'Sobre mí',
       'Proyectos',
       'Certificaciones',
@@ -442,6 +535,7 @@ void main() {
 
     const labels = <String>[
       'Inicio',
+      'IA',
       'Sobre mí',
       'Proyectos',
       'Certificaciones',
@@ -476,6 +570,7 @@ void main() {
             reason: 'dark mode uses terminal navigation at $label',
           );
           for (final destination in [
+            'ai',
             'about',
             'skills',
             'projects',
