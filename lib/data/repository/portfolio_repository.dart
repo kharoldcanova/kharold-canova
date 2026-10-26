@@ -130,7 +130,65 @@ class PortfolioRepository {
   /// Set this when the owner provides the published skill details.
   PublishedSkill? getPublishedSkill() => null;
 
+  /// Curated order for the Applied AI section. These projects lead the
+  /// portfolio regardless of how the full project list is sorted.
+  static const featuredAiTitles = <String>['ia-sql', 'Alma', 'LAIN'];
+
+  List<Project> getFeaturedAiProjects() {
+    final projects = getProjects();
+    return [
+      for (final title in featuredAiTitles)
+        ...projects.where((project) => project.title == title),
+    ];
+  }
+
   List<Project> getProjects() => [
+        const Project(
+          title: 'ia-sql',
+          description:
+              'RAG de lenguaje natural a SQL (NL2SQL) sobre un esquema real, con guardas de solo lectura.',
+          descriptionEn:
+              'Natural-language-to-SQL (NL2SQL) RAG over a real schema, with read-only safeguards.',
+          techStack: ['RAG', 'NL2SQL', 'SQL', 'Read-only guard'],
+          techStackEn: ['RAG', 'NL2SQL', 'SQL', 'Read-only safeguards'],
+          category: 'IA',
+          categoryEn: 'AI',
+          repoUrl: 'https://github.com/kharoldcanova/ia-sql',
+          impact: 'Preguntas en lenguaje natural → SQL seguro, sin escrituras accidentales.',
+          impactEn:
+              'Natural-language questions → safe SQL, with no accidental writes.',
+          icon: Icons.storage_outlined,
+        ),
+        const Project(
+          title: 'Alma',
+          description:
+              'Asistente de IA local desarrollado en Python, con más de 2.5k líneas y 36 pruebas automatizadas.',
+          descriptionEn:
+              'Local AI assistant built in Python, with over 2.5k lines of code and 36 automated tests.',
+          techStack: ['Python', 'IA local', 'TFLite', '36 tests'],
+          techStackEn: ['Python', 'Local AI', 'TFLite', '36 tests'],
+          category: 'IA',
+          categoryEn: 'AI',
+          repoUrl: 'https://github.com/kharoldcanova/alma',
+          impact: '2.5k+ líneas · 36 pruebas automatizadas · 100% local.',
+          impactEn: '2.5k+ lines · 36 automated tests · 100% local.',
+          icon: Icons.psychology_outlined,
+        ),
+        const Project(
+          title: 'LAIN',
+          description:
+              'Asistente de IA local multimodal para Android: Whisper (STT) → MiniCPM-V (LLM) → Kokoro (TTS) sobre llama.cpp, 100% offline con consciencia funcional y fine-tuning QLoRA/Unsloth.',
+          descriptionEn:
+              'Local multimodal AI assistant for Android: Whisper (STT) → MiniCPM-V (LLM) → Kokoro (TTS) on llama.cpp, fully offline with functional consciousness and QLoRA/Unsloth fine-tuning.',
+          techStack: ['Flutter', 'llama.cpp', 'MiniCPM-V', 'Whisper', 'Kokoro', 'QLoRA', 'Python', 'Offline'],
+          techStackEn: ['Flutter', 'llama.cpp', 'MiniCPM-V', 'Whisper', 'Kokoro', 'QLoRA', 'Python', 'Offline'],
+          category: 'IA',
+          categoryEn: 'AI',
+          repoUrl: 'https://github.com/kharoldcanova/lain',
+          impact: 'Voz y visión en el dispositivo: ~3 GB de RAM, cero nube.',
+          impactEn: 'Voice and vision on-device: ~3 GB of RAM, zero cloud.',
+          icon: Icons.devices_outlined,
+        ),
         const Project(
           title: 'design-md',
           description:
@@ -167,45 +225,6 @@ class PortfolioRepository {
           category: 'Proyecto interno',
           categoryEn: 'Internal project',
           icon: Icons.account_balance_wallet_outlined,
-        ),
-        const Project(
-          title: 'Alma',
-          description:
-              'Asistente de IA local desarrollado en Python, con más de 2.5k líneas y 36 pruebas automatizadas.',
-          descriptionEn:
-              'Local AI assistant built in Python, with over 2.5k lines of code and 36 automated tests.',
-          techStack: ['Python', 'IA local', 'TFLite', '36 tests'],
-          techStackEn: ['Python', 'Local AI', 'TFLite', '36 tests'],
-          category: 'IA',
-          categoryEn: 'AI',
-          repoUrl: 'https://github.com/kharoldcanova/alma',
-          icon: Icons.psychology_outlined,
-        ),
-        const Project(
-          title: 'ia-sql',
-          description:
-              'RAG de lenguaje natural a SQL (NL2SQL) sobre un esquema real, con guardas de solo lectura.',
-          descriptionEn:
-              'Natural-language-to-SQL (NL2SQL) RAG over a real schema, with read-only safeguards.',
-          techStack: ['RAG', 'NL2SQL', 'SQL', 'Read-only guard'],
-          techStackEn: ['RAG', 'NL2SQL', 'SQL', 'Read-only safeguards'],
-          category: 'IA',
-          categoryEn: 'AI',
-          repoUrl: 'https://github.com/kharoldcanova/ia-sql',
-          icon: Icons.storage_outlined,
-        ),
-        const Project(
-          title: 'kharold-canova',
-          description:
-              'Portafolio web personal construido con Flutter Web y contenido actualizado desde mi CV.',
-          descriptionEn:
-              'Personal web portfolio built with Flutter Web and content updated from my CV.',
-          techStack: ['Flutter Web', 'Dart', 'Responsive'],
-          techStackEn: ['Flutter Web', 'Dart', 'Responsive'],
-          category: 'Web',
-          categoryEn: 'Web',
-          repoUrl: 'https://github.com/kharoldcanova/kharold-canova',
-          icon: Icons.web_outlined,
         ),
       ];
 

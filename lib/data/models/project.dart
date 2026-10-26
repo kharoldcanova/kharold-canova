@@ -9,6 +9,8 @@ class Project {
   final String category;
   final String? categoryEn;
   final String? repoUrl;
+  final String? impact;
+  final String? impactEn;
   final IconData icon;
 
   const Project({
@@ -20,6 +22,8 @@ class Project {
     required this.category,
     this.categoryEn,
     this.repoUrl,
+    this.impact,
+    this.impactEn,
     this.icon = Icons.folder_outlined,
   });
 
@@ -32,6 +36,9 @@ class Project {
   String localizedCategory(String languageCode) =>
       languageCode == 'en' ? (categoryEn ?? category) : category;
 
+  String? localizedImpact(String languageCode) =>
+      languageCode == 'en' ? (impactEn ?? impact) : impact;
+
   Map<String, dynamic> toJson() => {
         'title': title,
         'description': description,
@@ -41,5 +48,7 @@ class Project {
         'category': category,
         'categoryEn': categoryEn,
         'repoUrl': repoUrl,
+        'impact': impact,
+        'impactEn': impactEn,
       };
 }

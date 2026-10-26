@@ -118,11 +118,51 @@
   "@contact_me": {
     "description": "Header call-to-action button."
   },
-  "hero_subtitle": "Full Stack Developer · Applied AI & Automation",
-  "@hero_subtitle": {
-    "description": "Hero section subtitle."
+  "hero_eyebrow": "RAG · AGENTS · NL2SQL · MULTIMODAL",
+  "@hero_eyebrow": {
+    "description": "Top hero line summarizing the technical profile."
   },
-  "hero_quote": "Systems Engineer and Full Stack Developer specializing in Flutter (Clean Architecture + BLoC) and Laravel. Passionate about applied AI and automation, with experience taking software to production through CI/CD and scalable architectures.",
+  "hero_subtitle": "Systems Engineer, Full-Stack & Applied AI Engineer",
+  "@hero_subtitle": {
+    "description": "Hero section subtitle emphasizing Systems, Full-Stack and Applied AI roles."
+  },
+  "hero_explore_ai": "Explore AI systems",
+  "@hero_explore_ai": {
+    "description": "Hero primary action that scrolls to the AI section."
+  },
+  "nav_ai": "AI",
+  "@nav_ai": {
+    "description": "Short navigation label for the AI section."
+  },
+  "ai_systems": "Artificial Intelligence & Agent Systems",
+  "@ai_systems": {
+    "description": "Section title for AI and Agent Systems."
+  },
+  "ai_systems_desc": "I design agents and applied AI systems that solve real problems: RAG over private data, NL2SQL with safeguards, multimodal assistants, and automation. These projects are the center of my work.",
+  "@ai_systems_desc": {
+    "description": "Description for the AI and Agent Systems section."
+  },
+  "ai_featured": "Featured projects",
+  "@ai_featured": {
+    "description": "Label above the AI project grid."
+  },
+  "ai_view_repo": "View on GitHub",
+  "@ai_view_repo": {
+    "description": "Button on each AI project card."
+  },
+  "ai_view_all_repos": "View all repositories",
+  "@ai_view_all_repos": {
+    "description": "Link to the GitHub profile with all repositories."
+  },
+  "ai_empty": "AI projects are being updated.",
+  "@ai_empty": {
+    "description": "Empty state for the AI section."
+  },
+  "footer_cv": "CV",
+  "@footer_cv": {
+    "description": "Short label for the CV link in the footer."
+  },
+  "hero_quote": "Systems Engineer and Full-Stack Developer specializing in Flutter (Clean Architecture + BLoC) and Laravel. Passionate about Applied AI Agents, autonomous systems, and taking software to production through CI/CD and scalable architectures.",
   "@hero_quote": {
     "description": "Quote section after hero."
   },

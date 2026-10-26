@@ -130,11 +130,43 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contact_me => 'Contact Me';
 
   @override
-  String get hero_subtitle => 'Full Stack Developer · Applied AI & Automation';
+  String get hero_eyebrow => 'RAG · AGENTS · NL2SQL · MULTIMODAL';
+
+  @override
+  String get hero_subtitle =>
+      'Systems Engineer, Full-Stack & Applied AI Engineer';
+
+  @override
+  String get hero_explore_ai => 'Explore AI systems';
+
+  @override
+  String get nav_ai => 'AI';
+
+  @override
+  String get ai_systems => 'Artificial Intelligence & Agent Systems';
+
+  @override
+  String get ai_systems_desc =>
+      'I design agents and applied AI systems that solve real problems: RAG over private data, NL2SQL with safeguards, multimodal assistants, and automation. These projects are the center of my work.';
+
+  @override
+  String get ai_featured => 'Featured projects';
+
+  @override
+  String get ai_view_repo => 'View on GitHub';
+
+  @override
+  String get ai_view_all_repos => 'View all repositories';
+
+  @override
+  String get ai_empty => 'AI projects are being updated.';
+
+  @override
+  String get footer_cv => 'CV';
 
   @override
   String get hero_quote =>
-      'Systems Engineer and Full Stack Developer specializing in Flutter (Clean Architecture + BLoC) and Laravel. Passionate about applied AI and automation, with experience taking software to production through CI/CD and scalable architectures.';
+      'Systems Engineer and Full-Stack Developer specializing in Flutter (Clean Architecture + BLoC) and Laravel. Passionate about Applied AI Agents, autonomous systems, and taking software to production through CI/CD and scalable architectures.';
 
   @override
   String get about_title => 'About me';

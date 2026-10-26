@@ -131,12 +131,43 @@ class AppLocalizationsEs extends AppLocalizations {
   String get contact_me => 'Contáctame';
 
   @override
+  String get hero_eyebrow => 'RAG · AGENTES · NL2SQL · MULTIMODAL';
+
+  @override
   String get hero_subtitle =>
-      'Desarrollador Full Stack · IA aplicada y automatización';
+      'Ingeniero de Sistemas, Full-Stack y Applied AI Engineer';
+
+  @override
+  String get hero_explore_ai => 'Explorar sistemas de IA';
+
+  @override
+  String get nav_ai => 'IA';
+
+  @override
+  String get ai_systems => 'Sistemas de Inteligencia Artificial y Agentes';
+
+  @override
+  String get ai_systems_desc =>
+      'Diseño agentes y sistemas de IA aplicada que resuelven problemas reales: RAG sobre datos propios, NL2SQL con guardas, asistentes multimodales y automatización. Estos proyectos son el centro de mi trabajo.';
+
+  @override
+  String get ai_featured => 'Proyectos destacados';
+
+  @override
+  String get ai_view_repo => 'Ver en GitHub';
+
+  @override
+  String get ai_view_all_repos => 'Ver todos los repositorios';
+
+  @override
+  String get ai_empty => 'Los proyectos de IA se están actualizando.';
+
+  @override
+  String get footer_cv => 'CV';
 
   @override
   String get hero_quote =>
-      'Ingeniero de Sistemas y Desarrollador Full Stack especializado en Flutter (Clean Architecture + BLoC) y Laravel. Apasionado por la IA aplicada y la automatización, con experiencia llevando software a producción mediante CI/CD y arquitecturas escalables.';
+      'Ingeniero de Sistemas y Desarrollador Full-Stack especializado en Flutter (Clean Architecture + BLoC) y Laravel. Apasionado por los Agentes de IA aplicada, sistemas autónomos y llevar software a producción mediante CI/CD y arquitecturas escalables.';
 
   @override
   String get about_title => 'Sobre mí';

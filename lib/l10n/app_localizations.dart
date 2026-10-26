@@ -320,16 +320,76 @@ abstract class AppLocalizations {
   /// **'Contact Me'**
   String get contact_me;
 
-  /// Hero section subtitle.
+  /// Top hero line summarizing the technical profile.
   ///
   /// In en, this message translates to:
-  /// **'Full Stack Developer · Applied AI & Automation'**
+  /// **'RAG · AGENTS · NL2SQL · MULTIMODAL'**
+  String get hero_eyebrow;
+
+  /// Hero section subtitle emphasizing Systems, Full-Stack and Applied AI roles.
+  ///
+  /// In en, this message translates to:
+  /// **'Systems Engineer, Full-Stack & Applied AI Engineer'**
   String get hero_subtitle;
+
+  /// Hero primary action that scrolls to the AI section.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore AI systems'**
+  String get hero_explore_ai;
+
+  /// Short navigation label for the AI section.
+  ///
+  /// In en, this message translates to:
+  /// **'AI'**
+  String get nav_ai;
+
+  /// Section title for AI and Agent Systems.
+  ///
+  /// In en, this message translates to:
+  /// **'Artificial Intelligence & Agent Systems'**
+  String get ai_systems;
+
+  /// Description for the AI and Agent Systems section.
+  ///
+  /// In en, this message translates to:
+  /// **'I design agents and applied AI systems that solve real problems: RAG over private data, NL2SQL with safeguards, multimodal assistants, and automation. These projects are the center of my work.'**
+  String get ai_systems_desc;
+
+  /// Label above the AI project grid.
+  ///
+  /// In en, this message translates to:
+  /// **'Featured projects'**
+  String get ai_featured;
+
+  /// Button on each AI project card.
+  ///
+  /// In en, this message translates to:
+  /// **'View on GitHub'**
+  String get ai_view_repo;
+
+  /// Link to the GitHub profile with all repositories.
+  ///
+  /// In en, this message translates to:
+  /// **'View all repositories'**
+  String get ai_view_all_repos;
+
+  /// Empty state for the AI section.
+  ///
+  /// In en, this message translates to:
+  /// **'AI projects are being updated.'**
+  String get ai_empty;
+
+  /// Short label for the CV link in the footer.
+  ///
+  /// In en, this message translates to:
+  /// **'CV'**
+  String get footer_cv;
 
   /// Quote section after hero.
   ///
   /// In en, this message translates to:
-  /// **'Systems Engineer and Full Stack Developer specializing in Flutter (Clean Architecture + BLoC) and Laravel. Passionate about applied AI and automation, with experience taking software to production through CI/CD and scalable architectures.'**
+  /// **'Systems Engineer and Full-Stack Developer specializing in Flutter (Clean Architecture + BLoC) and Laravel. Passionate about Applied AI Agents, autonomous systems, and taking software to production through CI/CD and scalable architectures.'**
   String get hero_quote;
 
   /// About section title.
