@@ -79,6 +79,10 @@ Utiliza nombres semánticos en lugar de valores absolutos en el código.
 ### 2.5. Layout, Imagen y Navegación
 * **Grid de contenido:** ancho máximo `--content-max` (1200px), centrado, con gutters de 80px en desktop y 24px en mobile.
 * **Hero:** altura acotada al 68% del viewport en mobile (mín. 500px, máx. 600px) y al 72% en desktop (mín. 540px, máx. 700px). La identidad va abajo-izquierda en desktop y centrada-izquierda en mobile. El nombre usa `Hero Display` y el rol `Hero Role`; esta es la única excepción a la escala tipográfica estándar.
+* **Hero · jerarquía:** nombre (`Hero Display`), rol (`Hero Role`), eyebrow mono en mayúsculas (`--on-image-muted`) y una fila de acciones. El rol debe leerse antes que cualquier otro metadato.
+* **Hero · acciones:** `Descargar CV` (primaria), `Explorar sistemas de IA` (outline) y `Contáctame` (outline) en desktop; en mobile se mantienen CV y los accesos directos a GitHub/LinkedIn para no empujar el nombre hacia la zona clara del wallpaper.
+* **Hero · enlaces sociales:** en desktop, riel vertical abajo-derecha con GitHub, LinkedIn y email; botones de 44px con borde `--on-image-border`. Nunca se agrega un scrim para mejorar el contraste.
+* **Hero · contraste por ubicación:** en desktop la identidad se apoya sobre las montañas oscuras y usa `--on-image`; en tablet y mobile cae sobre el cielo claro, así que usa `--text-primary`, `--text-secondary` y `--border`. Bajo 700px se omite `Contáctame` para que la fila de acciones no se apile.
 * **Scrim:** cuatro paradas con negro al 80% para mantener el contraste del texto también en el crop móvil brillante. Sin parallax ni sombras.
 * **Header:** transparente sobre el hero; tras hacer scroll usa `--nav-surface` y un borde inferior de 1px.
 * **Indicador activo:** subrayado de 2px en `--primary`, sin pills ni fondos rellenos.
@@ -116,10 +120,12 @@ Cualquier componente interactivo **debe** contemplar los siguientes estados visu
 * El CV se abre en una pestaña nueva.
 
 ### 3.3. Navegación
-* Cinco destinos: `Inicio`, `Sobre mí`, `Proyectos`, `Certificaciones`, `Contacto`.
+* Seis destinos: `Inicio`, `IA`, `Sobre mí`, `Proyectos`, `Certificaciones`, `Contacto`.
+* En desktop, GitHub, LinkedIn y CV viven en el header como iconos persistentes; Medium y la presentación se muestran solo cuando el ancho lo permite (1360px y 1280px respectivamente).
 * El header es transparente sobre el hero y pasa a `--nav-surface` con borde inferior al hacer scroll.
 * El estado activo se indica con un subrayado de 2px, nunca con una pill rellena.
 * El drawer replica todos los destinos y acciones; cierra al seleccionar y con `Escape`, devolviendo el foco al control de menú.
+* El drawer y el footer exponen GitHub, LinkedIn, email y CV sin depender del hero.
 
 ### 3.4. Formularios e Inputs
 * Altura estándar: `40px` (Desktop) / `44px` (Mobile touch target).
@@ -130,6 +136,7 @@ Cualquier componente interactivo **debe** contemplar los siguientes estados visu
 ### 3.5. Sección de Contacto
 * En modo claro: fondo dominante `--primary` y texto `--on-primary`.
 * En modo oscuro: fondo verde oscuro `#166534` y texto blanco, con la tipografía terminal del tema.
+* Cuatro canales en cuadrícula 2×2 (desktop) o 1 columna (mobile): email, teléfono, GitHub y LinkedIn.
 * Tarjetas de contacto transparentes con borde de 1px; el hover y el foco solo cambian el borde, nunca oscurecen imágenes.
 * El footer no se invierte: conserva `--bg-surface` con su borde superior de 1px.
 
@@ -138,6 +145,15 @@ Cualquier componente interactivo **debe** contemplar los siguientes estados visu
 * El stack técnico reemplaza el radar por tarjetas agrupadas por área (`IA & MCP`, `DevOps & Cloud`, `Frontend & Móvil`, `Backend & Datos`).
 * Cada grupo muestra tecnologías como chips; no se usan niveles numéricos, porcentajes ni gráficos de radar.
 * En desktop los grupos van en dos columnas; en mobile, en una sola columna.
+
+### 3.7. Sistemas de Inteligencia Artificial y Agentes
+* Es el primer bloque de contenido después del hero y tiene destino propio en la navegación (`IA`).
+* Orden curado y fijo: `ia-sql`, `Alma`, `LAIN`. La sección no depende del orden del listado general de proyectos.
+* Encabezado `01 — SISTEMAS DE INTELIGENCIA ARTIFICIAL Y AGENTES`, descripción de posicionamiento y etiqueta `Proyectos destacados`.
+* Tarjetas de altura uniforme: icono, índice, título, línea de impacto en mono con `--primary`, descripción, hasta 3 tecnologías y contador `+N`, y acción `Ver en GitHub`.
+* La cuadrícula usa 3 columnas en desktop, 2 en tablet y 1 en mobile. El hover y el foco solo cambian el borde a `--primary`.
+* Al final, un enlace outline a todos los repositorios del perfil.
+* En modo oscuro la sección se replica como pestaña `ai` del terminal, sin duplicar contenido ni tokens.
 
 ---
 
