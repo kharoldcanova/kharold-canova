@@ -42,7 +42,7 @@ class CertificationsSection extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionHeader(
-            index: '04',
+            index: '05',
             title: t.certifications_title,
             description: t.certifications_subtitle,
           ),

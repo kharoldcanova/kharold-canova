@@ -24,7 +24,7 @@ class KnowledgeWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionHeader(
-            index: '02',
+            index: '03',
             title: t.knowledge,
             description: t.knowledge_desc,
           ),

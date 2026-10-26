@@ -6,6 +6,7 @@ import 'package:kharoldcanova/bloc/locale/language_bloc.dart';
 import 'package:kharoldcanova/bloc/theme/theme_bloc.dart';
 import 'package:kharoldcanova/config/theme/brand_theme.dart';
 import 'package:kharoldcanova/config/theme/portfolio_tokens.dart';
+import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
 import 'package:kharoldcanova/domain/language_model.dart';
 import 'package:kharoldcanova/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -31,12 +32,14 @@ class PortfolioDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
+    final repo = PortfolioRepository();
     final colorScheme = Theme.of(context).colorScheme;
     final tokens = Theme.of(context).extension<PortfolioTokens>()!;
     final isDark = context.watch<ThemeBloc>().state.isDark;
 
     final items = <({String id, String label, IconData icon})>[
       (id: 'home', label: t.home, icon: Icons.home_outlined),
+      (id: 'ai', label: t.nav_ai, icon: Icons.auto_awesome_outlined),
       (id: 'about', label: t.about, icon: Icons.person_outline),
       (id: 'projects', label: t.projects, icon: Icons.work_outline),
       (
@@ -125,33 +128,68 @@ class PortfolioDrawer extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          if (mediumUrl != null)
-                            IconButton(
-                              tooltip: t.medium,
-                              onPressed: () => launchUrl(
-                                Uri.parse(mediumUrl!),
-                                mode: LaunchMode.externalApplication,
-                                webOnlyWindowName: '_blank',
-                              ),
-                              icon: FaIcon(
-                                FontAwesomeIcons.medium,
-                                size: 18,
-                                color: colorScheme.onSurface,
-                              ),
-                            ),
-                          IconButton(
-                            tooltip: isDark ? t.theme_light : t.theme_dark,
-                            onPressed: () => context
-                                .read<ThemeBloc>()
-                                .add(const ToggleTheme()),
-                            icon: Icon(
-                              isDark
-                                  ? Icons.light_mode_outlined
-                                  : Icons.dark_mode_outlined,
-                              color: colorScheme.onSurface,
+                          Expanded(
+                            child: Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.center,
+                              children: [
+                                if (mediumUrl != null)
+                                  IconButton(
+                                    tooltip: t.medium,
+                                    onPressed: () => launchUrl(
+                                      Uri.parse(mediumUrl!),
+                                      mode: LaunchMode.externalApplication,
+                                      webOnlyWindowName: '_blank',
+                                    ),
+                                    icon: FaIcon(
+                                      FontAwesomeIcons.medium,
+                                      size: 18,
+                                      color: colorScheme.onSurface,
+                                    ),
+                                  ),
+                                IconButton(
+                                  key: const Key('drawer-github'),
+                                  tooltip: 'GitHub',
+                                  onPressed: () => launchUrl(
+                                    Uri.parse(repo.getGithub()),
+                                    mode: LaunchMode.externalApplication,
+                                    webOnlyWindowName: '_blank',
+                                  ),
+                                  icon: FaIcon(
+                                    FontAwesomeIcons.github,
+                                    size: 18,
+                                    color: colorScheme.onSurface,
+                                  ),
+                                ),
+                                IconButton(
+                                  key: const Key('drawer-linkedin'),
+                                  tooltip: 'LinkedIn',
+                                  onPressed: () => launchUrl(
+                                    Uri.parse(repo.getLinkedin()),
+                                    mode: LaunchMode.externalApplication,
+                                    webOnlyWindowName: '_blank',
+                                  ),
+                                  icon: FaIcon(
+                                    FontAwesomeIcons.linkedin,
+                                    size: 18,
+                                    color: colorScheme.onSurface,
+                                  ),
+                                ),
+                                IconButton(
+                                  tooltip:
+                                      isDark ? t.theme_light : t.theme_dark,
+                                  onPressed: () => context
+                                      .read<ThemeBloc>()
+                                      .add(const ToggleTheme()),
+                                  icon: Icon(
+                                    isDark
+                                        ? Icons.light_mode_outlined
+                                        : Icons.dark_mode_outlined,
+                                    color: colorScheme.onSurface,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                          const Spacer(),
                           Tooltip(
                             message: t.change_language,
                             child: TextButton(

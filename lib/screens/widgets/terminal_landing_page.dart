@@ -2,12 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kharoldcanova/bloc/locale/language_bloc.dart';
 import 'package:kharoldcanova/bloc/theme/theme_bloc.dart';
 import 'package:kharoldcanova/config/theme/brand_theme.dart';
 import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
 import 'package:kharoldcanova/domain/language_model.dart';
 import 'package:kharoldcanova/l10n/app_localizations.dart';
+import 'package:kharoldcanova/screens/widgets/ai_systems_widget.dart';
 import 'package:kharoldcanova/screens/widgets/certifications_section.dart';
 import 'package:kharoldcanova/screens/widgets/contact_widget.dart';
 import 'package:kharoldcanova/screens/widgets/experience_timeline.dart';
@@ -17,7 +19,7 @@ import 'package:kharoldcanova/screens/widgets/section_shell.dart';
 import 'package:kharoldcanova/screens/widgets/skill_groups_grid.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-enum _TerminalTab { about, skills, projects, certifications, contact }
+enum _TerminalTab { ai, about, skills, projects, certifications, contact }
 
 class TerminalLandingPage extends StatefulWidget {
   const TerminalLandingPage({super.key});
@@ -34,6 +36,7 @@ class _TerminalLandingPageState extends State<TerminalLandingPage> {
   String get _command {
     if (_selectedTab == null) return _showHelp ? 'help' : 'whoami';
     return switch (_selectedTab!) {
+      _TerminalTab.ai => 'agents --list',
       _TerminalTab.about => 'about',
       _TerminalTab.skills => 'stack',
       _TerminalTab.projects => 'git log --oneline',
@@ -172,6 +175,7 @@ class _TerminalLandingPageState extends State<TerminalLandingPage> {
     }
 
     return switch (tab) {
+      _TerminalTab.ai => const AISystemsWidget(),
       _TerminalTab.about => SectionContainer(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -350,9 +354,40 @@ class _WindowActions extends StatelessWidget {
       (bloc) => bloc.state.selectedLanguage,
     );
     final t = AppLocalizations.of(context)!;
-    return Row(
-      mainAxisSize: MainAxisSize.min,
+    final repo = PortfolioRepository();
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: [
+        IconButton(
+          key: const Key('terminal-github'),
+          tooltip: 'GitHub',
+          onPressed: () => launchUrl(
+            Uri.parse(repo.getGithub()),
+            mode: LaunchMode.externalApplication,
+            webOnlyWindowName: '_blank',
+          ),
+          icon: const FaIcon(
+            FontAwesomeIcons.github,
+            color: BrandColors.darkTextSecondary,
+            size: 18,
+          ),
+          visualDensity: VisualDensity.compact,
+        ),
+        IconButton(
+          key: const Key('terminal-linkedin'),
+          tooltip: 'LinkedIn',
+          onPressed: () => launchUrl(
+            Uri.parse(repo.getLinkedin()),
+            mode: LaunchMode.externalApplication,
+            webOnlyWindowName: '_blank',
+          ),
+          icon: const FaIcon(
+            FontAwesomeIcons.linkedin,
+            color: BrandColors.darkTextSecondary,
+            size: 18,
+          ),
+          visualDensity: VisualDensity.compact,
+        ),
         IconButton(
           key: const Key('theme-toggle'),
           tooltip: t.theme_light,
@@ -564,24 +599,16 @@ class _TerminalNavigation extends StatelessWidget {
                   onPressed: () => onSelected(tab),
                 ),
             ];
-            if (constraints.maxWidth < 620) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: BrandTheme.spaceSM,
-                  vertical: BrandTheme.spaceXS,
-                ),
-                child: Wrap(
-                  spacing: BrandTheme.spaceXS,
-                  runSpacing: 0,
-                  children: buttons,
-                ),
-              );
-            }
             return Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: BrandTheme.spaceSM,
+                vertical: BrandTheme.spaceXS,
               ),
-              child: Row(children: buttons),
+              child: Wrap(
+                spacing: BrandTheme.spaceXS,
+                runSpacing: 0,
+                children: buttons,
+              ),
             );
           },
         ),
@@ -600,6 +627,7 @@ class _TerminalTabButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   String get _label => switch (tab) {
+        _TerminalTab.ai => 'ai',
         _TerminalTab.about => 'about',
         _TerminalTab.skills => 'skills',
         _TerminalTab.projects => 'projects',
@@ -675,7 +703,7 @@ class _WelcomeOutput extends StatelessWidget {
             const SizedBox(height: BrandTheme.spaceSM),
             if (showHelp)
               Text(
-                'about  skills  projects  certifications  contact',
+                'ai  about  skills  projects  certifications  contact',
                 style: BrandTextStyles.mono(
                   fontSize: 14,
                   color: BrandColors.darkTerminalYellow,

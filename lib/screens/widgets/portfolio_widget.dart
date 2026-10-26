@@ -31,7 +31,7 @@ class PortfolioWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionHeader(
-            index: '03',
+            index: '04',
             title: t.projects,
             description: t.portfolio_desc,
           ),
@@ -48,7 +48,7 @@ class PortfolioWidget extends StatelessWidget {
                       ? 2
                       : 1;
               const gap = BrandTheme.spaceLG;
-              const cardHeight = 390.0;
+              const cardHeight = 410.0;
               final cardWidth =
                   (constraints.maxWidth - gap * (columns - 1)) / columns;
 

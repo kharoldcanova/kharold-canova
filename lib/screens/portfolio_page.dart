@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kharoldcanova/config/theme/brand_theme.dart';
 import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
+import 'package:kharoldcanova/screens/widgets/ai_systems_widget.dart';
 import 'package:kharoldcanova/screens/widgets/about_skills_widget.dart';
 import 'package:kharoldcanova/screens/widgets/certifications_section.dart';
 import 'package:kharoldcanova/screens/widgets/contact_widget.dart';
@@ -29,6 +30,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
 
   final _sectionKeys = <String, GlobalKey>{
     'home': GlobalKey(),
+    'ai': GlobalKey(),
     'about': GlobalKey(),
     'projects': GlobalKey(),
     'certifications': GlobalKey(),
@@ -121,21 +123,36 @@ class _PortfolioPageState extends State<PortfolioPage> {
     _menuFocusNode.requestFocus();
   }
 
-  List<Widget> _buildSections({required String cvUrl, required double height}) {
+  List<({String id, Widget child})> _buildSections({
+    required String cvUrl,
+    required double height,
+  }) {
     Widget reveal(Widget child) => AnimateOnVisible(
           builder: (context, isVisible) => child,
         );
     return [
-      reveal(HeroWidget(
-        cvUrl: cvUrl,
-        onContact: () => _scrollToSection('contact'),
-        height: height,
-      )),
-      reveal(AboutSkillsWidget(onHireMe: () => _scrollToSection('contact'))),
-      reveal(const KnowledgeWidget()),
-      reveal(const PortfolioWidget()),
-      reveal(const CertificationsSection()),
-      reveal(const ContactWidget()),
+      (
+        id: 'home',
+        child: reveal(HeroWidget(
+          cvUrl: cvUrl,
+          onContact: () => _scrollToSection('contact'),
+          onExploreAi: () => _scrollToSection('ai'),
+          height: height,
+        )),
+      ),
+      (id: 'ai', child: reveal(const AISystemsWidget())),
+      (
+        id: 'about',
+        child: reveal(Column(
+          children: [
+            AboutSkillsWidget(onHireMe: () => _scrollToSection('contact')),
+            const KnowledgeWidget(),
+          ],
+        )),
+      ),
+      (id: 'projects', child: reveal(const PortfolioWidget())),
+      (id: 'certifications', child: reveal(const CertificationsSection())),
+      (id: 'contact', child: reveal(const ContactWidget())),
     ];
   }
 
@@ -144,7 +161,9 @@ class _PortfolioPageState extends State<PortfolioPage> {
       PageRouteBuilder<void>(
         fullscreenDialog: true,
         pageBuilder: (_, __, ___) => PresentationPage(
-          slides: _buildSections(cvUrl: _repo.getCvUrl(), height: _heroHeight),
+          slides: _buildSections(cvUrl: _repo.getCvUrl(), height: _heroHeight)
+              .map((section) => section.child)
+              .toList(),
         ),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           if (MediaQuery.disableAnimationsOf(context)) return child;
@@ -177,6 +196,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
         onMenuTap: _openDrawer,
         onPresentationTap: _openPresentation,
         mediumUrl: mediumUrl,
+        cvUrl: cvUrl,
         menuFocusNode: _menuFocusNode,
       ),
       drawer: isSmallScreen
@@ -193,28 +213,11 @@ class _PortfolioPageState extends State<PortfolioPage> {
         controller: _scrollController,
         child: Column(
           children: [
-            Container(
-              key: _sectionKeys['home'],
-              child: sections[0],
-            ),
-            Container(
-              key: _sectionKeys['about'],
-              child: StaggeredReveal(
-                children: [sections[1], sections[2]],
+            for (final section in sections)
+              Container(
+                key: _sectionKeys[section.id],
+                child: section.child,
               ),
-            ),
-            Container(
-              key: _sectionKeys['projects'],
-              child: sections[3],
-            ),
-            Container(
-              key: _sectionKeys['certifications'],
-              child: sections[4],
-            ),
-            Container(
-              key: _sectionKeys['contact'],
-              child: sections[5],
-            ),
             FooterWidget(mediumUrl: mediumUrl),
           ],
         ),

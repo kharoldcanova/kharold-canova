@@ -24,7 +24,7 @@ class AboutSkillsWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionHeader(
-            index: '01',
+            index: '02',
             title: t.about_title,
             description: t.profile_quote,
           ),

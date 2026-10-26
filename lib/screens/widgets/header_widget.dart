@@ -5,6 +5,7 @@ import 'package:kharoldcanova/bloc/locale/language_bloc.dart';
 import 'package:kharoldcanova/bloc/theme/theme_bloc.dart';
 import 'package:kharoldcanova/config/theme/brand_theme.dart';
 import 'package:kharoldcanova/config/theme/portfolio_tokens.dart';
+import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
 import 'package:kharoldcanova/domain/language_model.dart';
 import 'package:kharoldcanova/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -18,6 +19,7 @@ class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
     required this.onMenuTap,
     this.onPresentationTap,
     this.mediumUrl,
+    this.cvUrl,
     this.menuFocusNode,
   });
 
@@ -27,6 +29,7 @@ class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback onMenuTap;
   final VoidCallback? onPresentationTap;
   final String? mediumUrl;
+  final String? cvUrl;
   final FocusNode? menuFocusNode;
 
   @override
@@ -35,16 +38,21 @@ class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
-    final isDesktop = MediaQuery.sizeOf(context).width >= 1200;
+    final repo = PortfolioRepository();
+    final width = MediaQuery.sizeOf(context).width;
+    final isDesktop = width >= 1200;
+    final showPresentation = width >= 1280;
+    final showMedium = width >= 1360;
     final tokens = Theme.of(context).extension<PortfolioTokens>()!;
     final colorScheme = Theme.of(context).colorScheme;
 
-    final foreground = isOverHero ? tokens.onImage : colorScheme.onSurface;
+    final foreground = colorScheme.onSurface;
     final background = isOverHero ? Colors.transparent : tokens.navSurface;
     final borderColor = isOverHero ? Colors.transparent : colorScheme.outline;
 
     final items = <({String id, String label})>[
       (id: 'home', label: t.home),
+      (id: 'ai', label: t.nav_ai),
       (id: 'about', label: t.about),
       (id: 'projects', label: t.projects),
       (id: 'certifications', label: t.certifications),
@@ -74,11 +82,50 @@ class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
                       _NavLink(
                         label: item.label,
                         isActive: activeSection == item.id,
-                        isOverHero: isOverHero,
                         onTap: () => onSectionTap(item.id),
                       ),
                     const Spacer(),
-                    if (mediumUrl != null)
+                    _HeaderIconButton(
+                      key: const Key('header-github'),
+                      tooltip: 'GitHub',
+                      icon: const FaIcon(
+                        FontAwesomeIcons.github,
+                        size: 18,
+                      ),
+                      color: foreground,
+                      onPressed: () => launchUrl(
+                        Uri.parse(repo.getGithub()),
+                        mode: LaunchMode.externalApplication,
+                        webOnlyWindowName: '_blank',
+                      ),
+                    ),
+                    _HeaderIconButton(
+                      key: const Key('header-linkedin'),
+                      tooltip: 'LinkedIn',
+                      icon: const FaIcon(
+                        FontAwesomeIcons.linkedin,
+                        size: 18,
+                      ),
+                      color: foreground,
+                      onPressed: () => launchUrl(
+                        Uri.parse(repo.getLinkedin()),
+                        mode: LaunchMode.externalApplication,
+                        webOnlyWindowName: '_blank',
+                      ),
+                    ),
+                    if (cvUrl != null)
+                      _HeaderIconButton(
+                        key: const Key('header-cv'),
+                        tooltip: t.download_cv,
+                        icon: const Icon(Icons.description_outlined, size: 19),
+                        color: foreground,
+                        onPressed: () => launchUrl(
+                          Uri.base.resolve(cvUrl!),
+                          mode: LaunchMode.externalApplication,
+                          webOnlyWindowName: '_blank',
+                        ),
+                      ),
+                    if (mediumUrl != null && showMedium)
                       _HeaderIconButton(
                         tooltip: t.medium,
                         icon: const FaIcon(
@@ -92,13 +139,14 @@ class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
                           webOnlyWindowName: '_blank',
                         ),
                       ),
-                    _HeaderIconButton(
-                      key: const Key('presentation-control'),
-                      tooltip: t.presentation_mode,
-                      icon: const Icon(Icons.play_arrow),
-                      color: foreground,
-                      onPressed: onPresentationTap ?? () {},
-                    ),
+                    if (showPresentation)
+                      _HeaderIconButton(
+                        key: const Key('presentation-control'),
+                        tooltip: t.presentation_mode,
+                        icon: const Icon(Icons.play_arrow),
+                        color: foreground,
+                        onPressed: onPresentationTap ?? () {},
+                      ),
                     _ThemeButton(color: foreground),
                     _LanguageButton(color: foreground),
                   ],
@@ -156,21 +204,18 @@ class _NavLink extends StatelessWidget {
   const _NavLink({
     required this.label,
     required this.isActive,
-    required this.isOverHero,
     required this.onTap,
   });
 
   final String label;
   final bool isActive;
-  final bool isOverHero;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    final tokens = Theme.of(context).extension<PortfolioTokens>()!;
     final colorScheme = Theme.of(context).colorScheme;
-    final color = isOverHero ? tokens.onImage : colorScheme.onSurface;
-    final activeColor = isOverHero ? tokens.onImage : colorScheme.primary;
+    final color = colorScheme.onSurface;
+    final activeColor = colorScheme.primary;
 
     return TextButton(
       onPressed: onTap,
@@ -192,7 +237,7 @@ class _NavLink extends StatelessWidget {
           return BorderSide.none;
         }),
         padding: const WidgetStatePropertyAll(
-          EdgeInsets.symmetric(horizontal: 12),
+          EdgeInsets.symmetric(horizontal: 8),
         ),
         minimumSize: const WidgetStatePropertyAll(
           Size(0, BrandTheme.headerHeight),
