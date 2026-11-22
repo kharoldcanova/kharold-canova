@@ -183,16 +183,16 @@ class PortfolioRepository {
         const Project(
           title: 'LAIN',
           description:
-              'Asistente de IA local multimodal para Android: Whisper (STT) → MiniCPM-V (LLM) → Kokoro (TTS) sobre llama.cpp, 100% offline con consciencia funcional y fine-tuning QLoRA/Unsloth.',
+              'Asistente de IA local multimodal que funciona en un Android real, 100% offline, con modelos descargados de Hugging Face: MiniCPM-V (modelo multimodal ligero) ejecutado con llama.cpp y Kokoro para texto a voz. El reconocimiento de voz con Whisper está en desarrollo.',
           descriptionEn:
-              'Local multimodal AI assistant for Android: Whisper (STT) → MiniCPM-V (LLM) → Kokoro (TTS) on llama.cpp, fully offline with functional consciousness and QLoRA/Unsloth fine-tuning.',
-          techStack: ['Flutter', 'llama.cpp', 'MiniCPM-V', 'Whisper', 'Kokoro', 'QLoRA', 'Python', 'Offline'],
-          techStackEn: ['Flutter', 'llama.cpp', 'MiniCPM-V', 'Whisper', 'Kokoro', 'QLoRA', 'Python', 'Offline'],
+              'Local multimodal AI assistant running on a real Android device, fully offline, with models downloaded from Hugging Face: MiniCPM-V (a lightweight multimodal model) run with llama.cpp, and Kokoro for text-to-speech. Speech recognition with Whisper is in progress.',
+          techStack: ['Flutter', 'llama.cpp', 'MiniCPM-V', 'Kokoro', 'Whisper', 'Hugging Face', 'Offline'],
+          techStackEn: ['Flutter', 'llama.cpp', 'MiniCPM-V', 'Kokoro', 'Whisper', 'Hugging Face', 'Offline'],
           category: 'IA',
           categoryEn: 'AI',
           repoUrl: 'https://github.com/kharoldcanova/lain',
-          impact: 'Voz y visión en el dispositivo: ~3 GB de RAM, cero nube.',
-          impactEn: 'Voice and vision on-device: ~3 GB of RAM, zero cloud.',
+          impact: 'Visión y voz en el dispositivo: ~3 GB de RAM, cero nube.',
+          impactEn: 'Vision and speech on-device: ~3 GB of RAM, zero cloud.',
           icon: Icons.devices_outlined,
         ),
         const Project(

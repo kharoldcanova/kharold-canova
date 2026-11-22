@@ -39,6 +39,18 @@ void main() {
     expect(teclear.endDate, DateTime(2023, 7, 31));
   });
 
+  test('LAIN only claims what is built (no fine-tuning, no consciousness)', () {
+    final lain = PortfolioRepository()
+        .getProjects()
+        .firstWhere((project) => project.title == 'LAIN');
+    for (final text in <String>[lain.description, lain.descriptionEn!]) {
+      expect(text, isNot(contains('QLoRA')));
+      expect(text.toLowerCase(), isNot(contains('consc')));
+    }
+    expect(lain.techStack, isNot(contains('QLoRA')));
+    expect(lain.description, contains('Hugging Face'));
+  });
+
   Future<void> pumpApp(
     WidgetTester tester, {
     Size size = const Size(390, 844),
