@@ -16,14 +16,14 @@ class PortfolioRepository {
           startDate: DateTime(2023, 9, 1),
           endDate: DateTime(2026, 9, 1),
           highlights: const [
-            'Único responsable de mm2, la app Flutter para clientes del estudio (iOS, Android y Web, ~115 usuarios activos): primero mantuve el código heredado y después la reconstruí desde cero con Clean Architecture y BLoC.',
+            'Único responsable de mm2, la app Flutter para clientes del estudio, dentro de un equipo de 2–3 desarrolladores (publicada en App Store y Google Play, ~115 usuarios activos): primero mantuve el código heredado y después la reconstruí desde cero con Clean Architecture y BLoC.',
             'Nueva versión con diseño UX renovado y notificaciones push con Firebase: los clientes siguen el estado de su caso, consultan su información legal y reciben avisos de documentos.',
             'Publicación automatizada con GitHub Actions (build, firma y subida a App Store y Google Play): de uno o más días de trabajo manual a un proceso automático, sin depender de una Mac en cada entrega.',
             'APIs RESTful con Laravel, PHP 8.x y MySQL/Eloquent, e interfaces dinámicas con Vue.js.',
             'Automatización de procesos del equipo de TI con Google Apps Script (GLPI, creación de usuarios de Google Workspace) y ia-sql, creado por iniciativa propia para agilizar sus informes.',
           ],
           highlightsEn: const [
-            'Sole owner of mm2, the firm\'s Flutter client app (iOS, Android and Web, ~115 active users): first maintained the inherited code, then rebuilt it from scratch with Clean Architecture and BLoC.',
+            'Sole owner of mm2, the firm\'s Flutter client app, within a 2–3 person dev team (published on the App Store and Google Play, ~115 active users): first maintained the inherited code, then rebuilt it from scratch with Clean Architecture and BLoC.',
             'The new version brought a redesigned UX and Firebase push notifications: clients track their case status, review their legal information and get document alerts.',
             'Automated releases with GitHub Actions (build, signing and upload to the App Store and Google Play): from a day or more of manual work to an automated run, no Mac needed for every release.',
             'RESTful APIs with Laravel, PHP 8.x and MySQL/Eloquent, plus dynamic interfaces with Vue.js.',
@@ -39,12 +39,12 @@ class PortfolioRepository {
           startDate: DateTime(2022, 9, 1),
           endDate: DateTime(2023, 7, 31),
           highlights: const [
-            'Desarrollo de dos apps Flutter (clientes y retail) en todo su ciclo, desde el maquetado de la interfaz hasta la publicación en tiendas.',
+            'Desarrollo de dos apps Flutter (clientes y retail) en todo su ciclo, desde el maquetado de la interfaz hasta builds listos para producción (proyecto interno de la empresa).',
             'Catálogo de widgets reutilizables compartido entre ambas apps: una pantalla nueva pasó de una semana a 2–3 días.',
             'Integración de Firebase Authentication, Realtime Database y Cloud Firestore para accesos seguros y persistencia en tiempo real.',
           ],
           highlightsEn: const [
-            'Built two Flutter apps (customers and retail) end to end, from UI layout to app-store release.',
+            'Built two Flutter apps (customers and retail) end to end, from UI layout to production-ready builds (internal company project).',
             'Reusable widget catalog shared by both apps: a new screen went from a week to 2–3 days.',
             'Integrated Firebase Authentication, Realtime Database and Cloud Firestore for secure access and real-time persistence.',
           ],
@@ -128,7 +128,10 @@ class PortfolioRepository {
 
   String getLinkedin() => 'https://linkedin.com/in/kharoldcanova';
 
-  String getCvUrl() => 'cv-kharold-canova.pdf';
+  /// CV served from `web/`, matching the site language (Spanish by default).
+  String getCvUrl([String languageCode = 'es']) => languageCode == 'en'
+      ? 'cv-kharold-canova-en.pdf'
+      : 'cv-kharold-canova.pdf';
 
   /// Set this when the owner provides the Medium profile URL.
   String? getMedium() => 'https://medium.com/@kharoldcanova';
@@ -160,7 +163,8 @@ class PortfolioRepository {
           category: 'IA',
           categoryEn: 'AI',
           repoUrl: 'https://github.com/kharoldcanova/ia-sql',
-          impact: 'Corregir una consulta generada es más rápido que escribirla desde cero.',
+          impact:
+              'Corregir una consulta generada es más rápido que escribirla desde cero.',
           impactEn:
               'Correcting a generated query beats writing it from scratch.',
           icon: Icons.storage_outlined,
@@ -186,8 +190,24 @@ class PortfolioRepository {
               'Asistente de IA local multimodal que funciona en un Android real, 100% offline, con modelos descargados de Hugging Face: MiniCPM-V (modelo multimodal ligero) ejecutado con llama.cpp y Kokoro para texto a voz. El reconocimiento de voz con Whisper está en desarrollo.',
           descriptionEn:
               'Local multimodal AI assistant running on a real Android device, fully offline, with models downloaded from Hugging Face: MiniCPM-V (a lightweight multimodal model) run with llama.cpp, and Kokoro for text-to-speech. Speech recognition with Whisper is in progress.',
-          techStack: ['Flutter', 'llama.cpp', 'MiniCPM-V', 'Kokoro', 'Whisper', 'Hugging Face', 'Offline'],
-          techStackEn: ['Flutter', 'llama.cpp', 'MiniCPM-V', 'Kokoro', 'Whisper', 'Hugging Face', 'Offline'],
+          techStack: [
+            'Flutter',
+            'llama.cpp',
+            'MiniCPM-V',
+            'Kokoro',
+            'Whisper',
+            'Hugging Face',
+            'Offline'
+          ],
+          techStackEn: [
+            'Flutter',
+            'llama.cpp',
+            'MiniCPM-V',
+            'Kokoro',
+            'Whisper',
+            'Hugging Face',
+            'Offline'
+          ],
           category: 'IA',
           categoryEn: 'AI',
           repoUrl: 'https://github.com/kharoldcanova/lain',

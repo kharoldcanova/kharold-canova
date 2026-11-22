@@ -1,62 +1,93 @@
-Kharold Samir Canova Burgos
-Full Stack Developer · Applied AI and automation
+<!-- Generated from the LaTeX master CV (ai-job-search). Do not edit by hand; the PDF is the source. -->
 
-Lima, Peru | +51 962 268 628 | kharoldcanova@gmail.com
-Portfolio: kharoldcanova.github.io | GitHub: github.com/kharoldcanova | LinkedIn: linkedin.com/in/kharoldcanova
+Kharold Canova Burgos
+Piura, Peru
 
-ABOUT ME
++51 962 268 628 • kharoldcanova@gmail.com
 
-Systems Engineer and Full Stack Developer. I work across the full delivery cycle with Flutter (Clean Architecture + BLoC) and Laravel/PHP with MySQL, with a focus on applied AI: I bring AI and automation into real workflows to cut manual work and speed up delivery. In recent years I have shipped products to production with GitHub Actions CI/CD, Firebase, and web/mobile deployment.
+linkedin.com/in/kharoldcanova, github.com/kharoldcanova, Portfolio
 
-EXPERIENCE
+Full Stack Developer • Flutter • Applied AI
 
-MIL MUJERES LEGAL SERVICES — USA | Full Stack Developer | 2023 – September 2026
-- Stack: Flutter (Clean Architecture + BLoC) on iOS, Android and Web; REST APIs with Laravel, PHP 8.x and MySQL/Eloquent; dynamic interfaces with Vue.js.
-- Deliverables: multiplatform application in production for 3000+ users; CI/CD automation with GitHub Actions and critical process automation with Google Apps Script; internal projects "teams" (Laravel, new feature integration) and "mm2" (full Flutter rewrite, backend + frontend + CI).
-- Scope: team of 2 at the start, 3 in the last months; product stayed internal, not published to stores.
-- AI tools in the daily flow: ChatGPT, GitHub Copilot, opencode (MCP, RAG), VPS with Apache; Docker set up at the start (never used in production); Markdown skills and OpenSpec (used more later in personal projects).
+Systems Engineer with 4 years shipping mobile apps and APIs to production. Three years working remotely from
+Peru for a US company as the sole owner of its Flutter client app: I rebuilt it with Clean Architecture and BLoC
+and automated its releases with CI/CD. I build applied-AI solutions (RAG, local LLMs, agents, n8n) for real team
+problems, and I want to grow in mobile development or AI on products with real impact on people.
 
-TECLEAR S.A.C. — Peru | Full Stack Developer | 2022 – 2023
-- Stack: Flutter with Provider and a reusable modular widget catalog; Firebase Authentication, Realtime Database and Cloud Firestore.
-- Deliverables: mobile applications covering the full cycle from UI mockups to store publication.
-- Scope: app not published; stayed as an internal company project.
+Core Competencies
+- Mobile development (Flutter): Dart, Clean Architecture, BLoC, Provider, Riverpod (basic), GoRouter, Drift
+(SQLite, offline-first), Firebase push notifications, App Store and Google Play releases.
 
-PERSONAL PROJECTS
+- Applied AI and automation: Python, RAG with LlamaIndex, Ollama (local LLMs), AI agents, MCP, n8n, Google
 
-- design-md — Interface design skill: visual editor, design token checker and local server. Apache-2.0, published as a skill. github.com/kharoldcanova/design-md
-- Kipu (personal wallet) — Personal finance app in Flutter with Clean Architecture, BLoC, offline-first Drift/SQLite and CI with Android publication. Internal project (repo not public).
-- Alma — Local AI assistant with TFLite (2.5k+ Python lines, 36 tests). github.com/kharoldcanova/alma
-- ia-sql — Natural Language to SQL (NL2SQL) RAG over a real schema with a read-only guard. github.com/kharoldcanova/ia-sql
-- Horus — ML prototype in Flutter with TFLite for on-device detection. github.com/kharoldcanova/horus
+Apps Script; AI-assisted development with coding agents (OpenCode, Claude Code, Codex) using AGENTS.md,
+OpenSpec and skills.
+- Backend and APIs: Laravel 10, PHP 8.x, Eloquent, FastAPI, RESTful APIs, MySQL, Firebase (Authentication,
+Firestore, Realtime Database, Cloud Messaging).
+- DevOps and CI/CD: GitHub Actions (app build, signing and release), Docker, Docker Compose, Linux (Arch,
+Ubuntu), VPS with Nginx/Apache, Bash, Git, Vercel.
+- Web frontend: Vue.js, React, Vite, TypeScript, Tailwind CSS.
 
-SKILLS
+Professional Experience
 
-- Applied AI and automation (personal projects): Python, FastAPI, local ollama, RAG with llama-index, prompt engineering, n8n, MCP, Markdown skills, OpenSpec.
-- Mobile: Flutter, BLoC / Riverpod, Clean Architecture, offline-first Drift + SQLite, GoRouter.
-- Backend / Data: REST APIs, Laravel 10, MySQL, Firebase Auth / Firestore, Cloud Messaging.
-- Frontend: React, Vite, Tailwind, TypeScript, Vue JS.
-- DevOps: Git, Docker Compose, Linux, VPS + Apache, CI/CD with GitHub Actions, Vercel, Shell Scripting.
-- Team communication, cross-functional collaboration, ownership, adaptability, constructive feedback, time management.
+Mil Mujeres Legal Services
+USA (remote from Peru)
+Full Stack Developer
+09/2023-09/2026
+- Sole owner of mm2, the firm’s Flutter client app, within a 2–3 person dev team (published on the App Store and
+Google Play, ~115 active users). First maintained the inherited code (new features and production bugs); then
+rebuilt it from scratch with Clean Architecture and BLoC.
+- The new version brought a redesigned UX and Firebase push notifications: clients track their case status, review
+their legal information and get document alerts.
+- Automated releases with GitHub Actions (build, signing and upload to the App Store and Google Play): from a
+day or more of manual work to an automated run, with no Mac needed for every release.
+- Built and optimized RESTful APIs with Laravel, PHP 8.x and MySQL/Eloquent, plus dynamic interfaces with
+Vue.js.
+- Automated IT-team processes with Google Apps Script (GLPI integration for resource inventory, automatic Google
+Workspace user creation) and built ia-sql on my own initiative.
+TECLEAR S.A.C.
+Piura, Peru
+Full Stack Developer
+09/2022-07/2023
+- Built two Flutter apps (customers and retail) end to end, from UI layout to production-ready builds (internal
+company project).
+- Created a reusable widget catalog shared by both apps that cut the time for a new screen from a week to 2–3
+days.
+- Integrated Firebase Authentication, Realtime Database and Cloud Firestore for secure access and real-time
+persistence.
 
-EDUCATION
+Projects
+- ia-sql – natural-language-to-SQL RAG with Ollama models, real example queries and a read-only guard; correcting
+a generated query proved faster than writing it from scratch. github.com/kharoldcanova/ia-sql
 
-UNIVERSIDAD CÉSAR VALLEJO | SYSTEMS ENGINEERING (PROFESSIONAL DEGREE) | 2018 – 2023
+- Alma – local AI assistant with TFLite (2,500+ lines of Python, 36 tests). github.com/kharoldcanova/alma
+- LAIN – fully offline multimodal AI assistant on a real Android device: MiniCPM-V run with llama.cpp and Kokoro
 
-LANGUAGES
+for text-to-speech, using Hugging Face models; Whisper speech recognition in progress. github.com/kharoldcanova/lain
+- design-md – interface-design skill with a visual editor, design-token checker and local server (Apache-2.0).
+github.com/kharoldcanova/design-md
+- Kipu – personal finance app in Flutter with Clean Architecture, BLoC, offline-first Drift/SQLite and CI (in
+progress).
+All are personal projects built with AI-assisted development, from architecture design to integration and testing.
 
-Native Spanish · English B1 Intermediate (EF SET, 42/100)
+Education
 
-CERTIFICATIONS
+Universidad César Vallejo
+Systems Engineering degree (Professional Title)
 
-- Gen AI: Navigate the Landscape — Google (July 2026)
-- Certificate of Completion: AI Fluency Framework & Foundations — Anthropic (July 2026)
-- Gen AI: Unlock Foundational Concepts — Google (July 2026)
-- BIG School - AI Development: Agent Program (June 2026)
-- Automation with n8n — Platzi (December 2025)
-- Introduction to Generative AI — Google (July 2026)
+Peru
+2018-2023
 
-REFERENCES
+Certifications
+- AI: Google, 4 Generative AI courses (2026) • Anthropic, AI Fluency Framework & Foundations (2026) • BIG
+School, AI Development: Agent Program (2026) • Platzi, n8n Automation (2025)
 
-Hector Goicochea — IT Lead at Mil Mujeres Legal Services
-Siu Leon — CEO of TECLEAR
-References available upon request.
+- Infrastructure: Cisco Networking Academy, NDG Linux Essentials and Cybersecurity Essentials (2022)
+
+Languages
+- Spanish (native) • English (B1 intermediate, EF SET): technical reading and written communication with US
+teams.
+
+References
+- Available upon request.
+

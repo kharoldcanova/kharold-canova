@@ -161,7 +161,10 @@ class _PortfolioPageState extends State<PortfolioPage> {
       PageRouteBuilder<void>(
         fullscreenDialog: true,
         pageBuilder: (_, __, ___) => PresentationPage(
-          slides: _buildSections(cvUrl: _repo.getCvUrl(), height: _heroHeight)
+          slides: _buildSections(
+                  cvUrl: _repo
+                      .getCvUrl(Localizations.localeOf(context).languageCode),
+                  height: _heroHeight)
               .map((section) => section.child)
               .toList(),
         ),
@@ -183,7 +186,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
     }
 
     final mediumUrl = _repo.getMedium();
-    final cvUrl = _repo.getCvUrl();
+    final cvUrl = _repo.getCvUrl(Localizations.localeOf(context).languageCode);
     final sections = _buildSections(cvUrl: cvUrl, height: _heroHeight);
 
     return Scaffold(

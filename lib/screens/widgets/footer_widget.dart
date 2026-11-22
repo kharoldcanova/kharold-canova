@@ -69,7 +69,8 @@ class FooterWidget extends StatelessWidget {
         OutlinedButton.icon(
           key: const Key('footer-cv'),
           onPressed: () => launchUrl(
-            Uri.base.resolve(repo.getCvUrl()),
+            Uri.base.resolve(
+                repo.getCvUrl(Localizations.localeOf(context).languageCode)),
             mode: LaunchMode.externalApplication,
             webOnlyWindowName: '_blank',
           ),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -26,6 +28,15 @@ void main() {
       PortfolioRepository().getCvUrl(),
       'cv-kharold-canova.pdf',
     );
+  });
+
+  test('the CV download follows the site language and both PDFs ship', () {
+    final repo = PortfolioRepository();
+    expect(repo.getCvUrl('es'), 'cv-kharold-canova.pdf');
+    expect(repo.getCvUrl('en'), 'cv-kharold-canova-en.pdf');
+    for (final file in <String>['es', 'en'].map(repo.getCvUrl)) {
+      expect(File('web/$file').existsSync(), isTrue, reason: file);
+    }
   });
 
   test('experience data matches the CV (active users, TECLEAR dates)', () {

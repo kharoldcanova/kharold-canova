@@ -89,7 +89,9 @@ class _TerminalLandingPageState extends State<TerminalLandingPage> {
                                   .add(const ToggleTheme()),
                               onToggleLanguage: _toggleLanguage,
                               onOpenCv: () => _openExternal(
-                                Uri.base.resolve(_repository.getCvUrl()),
+                                Uri.base.resolve(_repository.getCvUrl(
+                                    Localizations.localeOf(context)
+                                        .languageCode)),
                               ),
                               onOpenMedium: () {
                                 final medium = _repository.getMedium();
@@ -169,7 +171,8 @@ class _TerminalLandingPageState extends State<TerminalLandingPage> {
         onRunHelp: () => setState(() => _showHelp = !_showHelp),
         onOpenContact: () => _selectTab(_TerminalTab.contact),
         onDownloadCv: () => _openExternal(
-          Uri.base.resolve(_repository.getCvUrl()),
+          Uri.base.resolve(_repository
+              .getCvUrl(Localizations.localeOf(context).languageCode)),
         ),
       );
     }
