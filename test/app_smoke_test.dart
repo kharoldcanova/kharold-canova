@@ -28,6 +28,17 @@ void main() {
     );
   });
 
+  test('experience data matches the CV (active users, TECLEAR dates)', () {
+    final experiences = PortfolioRepository().getExperiences();
+    final milMujeres = experiences.first;
+    expect(milMujeres.highlights.join(' '), contains('115 usuarios activos'));
+    expect(milMujeres.highlightsEn!.join(' '), contains('115 active users'));
+    expect(milMujeres.highlights.join(' '), isNot(contains('miles')));
+    final teclear = experiences[1];
+    expect(teclear.startDate, DateTime(2022, 9, 1));
+    expect(teclear.endDate, DateTime(2023, 7, 31));
+  });
+
   Future<void> pumpApp(
     WidgetTester tester, {
     Size size = const Size(390, 844),
@@ -112,7 +123,7 @@ void main() {
     await pumpApp(tester, size: const Size(1300, 900));
 
     expect(
-      find.text('Ingeniero de Sistemas, Full-Stack y Applied AI Engineer'),
+      find.text('Desarrollador Full Stack · Flutter · IA aplicada'),
       findsOneWidget,
     );
     expect(find.text('RAG · AGENTES · NL2SQL · MULTIMODAL'), findsOneWidget);
@@ -279,8 +290,8 @@ void main() {
     expect(find.byType(ExperienceTimeline), findsOneWidget);
     expect(find.text('Experiencia'), findsOneWidget);
     expect(find.text('Mil Mujeres Legal Services'), findsOneWidget);
-    expect(find.text('Desarrollador Fullstack'), findsNWidgets(2));
-    expect(find.text('Teclear S.A.C.'), findsOneWidget);
+    expect(find.text('Desarrollador Full Stack'), findsNWidgets(2));
+    expect(find.text('TECLEAR S.A.C.'), findsOneWidget);
 
     expect(find.byType(SkillGroupsGrid), findsOneWidget);
     expect(find.text('Stack técnico'), findsOneWidget);

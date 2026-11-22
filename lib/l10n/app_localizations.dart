@@ -329,7 +329,7 @@ abstract class AppLocalizations {
   /// Hero section subtitle emphasizing Systems, Full-Stack and Applied AI roles.
   ///
   /// In en, this message translates to:
-  /// **'Systems Engineer, Full-Stack & Applied AI Engineer'**
+  /// **'Full Stack Developer · Flutter · Applied AI'**
   String get hero_subtitle;
 
   /// Hero primary action that scrolls to the AI section.
@@ -353,7 +353,7 @@ abstract class AppLocalizations {
   /// Description for the AI and Agent Systems section.
   ///
   /// In en, this message translates to:
-  /// **'I design agents and applied AI systems that solve real problems: RAG over private data, NL2SQL with safeguards, multimodal assistants, and automation. These projects are the center of my work.'**
+  /// **'I design agents and applied AI systems that solve real problems: RAG over private data, NL2SQL with safeguards, multimodal assistants, and automation.'**
   String get ai_systems_desc;
 
   /// Label above the AI project grid.
@@ -389,7 +389,7 @@ abstract class AppLocalizations {
   /// Quote section after hero.
   ///
   /// In en, this message translates to:
-  /// **'Systems Engineer and Full-Stack Developer specializing in Flutter (Clean Architecture + BLoC) and Laravel. Passionate about Applied AI Agents, autonomous systems, and taking software to production through CI/CD and scalable architectures.'**
+  /// **'Systems Engineer and Full Stack Developer: Flutter apps with Clean Architecture and BLoC, Laravel APIs and CI/CD, plus applied-AI solutions such as RAG, agents and automations.'**
   String get hero_quote;
 
   /// About section title.
@@ -401,7 +401,7 @@ abstract class AppLocalizations {
   /// About section description.
   ///
   /// In en, this message translates to:
-  /// **'Systems Engineer and Full Stack Developer specializing in Flutter (Clean Architecture + BLoC) and Laravel. Passionate about applied AI and automation, with experience leading the full software development lifecycle and deploying production products with CI/CD and scalable architectures.'**
+  /// **'Systems Engineer with 4 years shipping mobile apps and APIs to production. Three years working remotely from Peru for a US company as the sole owner of its Flutter client app: I rebuilt it with Clean Architecture and BLoC and automated its releases with CI/CD. I build applied-AI solutions (RAG, local LLMs, agents, n8n) for real team problems, and I want to grow in mobile development or AI on products with real impact on people.'**
   String get about_desc;
 
   /// Hire me button.
@@ -647,7 +647,7 @@ abstract class AppLocalizations {
   /// Description for the professional experience timeline.
   ///
   /// In en, this message translates to:
-  /// **'A track record of building products, automating processes, and leading AI initiatives.'**
+  /// **'A track record of shipping apps to production, automating processes and applying AI to real problems.'**
   String get experience_desc;
 
   /// Label for an ongoing role in the experience timeline.

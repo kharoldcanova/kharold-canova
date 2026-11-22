@@ -133,8 +133,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get hero_eyebrow => 'RAG · AGENTS · NL2SQL · MULTIMODAL';
 
   @override
-  String get hero_subtitle =>
-      'Systems Engineer, Full-Stack & Applied AI Engineer';
+  String get hero_subtitle => 'Full Stack Developer · Flutter · Applied AI';
 
   @override
   String get hero_explore_ai => 'Explore AI systems';
@@ -147,7 +146,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ai_systems_desc =>
-      'I design agents and applied AI systems that solve real problems: RAG over private data, NL2SQL with safeguards, multimodal assistants, and automation. These projects are the center of my work.';
+      'I design agents and applied AI systems that solve real problems: RAG over private data, NL2SQL with safeguards, multimodal assistants, and automation.';
 
   @override
   String get ai_featured => 'Featured projects';
@@ -166,14 +165,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get hero_quote =>
-      'Systems Engineer and Full-Stack Developer specializing in Flutter (Clean Architecture + BLoC) and Laravel. Passionate about Applied AI Agents, autonomous systems, and taking software to production through CI/CD and scalable architectures.';
+      'Systems Engineer and Full Stack Developer: Flutter apps with Clean Architecture and BLoC, Laravel APIs and CI/CD, plus applied-AI solutions such as RAG, agents and automations.';
 
   @override
   String get about_title => 'About me';
 
   @override
   String get about_desc =>
-      'Systems Engineer and Full Stack Developer specializing in Flutter (Clean Architecture + BLoC) and Laravel. Passionate about applied AI and automation, with experience leading the full software development lifecycle and deploying production products with CI/CD and scalable architectures.';
+      'Systems Engineer with 4 years shipping mobile apps and APIs to production. Three years working remotely from Peru for a US company as the sole owner of its Flutter client app: I rebuilt it with Clean Architecture and BLoC and automated its releases with CI/CD. I build applied-AI solutions (RAG, local LLMs, agents, n8n) for real team problems, and I want to grow in mobile development or AI on products with real impact on people.';
 
   @override
   String get hire_me => 'Hire Me!';
@@ -306,7 +305,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get experience_desc =>
-      'A track record of building products, automating processes, and leading AI initiatives.';
+      'A track record of shipping apps to production, automating processes and applying AI to real problems.';
 
   @override
   String get present => 'Present';

@@ -93,9 +93,9 @@ void main() {
     expect(find.text('Full Stack Development · Applied AI'), findsOneWidget);
     await tester.tap(find.byKey(const Key('terminal-tab-about')));
     await tester.pumpAndSettle();
-    expect(find.text('Full-stack Developer'), findsNWidgets(2));
-    expect(find.text('Remote (US)'), findsOneWidget);
-    expect(find.textContaining('Production development'), findsOneWidget);
+    expect(find.text('Full Stack Developer'), findsNWidgets(2));
+    expect(find.text('USA (remote from Peru)'), findsOneWidget);
+    expect(find.textContaining('Sole owner of mm2'), findsOneWidget);
 
     await tester.tap(find.byKey(const Key('terminal-tab-projects')));
     await tester.pumpAndSettle();

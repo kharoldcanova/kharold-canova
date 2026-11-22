@@ -122,7 +122,7 @@
   "@hero_eyebrow": {
     "description": "Top hero line summarizing the technical profile."
   },
-  "hero_subtitle": "Systems Engineer, Full-Stack & Applied AI Engineer",
+  "hero_subtitle": "Full Stack Developer · Flutter · Applied AI",
   "@hero_subtitle": {
     "description": "Hero section subtitle emphasizing Systems, Full-Stack and Applied AI roles."
   },
@@ -138,7 +138,7 @@
   "@ai_systems": {
     "description": "Section title for AI and Agent Systems."
   },
-  "ai_systems_desc": "I design agents and applied AI systems that solve real problems: RAG over private data, NL2SQL with safeguards, multimodal assistants, and automation. These projects are the center of my work.",
+  "ai_systems_desc": "I design agents and applied AI systems that solve real problems: RAG over private data, NL2SQL with safeguards, multimodal assistants, and automation.",
   "@ai_systems_desc": {
     "description": "Description for the AI and Agent Systems section."
   },
@@ -162,7 +162,7 @@
   "@footer_cv": {
     "description": "Short label for the CV link in the footer."
   },
-  "hero_quote": "Systems Engineer and Full-Stack Developer specializing in Flutter (Clean Architecture + BLoC) and Laravel. Passionate about Applied AI Agents, autonomous systems, and taking software to production through CI/CD and scalable architectures.",
+  "hero_quote": "Systems Engineer and Full Stack Developer: Flutter apps with Clean Architecture and BLoC, Laravel APIs and CI/CD, plus applied-AI solutions such as RAG, agents and automations.",
   "@hero_quote": {
     "description": "Quote section after hero."
   },
@@ -170,7 +170,7 @@
   "@about_title": {
     "description": "About section title."
   },
-  "about_desc": "Systems Engineer and Full Stack Developer specializing in Flutter (Clean Architecture + BLoC) and Laravel. Passionate about applied AI and automation, with experience leading the full software development lifecycle and deploying production products with CI/CD and scalable architectures.",
+  "about_desc": "Systems Engineer with 4 years shipping mobile apps and APIs to production. Three years working remotely from Peru for a US company as the sole owner of its Flutter client app: I rebuilt it with Clean Architecture and BLoC and automated its releases with CI/CD. I build applied-AI solutions (RAG, local LLMs, agents, n8n) for real team problems, and I want to grow in mobile development or AI on products with real impact on people.",
   "@about_desc": {
     "description": "About section description."
   },
@@ -343,7 +343,7 @@
   "@experience": {
     "description": "Heading for the professional experience timeline."
   },
-  "experience_desc": "A track record of building products, automating processes, and leading AI initiatives.",
+  "experience_desc": "A track record of shipping apps to production, automating processes and applying AI to real problems.",
   "@experience_desc": {
     "description": "Description for the professional experience timeline."
   },
