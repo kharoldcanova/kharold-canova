@@ -3,35 +3,29 @@ import 'package:kharoldcanova/config/theme/brand_theme.dart';
 import 'package:kharoldcanova/config/theme/portfolio_tokens.dart';
 
 class AppTheme {
-  ThemeData getTheme() => _build(Brightness.light);
+  ThemeData getTheme() => _build(_Palette.light);
 
-  ThemeData getDarkTheme() => _build(Brightness.dark);
+  ThemeData getDarkTheme() => _build(_Palette.dark);
 
-  ThemeData _build(Brightness brightness) {
-    final isDark = brightness == Brightness.dark;
+  /// Theme of the optional terminal easter egg; independent of the app mode.
+  ThemeData getTerminalTheme() => _build(_Palette.terminal);
 
-    final bgBase = isDark ? BrandColors.darkBgBase : BrandColors.lightBgBase;
-    final bgSurface =
-        isDark ? BrandColors.darkBgSurface : BrandColors.lightBgSurface;
-    final bgElevated =
-        isDark ? BrandColors.darkBgElevated : BrandColors.lightBgElevated;
-    final textPrimary =
-        isDark ? BrandColors.darkTextPrimary : BrandColors.lightTextPrimary;
-    final textSecondary =
-        isDark ? BrandColors.darkTextSecondary : BrandColors.lightTextSecondary;
-    final primary = isDark ? BrandColors.darkPrimary : BrandColors.lightPrimary;
-    final onPrimary =
-        isDark ? BrandColors.darkOnPrimary : BrandColors.lightOnPrimary;
-    final accent = isDark ? BrandColors.darkAccent : BrandColors.lightAccent;
-    final error = isDark ? BrandColors.darkError : BrandColors.lightError;
-    final border = isDark ? BrandColors.darkBorder : BrandColors.lightBorder;
-    final borderSubtle =
-        isDark ? BrandColors.darkBorderSubtle : BrandColors.lightBorderSubtle;
-    final focusRing =
-        isDark ? BrandColors.darkFocusRing : BrandColors.lightFocusRing;
-    final navSurface =
-        isDark ? BrandColors.darkNavSurface : BrandColors.lightNavSurface;
-    final tokens = isDark ? PortfolioTokens.dark : PortfolioTokens.light;
+  ThemeData _build(_Palette palette) {
+    final brightness = palette.brightness;
+    final bgBase = palette.bgBase;
+    final bgSurface = palette.bgSurface;
+    final bgElevated = palette.bgElevated;
+    final textPrimary = palette.textPrimary;
+    final textSecondary = palette.textSecondary;
+    final primary = palette.primary;
+    final onPrimary = palette.onPrimary;
+    final accent = palette.accent;
+    final error = palette.error;
+    final border = palette.border;
+    final borderSubtle = palette.borderSubtle;
+    final focusRing = palette.focusRing;
+    final navSurface = palette.navSurface;
+    final tokens = palette.tokens;
 
     const baseTextTheme = TextTheme(
       displayLarge: TextStyle(
@@ -116,7 +110,7 @@ class AppTheme {
       ),
     );
 
-    final fontFamily = isDark ? BrandTheme.monoFamily : BrandTheme.fontFamily;
+    final fontFamily = palette.fontFamily;
     final textTheme = baseTextTheme.apply(
       fontFamily: fontFamily,
       bodyColor: textPrimary,
@@ -313,8 +307,105 @@ class AppTheme {
           navSurface: navSurface,
           focusRing: focusRing,
           borderSubtle: borderSubtle,
+          elevated: bgElevated,
         ),
       ],
     );
   }
+}
+
+/// Raw values for one theme variant; every value comes from brand_theme.dart.
+class _Palette {
+  const _Palette({
+    required this.brightness,
+    required this.bgBase,
+    required this.bgSurface,
+    required this.bgElevated,
+    required this.textPrimary,
+    required this.textSecondary,
+    required this.primary,
+    required this.onPrimary,
+    required this.accent,
+    required this.error,
+    required this.border,
+    required this.borderSubtle,
+    required this.focusRing,
+    required this.navSurface,
+    required this.fontFamily,
+    required this.tokens,
+  });
+
+  final Brightness brightness;
+  final Color bgBase;
+  final Color bgSurface;
+  final Color bgElevated;
+  final Color textPrimary;
+  final Color textSecondary;
+  final Color primary;
+  final Color onPrimary;
+  final Color accent;
+  final Color error;
+  final Color border;
+  final Color borderSubtle;
+  final Color focusRing;
+  final Color navSurface;
+  final String fontFamily;
+  final PortfolioTokens tokens;
+
+  static const light = _Palette(
+    brightness: Brightness.light,
+    bgBase: BrandColors.lightBgBase,
+    bgSurface: BrandColors.lightBgSurface,
+    bgElevated: BrandColors.lightBgElevated,
+    textPrimary: BrandColors.lightTextPrimary,
+    textSecondary: BrandColors.lightTextSecondary,
+    primary: BrandColors.lightPrimary,
+    onPrimary: BrandColors.lightOnPrimary,
+    accent: BrandColors.lightAccent,
+    error: BrandColors.lightError,
+    border: BrandColors.lightBorder,
+    borderSubtle: BrandColors.lightBorderSubtle,
+    focusRing: BrandColors.lightFocusRing,
+    navSurface: BrandColors.lightNavSurface,
+    fontFamily: BrandTheme.fontFamily,
+    tokens: PortfolioTokens.light,
+  );
+
+  static const dark = _Palette(
+    brightness: Brightness.dark,
+    bgBase: BrandColors.darkBgBase,
+    bgSurface: BrandColors.darkBgSurface,
+    bgElevated: BrandColors.darkBgElevated,
+    textPrimary: BrandColors.darkTextPrimary,
+    textSecondary: BrandColors.darkTextSecondary,
+    primary: BrandColors.darkPrimary,
+    onPrimary: BrandColors.darkOnPrimary,
+    accent: BrandColors.darkAccent,
+    error: BrandColors.darkError,
+    border: BrandColors.darkBorder,
+    borderSubtle: BrandColors.darkBorderSubtle,
+    focusRing: BrandColors.darkFocusRing,
+    navSurface: BrandColors.darkNavSurface,
+    fontFamily: BrandTheme.fontFamily,
+    tokens: PortfolioTokens.dark,
+  );
+
+  static const terminal = _Palette(
+    brightness: Brightness.dark,
+    bgBase: TerminalColors.bgBase,
+    bgSurface: TerminalColors.bgSurface,
+    bgElevated: TerminalColors.bgElevated,
+    textPrimary: TerminalColors.textPrimary,
+    textSecondary: TerminalColors.textSecondary,
+    primary: TerminalColors.green,
+    onPrimary: TerminalColors.onGreen,
+    accent: TerminalColors.accent,
+    error: TerminalColors.red,
+    border: TerminalColors.border,
+    borderSubtle: TerminalColors.borderSubtle,
+    focusRing: TerminalColors.green,
+    navSurface: TerminalColors.navSurface,
+    fontFamily: BrandTheme.monoFamily,
+    tokens: PortfolioTokens.dark,
+  );
 }

@@ -300,7 +300,7 @@ void main() {
 
     await tester.tap(find.byKey(const Key('theme-toggle')));
     await tester.pumpAndSettle();
-    await tester.tap(find.byKey(const Key('terminal-tab-contact')));
+    await tester.ensureVisible(find.byType(ContactWidget));
     await tester.pumpAndSettle();
 
     final section = tester.widget<SectionContainer>(
@@ -611,27 +611,7 @@ void main() {
           reason: label,
         );
 
-        if (mode == ThemeMode.dark) {
-          expect(
-            find.byKey(const Key('menu-button')),
-            findsNothing,
-            reason: 'dark mode uses terminal navigation at $label',
-          );
-          for (final destination in [
-            'ai',
-            'about',
-            'skills',
-            'projects',
-            'certifications',
-            'contact',
-          ]) {
-            expect(
-              find.byKey(Key('terminal-tab-$destination')),
-              findsOneWidget,
-              reason: destination,
-            );
-          }
-        } else if (width >= 1200) {
+        if (width >= 1200) {
           expect(
             find.byKey(const Key('menu-button')),
             findsNothing,

@@ -378,5 +378,7 @@
   "presentation_mode": "Start presentation",
   "presentation_previous": "Previous slide",
   "presentation_next": "Next slide",
-  "presentation_close": "Close presentation"
+  "presentation_close": "Close presentation",
+  "terminal_open": "Open terminal",
+  "terminal_close": "Close terminal"
 }

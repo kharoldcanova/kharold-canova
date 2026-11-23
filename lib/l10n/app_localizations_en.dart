@@ -340,4 +340,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get presentation_close => 'Close presentation';
+
+  @override
+  String get terminal_open => 'Open terminal';
+
+  @override
+  String get terminal_close => 'Close terminal';
 }

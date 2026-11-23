@@ -1,11 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kharoldcanova/bloc/locale/language_bloc.dart';
-import 'package:kharoldcanova/bloc/theme/theme_bloc.dart';
 import 'package:kharoldcanova/config/theme/brand_theme.dart';
+import 'package:kharoldcanova/config/theme/current_theme.dart';
 import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
 import 'package:kharoldcanova/domain/language_model.dart';
 import 'package:kharoldcanova/l10n/app_localizations.dart';
@@ -21,6 +22,11 @@ import 'package:url_launcher/url_launcher.dart';
 
 enum _TerminalTab { ai, about, skills, projects, certifications, contact }
 
+/// Optional terminal easter egg, opened from the footer `>_` button.
+///
+/// It always renders with [AppTheme.getTerminalTheme], whatever the app mode,
+/// and closes back to the portfolio with its exit button, the red window dot
+/// or Escape.
 class TerminalLandingPage extends StatefulWidget {
   const TerminalLandingPage({super.key});
 
@@ -52,14 +58,31 @@ class _TerminalLandingPageState extends State<TerminalLandingPage> {
     });
   }
 
+  void _close() => Navigator.of(context).maybePop();
+
   @override
   Widget build(BuildContext context) {
+    return Theme(
+      data: AppTheme().getTerminalTheme(),
+      child: CallbackShortcuts(
+        bindings: <ShortcutActivator, VoidCallback>{
+          const SingleActivator(LogicalKeyboardKey.escape): _close,
+        },
+        child: Focus(
+          autofocus: true,
+          child: Builder(builder: _buildWindow),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWindow(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
     final disableAnimations = MediaQuery.disableAnimationsOf(context);
     final maxWidth = (size.width - 32).clamp(280.0, 1280.0).toDouble();
 
     return Scaffold(
-      backgroundColor: BrandColors.darkBgBase,
+      backgroundColor: TerminalColors.bgBase,
       body: SafeArea(
         child: LayoutBuilder(
           builder: (context, constraints) => Center(
@@ -74,9 +97,9 @@ class _TerminalLandingPageState extends State<TerminalLandingPage> {
                   borderRadius: BorderRadius.circular(BrandTheme.radiusLG),
                   child: DecoratedBox(
                     decoration: BoxDecoration(
-                      color: BrandColors.darkBgSurface,
+                      color: TerminalColors.bgSurface,
                       border:
-                          Border.all(color: BrandColors.darkBorder, width: 1),
+                          Border.all(color: TerminalColors.border, width: 1),
                       borderRadius: BorderRadius.circular(BrandTheme.radiusLG),
                     ),
                     child: Stack(
@@ -84,9 +107,7 @@ class _TerminalLandingPageState extends State<TerminalLandingPage> {
                         Column(
                           children: [
                             _WindowBar(
-                              onToggleTheme: () => context
-                                  .read<ThemeBloc>()
-                                  .add(const ToggleTheme()),
+                              onClose: _close,
                               onToggleLanguage: _toggleLanguage,
                               onOpenCv: () => _openExternal(
                                 Uri.base.resolve(_repository.getCvUrl(
@@ -134,7 +155,7 @@ class _TerminalLandingPageState extends State<TerminalLandingPage> {
                           child: IgnorePointer(
                             child: CustomPaint(
                               foregroundPainter: _ScanlinePainter(
-                                BrandColors.darkTerminalScanline,
+                                TerminalColors.scanline,
                               ),
                             ),
                           ),
@@ -238,13 +259,13 @@ class _TerminalLandingPageState extends State<TerminalLandingPage> {
 
 class _WindowBar extends StatelessWidget {
   const _WindowBar({
-    required this.onToggleTheme,
+    required this.onClose,
     required this.onToggleLanguage,
     required this.onOpenCv,
     required this.onOpenMedium,
   });
 
-  final VoidCallback onToggleTheme;
+  final VoidCallback onClose;
   final VoidCallback onToggleLanguage;
   final VoidCallback onOpenCv;
   final VoidCallback onOpenMedium;
@@ -260,27 +281,28 @@ class _WindowBar extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       style: BrandTextStyles.mono(
         fontSize: 13,
-        color: BrandColors.darkTextSecondary,
+        color: TerminalColors.textSecondary,
       ),
     );
-    const controls = Row(
+    final controls = Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         _WindowControl(
-          key: Key('terminal-window-close'),
-          color: BrandColors.darkError,
-          label: 'Close window',
+          key: const Key('terminal-window-close'),
+          color: TerminalColors.red,
+          label: AppLocalizations.of(context)!.terminal_close,
+          onTap: onClose,
         ),
-        SizedBox(width: BrandTheme.spaceSM),
-        _WindowControl(
+        const SizedBox(width: BrandTheme.spaceSM),
+        const _WindowControl(
           key: Key('terminal-window-minimize'),
-          color: BrandColors.darkWarning,
+          color: TerminalColors.amber,
           label: 'Minimize window',
         ),
-        SizedBox(width: BrandTheme.spaceSM),
-        _WindowControl(
+        const SizedBox(width: BrandTheme.spaceSM),
+        const _WindowControl(
           key: Key('terminal-window-maximize'),
-          color: BrandColors.darkPrimary,
+          color: TerminalColors.green,
           label: 'Maximize window',
         ),
       ],
@@ -288,9 +310,9 @@ class _WindowBar extends StatelessWidget {
 
     return DecoratedBox(
       decoration: const BoxDecoration(
-        color: BrandColors.darkBgElevated,
+        color: TerminalColors.bgElevated,
         border: Border(
-          bottom: BorderSide(color: BrandColors.darkBorder, width: 1),
+          bottom: BorderSide(color: TerminalColors.border, width: 1),
         ),
       ),
       child: Padding(
@@ -308,7 +330,7 @@ class _WindowBar extends StatelessWidget {
                   Expanded(child: Center(child: title)),
                   const SizedBox(width: BrandTheme.spaceXL),
                   _WindowActions(
-                    onToggleTheme: onToggleTheme,
+                    onClose: onClose,
                     onToggleLanguage: onToggleLanguage,
                     onOpenCv: onOpenCv,
                     onOpenMedium: onOpenMedium,
@@ -324,7 +346,7 @@ class _WindowBar extends StatelessWidget {
               Align(
                 alignment: Alignment.centerRight,
                 child: _WindowActions(
-                  onToggleTheme: onToggleTheme,
+                  onClose: onClose,
                   onToggleLanguage: onToggleLanguage,
                   onOpenCv: onOpenCv,
                   onOpenMedium: onOpenMedium,
@@ -340,13 +362,13 @@ class _WindowBar extends StatelessWidget {
 
 class _WindowActions extends StatelessWidget {
   const _WindowActions({
-    required this.onToggleTheme,
+    required this.onClose,
     required this.onToggleLanguage,
     required this.onOpenCv,
     required this.onOpenMedium,
   });
 
-  final VoidCallback onToggleTheme;
+  final VoidCallback onClose;
   final VoidCallback onToggleLanguage;
   final VoidCallback onOpenCv;
   final VoidCallback onOpenMedium;
@@ -371,7 +393,7 @@ class _WindowActions extends StatelessWidget {
           ),
           icon: const FaIcon(
             FontAwesomeIcons.github,
-            color: BrandColors.darkTextSecondary,
+            color: TerminalColors.textSecondary,
             size: 18,
           ),
           visualDensity: VisualDensity.compact,
@@ -386,27 +408,16 @@ class _WindowActions extends StatelessWidget {
           ),
           icon: const FaIcon(
             FontAwesomeIcons.linkedin,
-            color: BrandColors.darkTextSecondary,
-            size: 18,
-          ),
-          visualDensity: VisualDensity.compact,
-        ),
-        IconButton(
-          key: const Key('theme-toggle'),
-          tooltip: t.theme_light,
-          onPressed: onToggleTheme,
-          icon: const Icon(
-            Icons.light_mode_outlined,
-            color: BrandColors.darkTextSecondary,
+            color: TerminalColors.textSecondary,
             size: 18,
           ),
           visualDensity: VisualDensity.compact,
         ),
         TextButton(
-          key: const Key('language-toggle'),
+          key: const Key('terminal-language-toggle'),
           onPressed: onToggleLanguage,
           style: TextButton.styleFrom(
-            foregroundColor: BrandColors.darkTerminalCyan,
+            foregroundColor: TerminalColors.cyan,
             textStyle: BrandTextStyles.mono(fontSize: 12),
             minimumSize: const Size(40, 36),
           ),
@@ -418,7 +429,7 @@ class _WindowActions extends StatelessWidget {
           onPressed: onOpenCv,
           icon: const Icon(
             Icons.download_outlined,
-            color: BrandColors.darkTextSecondary,
+            color: TerminalColors.textSecondary,
             size: 18,
           ),
           visualDensity: VisualDensity.compact,
@@ -429,7 +440,18 @@ class _WindowActions extends StatelessWidget {
           onPressed: onOpenMedium,
           icon: const Icon(
             Icons.article_outlined,
-            color: BrandColors.darkTextSecondary,
+            color: TerminalColors.textSecondary,
+            size: 18,
+          ),
+          visualDensity: VisualDensity.compact,
+        ),
+        IconButton(
+          key: const Key('terminal-exit'),
+          tooltip: t.terminal_close,
+          onPressed: onClose,
+          icon: const Icon(
+            Icons.close,
+            color: TerminalColors.textSecondary,
             size: 18,
           ),
           visualDensity: VisualDensity.compact,
@@ -444,20 +466,31 @@ class _WindowControl extends StatelessWidget {
     super.key,
     required this.color,
     required this.label,
+    this.onTap,
   });
 
   final Color color;
   final String label;
+  final VoidCallback? onTap;
 
   @override
-  Widget build(BuildContext context) => Semantics(
-        label: label,
-        child: Container(
-          width: 12,
-          height: 12,
-          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-        ),
-      );
+  Widget build(BuildContext context) {
+    final dot = Container(
+      width: 12,
+      height: 12,
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+    );
+    return Semantics(
+      label: label,
+      button: onTap != null,
+      child: onTap == null
+          ? dot
+          : MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: GestureDetector(onTap: onTap, child: dot),
+            ),
+    );
+  }
 }
 
 class _TerminalPrompt extends StatelessWidget {
@@ -486,21 +519,21 @@ class _TerminalPrompt extends StatelessWidget {
               style: BrandTextStyles.mono(
                 fontSize: 13,
                 weight: FontWeight.w500,
-                color: BrandColors.darkPrimary,
+                color: TerminalColors.green,
               ),
             ),
             Text(
               ':~',
               style: BrandTextStyles.mono(
                 fontSize: 13,
-                color: BrandColors.darkTextSecondary,
+                color: TerminalColors.textSecondary,
               ),
             ),
             Text(
               '\$ ',
               style: BrandTextStyles.mono(
                 fontSize: 13,
-                color: BrandColors.darkTerminalMagenta,
+                color: TerminalColors.magenta,
               ),
             ),
             Text(
@@ -509,7 +542,7 @@ class _TerminalPrompt extends StatelessWidget {
               style: BrandTextStyles.mono(
                 fontSize: 13,
                 weight: FontWeight.w500,
-                color: BrandColors.darkTerminalCyan,
+                color: TerminalColors.cyan,
               ),
             ),
             const SizedBox(width: BrandTheme.spaceXS),
@@ -569,7 +602,7 @@ class _BlinkingCursorState extends State<_BlinkingCursor> {
           style: BrandTextStyles.mono(
             fontSize: 15,
             weight: FontWeight.w500,
-            color: BrandColors.darkTerminalYellow,
+            color: TerminalColors.yellow,
           ),
         ),
       );
@@ -588,8 +621,8 @@ class _TerminalNavigation extends StatelessWidget {
   Widget build(BuildContext context) => DecoratedBox(
         decoration: const BoxDecoration(
           border: Border(
-            top: BorderSide(color: BrandColors.darkBorder, width: 1),
-            bottom: BorderSide(color: BrandColors.darkBorder, width: 1),
+            top: BorderSide(color: TerminalColors.border, width: 1),
+            bottom: BorderSide(color: TerminalColors.border, width: 1),
           ),
         ),
         child: LayoutBuilder(
@@ -649,8 +682,8 @@ class _TerminalTabButton extends StatelessWidget {
             onPressed: onPressed,
             style: TextButton.styleFrom(
               foregroundColor: selected
-                  ? BrandColors.darkPrimary
-                  : BrandColors.darkTextSecondary,
+                  ? TerminalColors.green
+                  : TerminalColors.textSecondary,
               textStyle: BrandTextStyles.mono(
                 fontSize: 13,
                 weight: selected ? FontWeight.w600 : FontWeight.w400,
@@ -665,8 +698,8 @@ class _TerminalTabButton extends StatelessWidget {
                 fontSize: 13,
                 weight: selected ? FontWeight.w600 : FontWeight.w400,
                 color: selected
-                    ? BrandColors.darkPrimary
-                    : BrandColors.darkTextSecondary,
+                    ? TerminalColors.green
+                    : TerminalColors.textSecondary,
               ),
             ),
           ),
@@ -700,7 +733,7 @@ class _WelcomeOutput extends StatelessWidget {
             Text(
               showHelp ? 'Available commands' : 'Kharold Canova',
               style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                    color: BrandColors.darkTextPrimary,
+                    color: TerminalColors.textPrimary,
                   ),
             ),
             const SizedBox(height: BrandTheme.spaceSM),
@@ -709,7 +742,7 @@ class _WelcomeOutput extends StatelessWidget {
                 'ai  about  skills  projects  certifications  contact',
                 style: BrandTextStyles.mono(
                   fontSize: 14,
-                  color: BrandColors.darkTerminalYellow,
+                  color: TerminalColors.yellow,
                 ),
               )
             else ...[
@@ -717,7 +750,7 @@ class _WelcomeOutput extends StatelessWidget {
                 role,
                 style: BrandTextStyles.mono(
                   fontSize: 16,
-                  color: BrandColors.darkTerminalCyan,
+                  color: TerminalColors.cyan,
                 ),
               ),
               const SizedBox(height: BrandTheme.spaceLG),
@@ -726,7 +759,7 @@ class _WelcomeOutput extends StatelessWidget {
                 child: Text(
                   profile,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: BrandColors.darkTextSecondary,
+                        color: TerminalColors.textSecondary,
                       ),
                 ),
               ),
@@ -795,9 +828,9 @@ class _SocialLinks extends StatelessWidget {
             'medium': Icons.article_outlined,
           };
           const colors = <String, Color>{
-            'github': BrandColors.darkPrimary,
-            'linkedin': BrandColors.darkTerminalCyan,
-            'medium': BrandColors.darkTerminalMagenta,
+            'github': TerminalColors.green,
+            'linkedin': TerminalColors.cyan,
+            'medium': TerminalColors.magenta,
           };
 
           return Wrap(
@@ -820,9 +853,9 @@ class _SocialLinks extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                         horizontal: BrandTheme.spaceMD,
                       ),
-                      foregroundColor: BrandColors.darkTextPrimary,
-                      backgroundColor: BrandColors.darkBgElevated,
-                      side: const BorderSide(color: BrandColors.darkBorder),
+                      foregroundColor: TerminalColors.textPrimary,
+                      backgroundColor: TerminalColors.bgElevated,
+                      side: const BorderSide(color: TerminalColors.border),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(BrandTheme.radius),
                       ),
@@ -843,7 +876,7 @@ class _SocialLinks extends StatelessWidget {
                                 style: BrandTextStyles.mono(
                                   fontSize: 12,
                                   weight: FontWeight.w600,
-                                  color: BrandColors.darkTextPrimary,
+                                  color: TerminalColors.textPrimary,
                                 ),
                               ),
                               const SizedBox(height: BrandTheme.spaceXS),
@@ -853,7 +886,7 @@ class _SocialLinks extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                                 style: BrandTextStyles.mono(
                                   fontSize: 10,
-                                  color: BrandColors.darkTextSecondary,
+                                  color: TerminalColors.textSecondary,
                                 ),
                               ),
                             ],
@@ -889,9 +922,9 @@ class _StatusBar extends StatelessWidget {
           vertical: BrandTheme.spaceSM,
         ),
         decoration: const BoxDecoration(
-          color: BrandColors.darkBgElevated,
+          color: TerminalColors.bgElevated,
           border: Border(
-            top: BorderSide(color: BrandColors.darkBorder, width: 1),
+            top: BorderSide(color: TerminalColors.border, width: 1),
           ),
         ),
         child: Text(
@@ -900,7 +933,7 @@ class _StatusBar extends StatelessWidget {
           overflow: TextOverflow.ellipsis,
           style: BrandTextStyles.mono(
             fontSize: 10,
-            color: BrandColors.darkTextSecondary,
+            color: TerminalColors.textSecondary,
           ),
         ),
       );

@@ -30,10 +30,6 @@ class BrandColors {
   static const Color darkPrimary = Color(0xFF4ADE80);
   static const Color darkOnPrimary = Color(0xFF052E16);
   static const Color darkContactBackground = Color(0xFF166534);
-  static const Color darkTerminalCyan = Color(0xFF56D4DD);
-  static const Color darkTerminalYellow = Color(0xFFE3C667);
-  static const Color darkTerminalMagenta = Color(0xFFD2A8FF);
-  static const Color darkTerminalScanline = Color(0x0D4ADE80);
   static const Color darkAccent = Color(0xFFB50F2D);
   static const Color darkSuccess = Color(0xFF4ADE80);
   static const Color darkWarning = Color(0xFFFACC15);
@@ -50,6 +46,31 @@ class BrandColors {
   static const Color heroScrimTop = Color(0xCC000000);
   static const Color heroScrimMid = Color(0xCC000000);
   static const Color heroScrimBottom = Color(0xCC000000);
+}
+
+/// Palette of the optional terminal easter egg (DESIGN.md 3.8).
+///
+/// Scoped to `TerminalLandingPage`: the portfolio itself never uses these.
+class TerminalColors {
+  TerminalColors._();
+
+  static const Color bgBase = Color(0xFF000000);
+  static const Color bgSurface = Color(0xFF121212);
+  static const Color bgElevated = Color(0xFF1C1C1C);
+  static const Color textPrimary = Color(0xFFF2F4F7);
+  static const Color textSecondary = Color(0xFFAAABAD);
+  static const Color green = Color(0xFF4ADE80);
+  static const Color onGreen = Color(0xFF052E16);
+  static const Color cyan = Color(0xFF56D4DD);
+  static const Color yellow = Color(0xFFE3C667);
+  static const Color magenta = Color(0xFFD2A8FF);
+  static const Color red = Color(0xFFF87171);
+  static const Color amber = Color(0xFFFACC15);
+  static const Color accent = Color(0xFFB50F2D);
+  static const Color scanline = Color(0x0D4ADE80);
+  static const Color border = Color(0xFF264A33);
+  static const Color borderSubtle = Color(0x66264A33);
+  static const Color navSurface = Color(0xEB000000);
 }
 
 class BrandTheme {

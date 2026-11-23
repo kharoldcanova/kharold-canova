@@ -715,6 +715,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Close presentation'**
   String get presentation_close;
+
+  /// No description provided for @terminal_open.
+  ///
+  /// In en, this message translates to:
+  /// **'Open terminal'**
+  String get terminal_open;
+
+  /// No description provided for @terminal_close.
+  ///
+  /// In en, this message translates to:
+  /// **'Close terminal'**
+  String get terminal_close;
 }
 
 class _AppLocalizationsDelegate

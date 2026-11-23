@@ -56,7 +56,7 @@ class HeroWidget extends StatelessWidget {
 
     final image =
         isMobile ? 'assets/hero-mobile.webp' : 'assets/hero-desktop.webp';
-    final heroFont = isDark ? BrandTheme.monoFamily : BrandTheme.fontFamily;
+    const heroFont = BrandTheme.fontFamily;
 
     // Desktop sits over the dark mountains and keeps the on-image roles.
     // Compact layouts sit over the light sky, so they switch to ink roles.

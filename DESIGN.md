@@ -28,9 +28,6 @@ Utiliza nombres semánticos en lugar de valores absolutos en el código.
 | `--text-primary` | `#000000` | `#f2f4f7` | Títulos y texto principal |
 | `--text-secondary` | `#3F3F46` | `#aaabad` | Subtítulos, metadatos, iconos inactivos |
 | `--primary` | `#0033CC` | `#4ADE80` | Botones de acción principal, enlaces, estados activos |
-| `--terminal-cyan` | — | `#56D4DD` | Información y enlaces secundarios del terminal oscuro |
-| `--terminal-yellow` | — | `#E3C667` | Comandos y metadatos destacados del terminal oscuro |
-| `--terminal-magenta` | — | `#D2A8FF` | Etiquetas y acentos secundarios del terminal oscuro |
 | `--contact-dark` | — | `#166534` | Fondo de la sección de contacto en el modo oscuro |
 | `--accent` | `#B00020` | `#b50f2d` | Elementos destacados, highlights, modo especial |
 | `--success` | `#166534` | `#4ADE80` | Mensajes de éxito, estados online, confirmaciones |
@@ -48,8 +45,8 @@ Utiliza nombres semánticos en lugar de valores absolutos en el código.
 | `--content-max` | `1200px` | `1200px` | Ancho máximo del grid de contenido |
 
 ### 2.2. Tipografía
-* **Modo claro:** `Poppins`, `Geist`, `Roboto`, system-ui, sans-serif.
-* **Modo oscuro terminal:** `JetBrains Mono`, `Fira Code`, monospace para toda la interfaz.
+* **Modos claro y oscuro:** la misma familia sans: `Poppins`, `Geist`, `Roboto`, system-ui, sans-serif. El modo oscuro solo cambia la paleta, nunca la tipografía.
+* **Terminal (easter egg):** `JetBrains Mono`, `Fira Code`, monospace, solo dentro de la terminal opcional (3.8).
 
 | Estilo | Tamaño (Desktop) | Tamaño (Mobile) | Peso (Font Weight) | Line Height |
 | :--- | :--- | :--- | :--- | :--- |
@@ -110,9 +107,7 @@ Cualquier componente interactivo **debe** contemplar los siguientes estados visu
 * En modo claro, la imagen ocupa el hero completo con `BoxFit.cover`; no se usa retrato ni avatar.
 * En modo oscuro, el hero no carga imágenes: usa un fondo negro sólido.
 * La imagen de fondo nunca cambia de brillo o apariencia al pasar el cursor.
-* En modo oscuro, el nombre y subtítulo del hero usan `JetBrains Mono`.
-* En modo oscuro, se muestra una landing terminal separada: ventana `kharold@portfolio:~`, prompt `whoami`, pestañas navegables y scanlines muy tenues.
-* La barra de navegación del terminal usa `JetBrains Mono`; el cursor respeta `disableAnimations`.
+* El modo oscuro muestra el mismo hero, header y secciones que el claro; solo cambia la paleta.
 * El wallpaper se muestra a brillo original, sin scrim ni tratamiento de hover; el texto conserva contraste por ubicación, tipografía y controles.
 * Experiencia, proyectos y certificaciones se localizan según el idioma activo; los enlaces sociales usan tarjetas terminales uniformes en columnas responsivas.
 * El resumen de foco profesional aparece como `Desarrollo Full Stack · IA Aplicada` / `Full Stack Development · Applied AI`.
@@ -153,7 +148,22 @@ Cualquier componente interactivo **debe** contemplar los siguientes estados visu
 * Tarjetas de altura uniforme: icono, índice, título, línea de impacto en mono con `--primary`, descripción, hasta 3 tecnologías y contador `+N`, y acción `Ver en GitHub`.
 * La cuadrícula usa 3 columnas en desktop, 2 en tablet y 1 en mobile. El hover y el foco solo cambian el borde a `--primary`.
 * Al final, un enlace outline a todos los repositorios del perfil.
-* En modo oscuro la sección se replica como pestaña `ai` del terminal, sin duplicar contenido ni tokens.
+* La terminal opcional (3.8) la reutiliza como pestaña `ai`, sin duplicar contenido.
+
+### 3.8. Terminal (easter egg)
+* El modo oscuro **no** es la terminal: es el mismo sitio con paleta oscura. La terminal es un extra opcional.
+* Se abre desde el botón `>_` del footer (tooltip `Abrir terminal` / `Open terminal`) como ruta a pantalla completa con fundido, igual que el modo presentación.
+* Se cierra con el botón ✕ de la barra, el punto rojo de la ventana o `Escape`, y vuelve al portafolio.
+* Siempre se dibuja con su propio tema (`AppTheme.getTerminalTheme()`), sea cual sea el modo activo: ventana `kharold@portfolio:~`, prompt `whoami`, pestañas navegables, tipografía `JetBrains Mono` y scanlines muy tenues. El cursor respeta `disableAnimations`.
+* Su paleta vive aislada en `TerminalColors` y no se usa fuera de la terminal:
+
+| Token terminal | Valor | Uso |
+| :--- | :--- | :--- |
+| `green` | `#4ADE80` | Prompt, pestaña activa, acción principal |
+| `cyan` | `#56D4DD` | Información y enlaces secundarios |
+| `yellow` | `#E3C667` | Comandos y metadatos destacados |
+| `magenta` | `#D2A8FF` | Etiquetas y acentos secundarios |
+| `border` | `#264A33` | Bordes de la ventana y la navegación |
 
 ---
 
@@ -164,7 +174,7 @@ Cualquier componente interactivo **debe** contemplar los siguientes estados visu
 * **Regla 3 (Naming Conventions):** Mantén coherencia en los nombres de clases o widgets según el framework del proyecto (ej. camelCase para Flutter, kebab-case para CSS/Tailwind).
 * **Regla 4 (Feedback de Cambios):** Si se añade un nuevo componente que no está listado aquí, documenta primero su estructura de tokens antes de codificarlo.
 * **Regla 5 (Light-first):** La primera visita siempre usa el tema claro. El tema oscuro es opt-in mediante el control de tema y la elección explícita se persiste. No se sigue `prefers-color-scheme` automáticamente.
-* **Regla 6 (Tokens, no hex):** Los únicos hexadecimales viven en la capa de tokens (`BrandColors` y `PortfolioTokens`). Los widgets consumen roles semánticos.
+* **Regla 6 (Tokens, no hex):** Los únicos hexadecimales viven en la capa de tokens (`BrandColors`, `TerminalColors` y `PortfolioTokens`). Los widgets consumen roles semánticos.
 * **Regla 7 (Imagen del hero):** El wallpaper del hero es un recurso visual de fondo. La interfaz no muestra atribuciones ni información sobre la propiedad de la imagen.
 
 ### 2.6 Movimiento

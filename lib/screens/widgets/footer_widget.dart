@@ -6,9 +6,12 @@ import 'package:kharoldcanova/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FooterWidget extends StatelessWidget {
-  const FooterWidget({super.key, this.mediumUrl});
+  const FooterWidget({super.key, this.mediumUrl, this.onTerminalTap});
 
   final String? mediumUrl;
+
+  /// Opens the optional terminal easter egg; hidden when null.
+  final VoidCallback? onTerminalTap;
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +68,20 @@ class FooterWidget extends StatelessWidget {
               mode: LaunchMode.externalApplication,
               webOnlyWindowName: '_blank',
             ),
+          ),
+        if (onTerminalTap != null)
+          _SocialIcon(
+            key: const Key('terminal-open'),
+            tooltip: t.terminal_open,
+            icon: Text(
+              '>_',
+              style: BrandTextStyles.mono(
+                fontSize: 13,
+                weight: FontWeight.w500,
+                color: colorScheme.onSurface,
+              ),
+            ),
+            onTap: onTerminalTap!,
           ),
         OutlinedButton.icon(
           key: const Key('footer-cv'),
@@ -143,6 +160,7 @@ class FooterWidget extends StatelessWidget {
 
 class _SocialIcon extends StatelessWidget {
   const _SocialIcon({
+    super.key,
     required this.tooltip,
     required this.icon,
     required this.onTap,

@@ -139,21 +139,28 @@ void main() {
     expect(BrandColors.darkPrimary, const Color(0xFF4ADE80));
   });
 
-  testWidgets('dark mode uses the terminal landing and mono navigation',
+  testWidgets('dark mode keeps the portfolio and sans navigation',
       (tester) async {
     await pumpPortfolio(tester);
     await tester.tap(find.byKey(const Key('theme-toggle')));
     await tester.pumpAndSettle();
 
-    expect(find.text('kharold@portfolio:~'), findsOneWidget);
-    expect(find.byType(HeroWidget), findsNothing);
-    final tab = tester.widget<Text>(
+    expect(find.text('kharold@portfolio:~'), findsNothing);
+    expect(find.byType(HeroWidget), findsOneWidget);
+    final navItem = tester.widget<Text>(
       find.descendant(
-        of: find.byKey(const Key('terminal-tab-about')),
-        matching: find.byType(Text),
+        of: find.byType(HeaderWidget),
+        matching: find.text('Sobre mí'),
       ),
     );
-    expect(tab.style?.fontFamily, BrandTheme.monoFamily);
+    expect(
+      navItem.style?.fontFamily ??
+          Theme.of(tester.element(find.byType(HeaderWidget)))
+              .textTheme
+              .bodyMedium
+              ?.fontFamily,
+      BrandTheme.fontFamily,
+    );
   });
 
   testWidgets('light hero displays its image without a darkening overlay',

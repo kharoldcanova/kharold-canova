@@ -86,9 +86,9 @@ void main() {
       expect(theme.colorScheme.onSurfaceVariant, const Color(0xFFAAABAD));
     });
 
-    test('uses JetBrains Mono for a distinct terminal-style dark mode', () {
-      expect(theme.textTheme.bodyLarge?.fontFamily, BrandTheme.monoFamily);
-      expect(theme.textTheme.headlineLarge?.fontFamily, BrandTheme.monoFamily);
+    test('uses the same sans family as light mode', () {
+      expect(theme.textTheme.bodyLarge?.fontFamily, BrandTheme.fontFamily);
+      expect(theme.textTheme.headlineLarge?.fontFamily, BrandTheme.fontFamily);
     });
 
     test('exposes the dark portfolio theme extension', () {
@@ -98,6 +98,22 @@ void main() {
       expect(tokens.focusRing, const Color(0xFF4ADE80));
       expect(tokens.borderSubtle, const Color(0x66264A33));
       expect(tokens.elevated, const Color(0xFF1C1C1C));
+    });
+  });
+
+  group('AppTheme terminal easter egg', () {
+    late ThemeData theme;
+
+    setUp(() {
+      theme = AppTheme().getTerminalTheme();
+    });
+
+    test('keeps the dark mono terminal look scoped to the easter egg', () {
+      expect(theme.brightness, Brightness.dark);
+      expect(theme.scaffoldBackgroundColor, TerminalColors.bgBase);
+      expect(theme.colorScheme.primary, TerminalColors.green);
+      expect(theme.colorScheme.outline, TerminalColors.border);
+      expect(theme.textTheme.bodyLarge?.fontFamily, BrandTheme.monoFamily);
     });
   });
 }

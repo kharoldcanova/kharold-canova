@@ -176,14 +176,24 @@ class _PortfolioPageState extends State<PortfolioPage> {
     );
   }
 
+  void _openTerminal() {
+    Navigator.of(context).push<void>(
+      PageRouteBuilder<void>(
+        fullscreenDialog: true,
+        pageBuilder: (_, __, ___) => const TerminalLandingPage(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          if (MediaQuery.disableAnimationsOf(context)) return child;
+          return FadeTransition(opacity: animation, child: child);
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
     final isSmallScreen = width < 1200;
     _heroHeight = heroHeightFor(context);
-    if (Theme.of(context).brightness == Brightness.dark) {
-      return const TerminalLandingPage();
-    }
 
     final mediumUrl = _repo.getMedium();
     final cvUrl = _repo.getCvUrl(Localizations.localeOf(context).languageCode);
@@ -221,7 +231,10 @@ class _PortfolioPageState extends State<PortfolioPage> {
                 key: _sectionKeys[section.id],
                 child: section.child,
               ),
-            FooterWidget(mediumUrl: mediumUrl),
+            FooterWidget(
+              mediumUrl: mediumUrl,
+              onTerminalTap: _openTerminal,
+            ),
           ],
         ),
       ),
