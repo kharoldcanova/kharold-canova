@@ -62,6 +62,20 @@ void main() {
     expect(lain.description, contains('Hugging Face'));
   });
 
+  test('portfolio carries the CV facts: webhooks, OpenAI-to-local, Kipu tests', () {
+    final repo = PortfolioRepository();
+    final milMujeres = repo.getExperiences().first;
+    expect(milMujeres.highlights.join(' '), contains('Google Chat'));
+    expect(milMujeres.highlightsEn!.join(' '), contains('Google Chat'));
+    final projects = repo.getProjects();
+    final iaSql = projects.firstWhere((p) => p.title == 'ia-sql');
+    expect(iaSql.description, contains('OpenAI'));
+    expect(iaSql.descriptionEn, contains('OpenAI'));
+    final kipu = projects.firstWhere((p) => p.title == 'Kipu');
+    expect(kipu.description, contains('tests'));
+    expect(kipu.descriptionEn, contains('tests'));
+  });
+
   Future<void> pumpApp(
     WidgetTester tester, {
     Size size = const Size(390, 844),

@@ -20,14 +20,14 @@ class PortfolioRepository {
             'Nueva versión con diseño UX renovado y notificaciones push con Firebase: los clientes siguen el estado de su caso, consultan su información legal y reciben avisos de documentos.',
             'Publicación automatizada con GitHub Actions (build, firma y subida a App Store y Google Play): de uno o más días de trabajo manual a un proceso automático, sin depender de una Mac en cada entrega.',
             'APIs RESTful con Laravel, PHP 8.x y MySQL/Eloquent, e interfaces dinámicas con Vue.js.',
-            'Automatización de procesos del equipo de TI con Google Apps Script (GLPI, creación de usuarios de Google Workspace) y ia-sql, creado por iniciativa propia para agilizar sus informes.',
+            'Automatización de procesos del equipo de TI con Google Apps Script (GLPI, creación de usuarios de Google Workspace, reportes automáticos al chat de finanzas vía webhooks de Google Chat) y ia-sql, creado por iniciativa propia para agilizar sus informes.',
           ],
           highlightsEn: const [
             'Sole owner of mm2, the firm\'s Flutter client app, within a 2–3 person dev team (published on the App Store and Google Play, ~115 active users): first maintained the inherited code, then rebuilt it from scratch with Clean Architecture and BLoC.',
             'The new version brought a redesigned UX and Firebase push notifications: clients track their case status, review their legal information and get document alerts.',
             'Automated releases with GitHub Actions (build, signing and upload to the App Store and Google Play): from a day or more of manual work to an automated run, no Mac needed for every release.',
             'RESTful APIs with Laravel, PHP 8.x and MySQL/Eloquent, plus dynamic interfaces with Vue.js.',
-            'Automated IT-team processes with Google Apps Script (GLPI, Google Workspace user creation) and built ia-sql on my own initiative to speed up their reports.',
+            'Automated IT-team processes with Google Apps Script (GLPI, Google Workspace user creation, automated reports to the finance chat through Google Chat webhooks) and built ia-sql on my own initiative to speed up their reports.',
           ],
         ),
         Experience(
@@ -155,10 +155,10 @@ class PortfolioRepository {
         const Project(
           title: 'ia-sql',
           description:
-              'RAG de lenguaje natural a SQL (NL2SQL) con modelos de Ollama sobre un esquema real, con guardas de solo lectura. Nació para agilizar los informes que se pedían al equipo de TI.',
+              'RAG de lenguaje natural a SQL (NL2SQL) sobre un esquema real, iniciado con la API de OpenAI y migrado a modelos locales de Ollama para abaratar costos, con guardas de solo lectura. Nació para agilizar los informes que se pedían al equipo de TI.',
           descriptionEn:
-              'Natural-language-to-SQL (NL2SQL) RAG with Ollama models over a real schema, with read-only safeguards. Built to speed up the report requests the IT team received.',
-          techStack: ['RAG', 'NL2SQL', 'SQL', 'Read-only guard'],
+              'Natural-language-to-SQL (NL2SQL) RAG over a real schema, started on the OpenAI API and migrated to local Ollama models to cut costs, with read-only safeguards. Built to speed up the report requests the IT team received.',
+          techStack: ['RAG', 'NL2SQL', 'SQL', 'Ollama', 'Read-only guard'],
           techStackEn: ['RAG', 'NL2SQL', 'SQL', 'Read-only safeguards'],
           category: 'IA',
           categoryEn: 'AI',
@@ -245,9 +245,9 @@ class PortfolioRepository {
         const Project(
           title: 'Kipu',
           description:
-              'Wallet personal para finanzas con Flutter, Clean Architecture, BLoC y almacenamiento offline-first con Drift y SQLite.',
+              'Wallet personal para finanzas con Flutter, Clean Architecture, BLoC y almacenamiento offline-first con Drift y SQLite, con tests automatizados.',
           descriptionEn:
-              'Personal finance wallet built with Flutter, Clean Architecture, BLoC, and offline-first storage using Drift and SQLite.',
+              'Personal finance wallet built with Flutter, Clean Architecture, BLoC, and offline-first storage using Drift and SQLite, with automated tests.',
           techStack: ['Flutter', 'BLoC', 'Drift', 'SQLite', 'Offline-first'],
           techStackEn: ['Flutter', 'BLoC', 'Drift', 'SQLite', 'Offline-first'],
           category: 'Proyecto interno',

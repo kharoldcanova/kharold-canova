@@ -44,7 +44,8 @@ su caso, consultan su información legal y reciben avisos de documentos.
 días de trabajo manual a un proceso automático, sin depender de una Mac en cada entrega.
 - Desarrollé y optimicé APIs RESTful con Laravel, PHP 8.x y MySQL/Eloquent, e interfaces dinámicas con Vue.js.
 - Automaticé procesos del equipo de TI con Google Apps Script (integración con GLPI para el inventario de recursos,
-creación automática de usuarios de Google Workspace) y creé ia-sql por iniciativa propia.
+creación automática de usuarios de Google Workspace, reportes automáticos al chat de finanzas vía webhooks de
+Google Chat) y creé ia-sql por iniciativa propia.
 TECLEAR S.A.C.
 Piura, Perú
 Desarrollador Full Stack
@@ -57,18 +58,20 @@ nueva de una semana a 2–3 días.
 tiempo real.
 
 Proyectos
-- ia-sql – RAG de lenguaje natural a SQL con modelos de Ollama, ejemplos reales de consultas y guard de solo lectura;
-corregir una consulta generada resultó más rápido que escribirla desde cero. github.com/kharoldcanova/ia-sql
+- ia-sql – RAG de lenguaje natural a SQL, iniciado con la API de OpenAI y migrado a modelos locales de Ollama
 
+para abaratar costos, ejemplos reales de consultas y guard de solo lectura; corregir una consulta generada resultó
+más rápido que escribirla desde cero. github.com/kharoldcanova/ia-sql
 - Alma – asistente de IA local con TFLite (más de 2.500 líneas de Python, 36 tests). github.com/kharoldcanova/alma
 - LAIN – asistente de IA multimodal 100% offline en un Android real: MiniCPM-V ejecutado con llama.cpp
-
 y Kokoro para texto a voz, con modelos de Hugging Face; reconocimiento de voz con Whisper en desarrollo.
 github.com/kharoldcanova/lain
+- kharold-canova – portafolio personal en Flutter Web, en español e inglés, con tema claro y oscuro, descarga del
+CV según el idioma, tests de widgets y despliegue automatizado con GitHub Actions. kharoldcanova.github.io
 - design-md – skill para diseño de interfaces con editor visual, verificador de tokens de diseño y servidor local
 (Apache-2.0). github.com/kharoldcanova/design-md
-- Kipu – app de finanzas personales en Flutter con Clean Architecture, BLoC, Drift/SQLite offline-first y CI (en
-desarrollo).
+- Kipu – app de finanzas personales en Flutter con Clean Architecture, BLoC, Drift/SQLite offline-first, tests
+automatizados y CI (en desarrollo).
 Todos son proyectos propios construidos con desarrollo asistido por IA, desde el diseño de la arquitectura hasta la
 integración y las pruebas.
 
@@ -81,10 +84,21 @@ Perú
 2018-2023
 
 Certificaciones
-- IA: Google, 4 cursos de IA generativa (2026) • Anthropic, AI Fluency Framework & Foundations (2026) • BIG
-School, Desarrollo con IA: Programa con Agentes (2026) • Platzi, Automatizaciones con n8n (2025)
+- IA generativa (Google, 2026): Introduction to Generative AI • Gen AI: Navigate the Landscape • Gen AI:
+Unlock Foundational Concepts • Gen AI: Beyond the Chatbot
 
-- Infraestructura: Cisco Networking Academy, NDG Linux Essentials y Cybersecurity Essentials (2022)
+- IA y automatización: Anthropic, AI Fluency Framework & Foundations (2026) • BIG School, Desarrollo con IA:
+Programa con Agentes (2026) • Platzi, Automatizaciones con n8n (2025)
+
+- Desarrollo: Python Essentials 1 • JavaScript Fundamentals • Diseño Web con HTML5 y CSS, Conecta Empleo
+(2022)
+
+- Infraestructura: Cisco Networking Academy, NDG Linux Essentials, Cybersecurity Essentials y Redes empresariales,
+Seguridad y Automatización (2022)
+
+Disponibilidad
+- Disponibilidad inmediata • Tiempo completo • Remoto desde Piura, Perú, con tres años de experiencia trabajando
+en remoto con un equipo de EE.UU.; híbrido en Lima posible tras el primer mes.
 
 Idiomas
 - Español (nativo) • Inglés (B1 intermedio, EF SET): lectura técnica y comunicación escrita con equipos de EE.UU.
