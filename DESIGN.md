@@ -36,10 +36,6 @@ Utiliza nombres semánticos en lugar de valores absolutos en el código.
 | `--on-primary` | `#FFFFFF` | `#0A1433` | Texto e iconos sobre `--primary` |
 | `--border` | `#111111` | `#3F3F46` | Bordes, separadores, líneas divisorias |
 | `--border-subtle` | `#111111` @ 40% | `#3F3F46` @ 40% | Divisores internos y metadatos |
-| `--on-image` | `#FFFFFF` | `#FFFFFF` | Texto e iconos sobre imagen |
-| `--on-image-muted` | `#FFFFFF` @ 82% | `#FFFFFF` @ 82% | Texto secundario sobre imagen |
-| `--on-image-border` | `#FFFFFF` @ 40% | `#FFFFFF` @ 40% | Bordes de controles sobre imagen |
-| `--hero-scrim` | Ninguno | Ninguno | El wallpaper claro conserva su brillo original; el tema oscuro no carga imagen |
 | `--nav-surface` | `#FFFFFF` @ 92% | `#000000` @ 92% | Fondo del header tras hacer scroll |
 | `--focus-ring` | `#0033CC` | `#8AA8FF` | Anillo de foco de accesibilidad (= `--primary`) |
 | `--content-max` | `1200px` | `1200px` | Ancho máximo del grid de contenido |
@@ -73,17 +69,16 @@ Utiliza nombres semánticos en lugar de valores absolutos en el código.
 * `radius-lg`: 16px (Tarjetas, paneles, modales y contenedores grandes)
 * `radius-full`: 9999px (Avatares, botones circulares, pills)
 
-### 2.5. Layout, Imagen y Navegación
+### 2.5. Layout y Navegación
 * **Grid de contenido:** ancho máximo `--content-max` (1200px), centrado, con gutters de 80px en desktop y 24px en mobile.
-* **Hero:** altura acotada al 68% del viewport en mobile (mín. 500px, máx. 600px) y al 72% en desktop (mín. 540px, máx. 700px). La identidad va abajo-izquierda en desktop y centrada-izquierda en mobile. El nombre usa `Hero Display` y el rol `Hero Role`; esta es la única excepción a la escala tipográfica estándar.
-* **Hero · jerarquía:** nombre (`Hero Display`), rol (`Hero Role`), eyebrow mono en mayúsculas (`--on-image-muted`) y una fila de acciones. El rol debe leerse antes que cualquier otro metadato.
-* **Hero · acciones:** `Descargar CV` (primaria), `Explorar sistemas de IA` (outline) y `Contáctame` (outline) en desktop; en mobile se mantienen CV y los accesos directos a GitHub/LinkedIn para no empujar el nombre hacia la zona clara del wallpaper.
-* **Hero · enlaces sociales:** en desktop, riel vertical abajo-derecha con GitHub, LinkedIn y email; botones de 44px con borde `--on-image-border`. Nunca se agrega un scrim para mejorar el contraste.
-* **Hero · contraste por ubicación:** en desktop la identidad se apoya sobre las montañas oscuras y usa `--on-image`; en tablet y mobile cae sobre el cielo claro, así que usa `--text-primary`, `--text-secondary` y `--border`. Bajo 700px se omite `Contáctame` para que la fila de acciones no se apile.
-* **Scrim:** cuatro paradas con negro al 80% para mantener el contraste del texto también en el crop móvil brillante. Sin parallax ni sombras.
+* **Hero:** altura acotada al 68% del viewport en mobile (mín. 500px, máx. 600px) y al 72% en desktop (mín. 540px, máx. 700px). La identidad va centrada-izquierda en todos los anchos. El nombre usa `Hero Display` y el rol `Hero Role`; esta es la única excepción a la escala tipográfica estándar.
+* **Hero · jerarquía:** nombre (`Hero Display`), rol (`Hero Role`), eyebrow mono en mayúsculas (`--text-secondary`) y una fila de acciones. El rol debe leerse antes que cualquier otro metadato.
+* **Hero · acciones:** `Descargar CV` (primaria), `Explorar sistemas de IA` (outline) y `Contáctame` (outline) en desktop; en mobile se mantienen CV, `Explorar sistemas de IA` y los accesos directos a GitHub/LinkedIn.
+* **Hero · enlaces sociales:** en desktop, riel vertical abajo-derecha con GitHub, LinkedIn y email; botones de 44px con borde `--border`.
+* **Hero · color:** fondo liso `--bg-base`; texto y controles usan los roles de tinta (`--text-primary`, `--text-secondary`, `--border`) en todos los anchos y en ambos modos. Bajo 700px se omite `Contáctame` para que la fila de acciones no se apile. Sin imagen, scrim, parallax ni sombras.
 * **Header:** transparente sobre el hero; tras hacer scroll usa `--nav-surface` y un borde inferior de 1px.
 * **Indicador activo:** subrayado de 2px en `--primary`, sin pills ni fondos rellenos.
-* **Foco:** anillo visible con `--focus-ring`; sobre imagen se usa `--on-image` para mantener el contraste.
+* **Foco:** anillo visible con `--focus-ring`.
 * **Contacto:** en claro, fondo dominante `--primary` con texto e iconos `--on-primary`; en oscuro, `--bg-elevated` con `--text-primary`. El footer conserva `--bg-surface` y su borde superior.
 
 ---
@@ -103,15 +98,13 @@ Cualquier componente interactivo **debe** contemplar los siguientes estados visu
 * **Secondary / Outline:** Fondo transparente, borde `--border`, texto `--text-primary`.
 * **Ghost:** Sin fondo ni borde, texto `--text-secondary`, adquiere fondo sutil en hover.
 
-### 3.2. Hero con Imagen
-* En modo claro, la imagen ocupa el hero completo con `BoxFit.cover`; no se usa retrato ni avatar.
-* En modo oscuro, el hero no carga imágenes: usa un fondo negro sólido.
-* La imagen de fondo nunca cambia de brillo o apariencia al pasar el cursor.
+### 3.2. Hero
+* Fondo liso `--bg-base` en ambos modos: sin ilustración, wallpaper, retrato ni avatar. El nombre, el rol y las acciones mandan.
+* Si en el futuro se añade una ilustración, va como elemento lateral que no compita con el nombre, nunca como fondo a sangre.
 * El modo oscuro muestra el mismo hero, header y secciones que el claro; solo cambia la paleta.
-* El wallpaper se muestra a brillo original, sin scrim ni tratamiento de hover; el texto conserva contraste por ubicación, tipografía y controles.
 * Experiencia, proyectos y certificaciones se localizan según el idioma activo; los enlaces sociales usan tarjetas terminales uniformes en columnas responsivas.
 * El resumen de foco profesional aparece como `Desarrollo Full Stack · IA Aplicada` / `Full Stack Development · Applied AI`.
-* La acción principal usa `--primary` con `--on-primary`; la secundaria es outline con `--on-image-border` y `--on-image`.
+* La acción principal usa `--primary` con `--on-primary`; la secundaria es outline con `--border` y `--text-primary`.
 * El CV se abre en una pestaña nueva.
 
 ### 3.3. Navegación
@@ -175,7 +168,7 @@ Cualquier componente interactivo **debe** contemplar los siguientes estados visu
 * **Regla 4 (Feedback de Cambios):** Si se añade un nuevo componente que no está listado aquí, documenta primero su estructura de tokens antes de codificarlo.
 * **Regla 5 (Light-first):** La primera visita siempre usa el tema claro. El tema oscuro es opt-in mediante el control de tema y la elección explícita se persiste. No se sigue `prefers-color-scheme` automáticamente.
 * **Regla 6 (Tokens, no hex):** Los únicos hexadecimales viven en la capa de tokens (`BrandColors`, `TerminalColors` y `PortfolioTokens`). Los widgets consumen roles semánticos.
-* **Regla 7 (Imagen del hero):** El wallpaper del hero es un recurso visual de fondo. La interfaz no muestra atribuciones ni información sobre la propiedad de la imagen.
+* **Regla 7 (Hero sin imagen):** El hero no carga imágenes de fondo. Cualquier recurso visual futuro es secundario al nombre y no muestra atribuciones.
 
 ### 2.6 Movimiento
 * `--motion-reveal-duration`: 500ms; `--motion-slide-duration`: 220ms.

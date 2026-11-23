@@ -26,9 +26,6 @@ dev_dependencies:
 flutter:
   generate: true
   uses-material-design: true
-  assets:
-    - assets/hero-desktop.webp
-    - assets/hero-mobile.webp
   fonts:
     - family: Poppins
       fonts:

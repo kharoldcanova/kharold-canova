@@ -58,12 +58,6 @@ void main() {
       expect(tokens!.contentMaxWidth, 1200);
       expect(tokens.navSurface, const Color(0xEBFFFFFF));
       expect(tokens.focusRing, const Color(0xFF0033CC));
-      expect(tokens.onImage, const Color(0xFFFFFFFF));
-      expect(tokens.onImageMuted, const Color(0xD1FFFFFF));
-      expect(tokens.onImageBorder, const Color(0x66FFFFFF));
-      expect(tokens.heroScrimTop, const Color(0xCC000000));
-      expect(tokens.heroScrimMid, const Color(0xCC000000));
-      expect(tokens.heroScrimBottom, const Color(0xCC000000));
     });
   });
 

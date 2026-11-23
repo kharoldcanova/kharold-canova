@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kharoldcanova/config/theme/brand_theme.dart';
-import 'package:kharoldcanova/config/theme/portfolio_tokens.dart';
 import 'package:kharoldcanova/config/theme/theme_preferences.dart';
 import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
 import 'package:kharoldcanova/main.dart';
@@ -185,24 +184,25 @@ void main() {
     expect(find.byKey(const Key('hero-github-rail')), findsNothing);
   });
 
-  testWidgets('compact hero uses ink roles over the light wallpaper sky',
-      (tester) async {
-    await pumpApp(tester);
+  for (final size in <Size>[const Size(390, 844), const Size(1300, 900)]) {
+    for (final mode in <ThemeMode>[ThemeMode.light, ThemeMode.dark]) {
+      testWidgets(
+          'hero uses ink roles at ${size.width.toInt()}px ${mode.name}',
+          (tester) async {
+        tester.view.devicePixelRatio = 1;
+        tester.view.physicalSize = size;
+        addTearDown(tester.view.resetDevicePixelRatio);
+        addTearDown(tester.view.resetPhysicalSize);
+        await tester.pumpWidget(MainApp(initialMode: mode));
+        await tester.pumpAndSettle();
 
-    final scaffold = tester.element(find.byType(Scaffold));
-    final name = tester.widget<Text>(find.text('Kharold Canova'));
-    expect(name.style?.color, Theme.of(scaffold).colorScheme.onSurface);
-  });
-
-  testWidgets('desktop hero keeps on-image roles over the mountains',
-      (tester) async {
-    await pumpApp(tester, size: const Size(1300, 900));
-
-    final scaffold = tester.element(find.byType(Scaffold));
-    final tokens = Theme.of(scaffold).extension<PortfolioTokens>()!;
-    final name = tester.widget<Text>(find.text('Kharold Canova'));
-    expect(name.style?.color, tokens.onImage);
-  });
+        final scheme = Theme.of(tester.element(find.byType(Scaffold)))
+            .colorScheme;
+        final name = tester.widget<Text>(find.text('Kharold Canova'));
+        expect(name.style?.color, scheme.onSurface);
+      });
+    }
+  }
 
   testWidgets('hero AI action scrolls to the AI section and marks it active',
       (tester) async {

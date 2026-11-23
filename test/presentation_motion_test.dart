@@ -163,31 +163,33 @@ void main() {
     );
   });
 
-  testWidgets('light hero displays its image without a darkening overlay',
-      (tester) async {
-    await pumpPortfolio(tester);
+  for (final mode in <ThemeMode>[ThemeMode.light, ThemeMode.dark]) {
+    testWidgets('${mode.name} hero has a plain background without images',
+        (tester) async {
+      tester.view.devicePixelRatio = 1;
+      tester.view.physicalSize = const Size(1400, 900);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      addTearDown(tester.view.resetPhysicalSize);
+      await tester.pumpWidget(MainApp(initialMode: mode));
+      await tester.pumpAndSettle();
 
-    expect(
-      find.descendant(
-        of: find.byType(HeroWidget),
-        matching: find.byWidgetPredicate(
-          (widget) =>
-              widget is Image &&
-              widget.image is AssetImage &&
-              (widget.image as AssetImage).assetName ==
-                  'assets/hero-desktop.webp',
+      expect(
+        find.descendant(
+          of: find.byType(HeroWidget),
+          matching: find.byType(Image),
         ),
-      ),
-      findsOneWidget,
-    );
-    expect(
-      find.descendant(
-        of: find.byType(HeroWidget),
-        matching: find.byType(DecoratedBox),
-      ),
-      findsNothing,
-    );
-  });
+        findsNothing,
+      );
+      final hero = tester.element(find.byType(HeroWidget));
+      final background = tester.widget<ColoredBox>(
+        find.byKey(const Key('hero-background')),
+      );
+      expect(background.color, Theme.of(hero).scaffoldBackgroundColor);
+      expect(find.byKey(const Key('hero-cv')), findsOneWidget);
+      expect(find.byKey(const Key('hero-explore-ai')), findsOneWidget);
+      expect(find.byKey(const Key('hero-contact')), findsOneWidget);
+    });
+  }
 
   testWidgets('presentation slide fits the viewport without scrolling',
       (tester) async {
@@ -252,22 +254,5 @@ void main() {
     expect(opacity.opacity, 1);
     expect(slide.offset, Offset.zero);
     expect(opacity.duration, Duration.zero);
-  });
-
-  testWidgets('hero uses the owner wallpaper crops rather than placeholders',
-      (tester) async {
-    await pumpPortfolio(tester);
-    final assets = tester.widgetList<Image>(find.byType(Image)).where(
-          (image) => image.image is AssetImage,
-        );
-    expect(
-      assets.map((image) => (image.image as AssetImage).assetName),
-      contains('assets/hero-desktop.webp'),
-    );
-    expect(
-      assets.map((image) => (image.image as AssetImage).assetName),
-      isNot(contains('assets/photo.jpg')),
-    );
-    expect(find.textContaining('Karem Adem'), findsNothing);
   });
 }

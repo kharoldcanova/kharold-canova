@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kharoldcanova/config/theme/brand_theme.dart';
-import 'package:kharoldcanova/config/theme/portfolio_tokens.dart';
 import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
 import 'package:kharoldcanova/l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -48,23 +47,18 @@ class HeroWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
     final repo = PortfolioRepository();
-    final tokens = Theme.of(context).extension<PortfolioTokens>()!;
     final width = MediaQuery.sizeOf(context).width;
     final isMobile = width < 1200;
     final isCompact = width < 700;
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-
-    final image =
-        isMobile ? 'assets/hero-mobile.webp' : 'assets/hero-desktop.webp';
     const heroFont = BrandTheme.fontFamily;
 
-    // Desktop sits over the dark mountains and keeps the on-image roles.
-    // Compact layouts sit over the light sky, so they switch to ink roles.
-    final colorScheme = Theme.of(context).colorScheme;
-    final heroForeground = isMobile ? colorScheme.onSurface : tokens.onImage;
-    final heroMuted =
-        isMobile ? colorScheme.onSurfaceVariant : tokens.onImageMuted;
-    final heroBorder = isMobile ? colorScheme.outline : tokens.onImageBorder;
+    // Plain background (DESIGN.md 3.2): the name, role and actions lead, so
+    // the hero uses the regular ink roles at every width and in both modes.
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final heroForeground = colorScheme.onSurface;
+    final heroMuted = colorScheme.onSurfaceVariant;
+    final heroBorder = colorScheme.outline;
 
     final nameSize = isMobile ? 36.0 : 80.0;
     final roleSize = isMobile ? 20.0 : 38.0;
@@ -77,21 +71,12 @@ class HeroWidget extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          if (isDark)
-            const ColoredBox(color: Colors.black)
-          else
-            Image.asset(
-              image,
-              fit: BoxFit.cover,
-              alignment: isMobile ? Alignment.center : Alignment.centerRight,
-              errorBuilder: (context, error, stackTrace) {
-                return ColoredBox(
-                  color: Theme.of(context).colorScheme.surface,
-                );
-              },
-            ),
+          ColoredBox(
+            key: const Key('hero-background'),
+            color: theme.scaffoldBackgroundColor,
+          ),
           Align(
-            alignment: isMobile ? Alignment.centerLeft : Alignment.bottomLeft,
+            alignment: Alignment.centerLeft,
             child: Padding(
               padding: EdgeInsets.fromLTRB(
                 horizontal,
@@ -236,7 +221,7 @@ class _HeroActions extends StatelessWidget {
           onPressed: onExploreAi,
           icon: const Icon(Icons.auto_awesome_outlined, size: 18),
           label: Text(t.hero_explore_ai),
-          style: _outlinedOnImage(),
+          style: _outlinedSecondary(),
         ),
         if (showContact)
           OutlinedButton.icon(
@@ -244,7 +229,7 @@ class _HeroActions extends StatelessWidget {
             onPressed: onContact,
             icon: const Icon(Icons.mail_outline, size: 18),
             label: Text(t.contact_me),
-            style: _outlinedOnImage(),
+            style: _outlinedSecondary(),
           ),
         if (showSocials) ...[
           _HeroIconLink(
@@ -268,7 +253,7 @@ class _HeroActions extends StatelessWidget {
     );
   }
 
-  ButtonStyle _outlinedOnImage() {
+  ButtonStyle _outlinedSecondary() {
     return OutlinedButton.styleFrom(
       foregroundColor: foreground,
       side: BorderSide(color: borderColor, width: 1),

@@ -36,14 +36,6 @@ class BrandColors {
   static const Color darkBorderSubtle = Color(0x663F3F46);
   static const Color darkNavSurface = Color(0xEB000000);
   static const Color darkFocusRing = darkPrimary;
-
-  // Over-image roles are mode-independent.
-  static const Color onImage = Color(0xFFFFFFFF);
-  static const Color onImageMuted = Color(0xD1FFFFFF);
-  static const Color onImageBorder = Color(0x66FFFFFF);
-  static const Color heroScrimTop = Color(0xCC000000);
-  static const Color heroScrimMid = Color(0xCC000000);
-  static const Color heroScrimBottom = Color(0xCC000000);
 }
 
 /// Palette of the optional terminal easter egg (DESIGN.md 3.8).
