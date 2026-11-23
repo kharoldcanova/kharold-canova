@@ -100,7 +100,7 @@ class _PublishedSkillCard extends StatelessWidget {
               vertical: BrandTheme.spaceXS,
             ),
             decoration: BoxDecoration(
-              color: colorScheme.tertiary,
+              color: colorScheme.primary,
               borderRadius: BorderRadius.circular(BrandTheme.radiusSM),
             ),
             child: Text(
@@ -108,7 +108,7 @@ class _PublishedSkillCard extends StatelessWidget {
               style: BrandTextStyles.mono(
                 fontSize: 11,
                 weight: FontWeight.w500,
-                color: Colors.white,
+                color: colorScheme.onPrimary,
                 letterSpacing: 1.2,
               ),
             ),

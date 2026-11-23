@@ -20,6 +20,8 @@
 ### 2.1. Paleta de Colores
 Utiliza nombres semánticos en lugar de valores absolutos en el código.
 
+**Un solo acento por modo:** `--primary` es el único color de acento (azul `#0033CC` en claro, azul apagado `#8AA8FF` en oscuro). No se usan segundos acentos, rojos decorativos ni neón; bordes y superficies son neutros. `--success`, `--warning` y `--error` quedan reservados para estados, nunca para decorar.
+
 | Token Semántico | Valor Hex / Light | Valor Hex / Dark | Uso Principal |
 | :--- | :--- | :--- | :--- |
 | `--bg-base` | `#FFFFFF` | `#000000` | Fondo principal de la aplicación |
@@ -27,21 +29,19 @@ Utiliza nombres semánticos en lugar de valores absolutos en el código.
 | `--bg-elevated` | `#ededed` | `#1C1C1C` | Modales, dropdowns, elementos flotantes |
 | `--text-primary` | `#000000` | `#f2f4f7` | Títulos y texto principal |
 | `--text-secondary` | `#3F3F46` | `#aaabad` | Subtítulos, metadatos, iconos inactivos |
-| `--primary` | `#0033CC` | `#4ADE80` | Botones de acción principal, enlaces, estados activos |
-| `--contact-dark` | — | `#166534` | Fondo de la sección de contacto en el modo oscuro |
-| `--accent` | `#B00020` | `#b50f2d` | Elementos destacados, highlights, modo especial |
+| `--primary` | `#0033CC` | `#8AA8FF` | Único acento: botones principales, enlaces, estados activos |
 | `--success` | `#166534` | `#4ADE80` | Mensajes de éxito, estados online, confirmaciones |
 | `--warning` | `#92400E` | `#FACC15` | Alertas, advertencias |
 | `--error` | `#B91C1C` | `#F87171` | Errores, acciones destructivas |
-| `--on-primary` | `#FFFFFF` | `#052E16` | Texto e iconos sobre `--primary` |
-| `--border` | `#111111` | `#264A33` | Bordes, separadores, líneas divisorias |
-| `--border-subtle` | `#111111` @ 40% | `#264A33` @ 40% | Divisores internos y metadatos |
+| `--on-primary` | `#FFFFFF` | `#0A1433` | Texto e iconos sobre `--primary` |
+| `--border` | `#111111` | `#3F3F46` | Bordes, separadores, líneas divisorias |
+| `--border-subtle` | `#111111` @ 40% | `#3F3F46` @ 40% | Divisores internos y metadatos |
 | `--on-image` | `#FFFFFF` | `#FFFFFF` | Texto e iconos sobre imagen |
 | `--on-image-muted` | `#FFFFFF` @ 82% | `#FFFFFF` @ 82% | Texto secundario sobre imagen |
 | `--on-image-border` | `#FFFFFF` @ 40% | `#FFFFFF` @ 40% | Bordes de controles sobre imagen |
 | `--hero-scrim` | Ninguno | Ninguno | El wallpaper claro conserva su brillo original; el tema oscuro no carga imagen |
 | `--nav-surface` | `#FFFFFF` @ 92% | `#000000` @ 92% | Fondo del header tras hacer scroll |
-| `--focus-ring` | `#0033CC` | `#4ADE80` | Anillo de foco de accesibilidad |
+| `--focus-ring` | `#0033CC` | `#8AA8FF` | Anillo de foco de accesibilidad (= `--primary`) |
 | `--content-max` | `1200px` | `1200px` | Ancho máximo del grid de contenido |
 
 ### 2.2. Tipografía
@@ -84,7 +84,7 @@ Utiliza nombres semánticos en lugar de valores absolutos en el código.
 * **Header:** transparente sobre el hero; tras hacer scroll usa `--nav-surface` y un borde inferior de 1px.
 * **Indicador activo:** subrayado de 2px en `--primary`, sin pills ni fondos rellenos.
 * **Foco:** anillo visible con `--focus-ring`; sobre imagen se usa `--on-image` para mantener el contraste.
-* **Contacto:** fondo dominante `--primary` (azul en claro, verde en oscuro) con texto e iconos `--on-primary`; el footer conserva `--bg-surface` y su borde superior.
+* **Contacto:** en claro, fondo dominante `--primary` con texto e iconos `--on-primary`; en oscuro, `--bg-elevated` con `--text-primary`. El footer conserva `--bg-surface` y su borde superior.
 
 ---
 
@@ -130,7 +130,7 @@ Cualquier componente interactivo **debe** contemplar los siguientes estados visu
 
 ### 3.5. Sección de Contacto
 * En modo claro: fondo dominante `--primary` y texto `--on-primary`.
-* En modo oscuro: fondo verde oscuro `#166534` y texto blanco, con la tipografía terminal del tema.
+* En modo oscuro: fondo neutro `--bg-elevated` y texto `--text-primary`, para que el azul apagado siga siendo el único acento.
 * Cuatro canales en cuadrícula 2×2 (desktop) o 1 columna (mobile): email, teléfono, GitHub y LinkedIn.
 * Tarjetas de contacto transparentes con borde de 1px; el hover y el foco solo cambian el borde, nunca oscurecen imágenes.
 * El footer no se invierte: conserva `--bg-surface` con su borde superior de 1px.

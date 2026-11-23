@@ -12,7 +12,6 @@ class BrandColors {
   static const Color lightTextSecondary = Color(0xFF3F3F46);
   static const Color lightPrimary = Color(0xFF0033CC);
   static const Color lightOnPrimary = Color(0xFFFFFFFF);
-  static const Color lightAccent = Color(0xFFB00020);
   static const Color lightSuccess = Color(0xFF166534);
   static const Color lightWarning = Color(0xFF92400E);
   static const Color lightError = Color(0xFFB91C1C);
@@ -27,17 +26,16 @@ class BrandColors {
   static const Color darkBgElevated = Color(0xFF1C1C1C);
   static const Color darkTextPrimary = Color(0xFFF2F4F7);
   static const Color darkTextSecondary = Color(0xFFAAABAD);
-  static const Color darkPrimary = Color(0xFF4ADE80);
-  static const Color darkOnPrimary = Color(0xFF052E16);
-  static const Color darkContactBackground = Color(0xFF166534);
-  static const Color darkAccent = Color(0xFFB50F2D);
+  // Muted blue: the single dark accent, same identity as light #0033CC.
+  static const Color darkPrimary = Color(0xFF8AA8FF);
+  static const Color darkOnPrimary = Color(0xFF0A1433);
   static const Color darkSuccess = Color(0xFF4ADE80);
   static const Color darkWarning = Color(0xFFFACC15);
   static const Color darkError = Color(0xFFF87171);
-  static const Color darkBorder = Color(0xFF264A33);
-  static const Color darkBorderSubtle = Color(0x66264A33);
+  static const Color darkBorder = Color(0xFF3F3F46);
+  static const Color darkBorderSubtle = Color(0x663F3F46);
   static const Color darkNavSurface = Color(0xEB000000);
-  static const Color darkFocusRing = Color(0xFF4ADE80);
+  static const Color darkFocusRing = darkPrimary;
 
   // Over-image roles are mode-independent.
   static const Color onImage = Color(0xFFFFFFFF);
@@ -66,7 +64,6 @@ class TerminalColors {
   static const Color magenta = Color(0xFFD2A8FF);
   static const Color red = Color(0xFFF87171);
   static const Color amber = Color(0xFFFACC15);
-  static const Color accent = Color(0xFFB50F2D);
   static const Color scanline = Color(0x0D4ADE80);
   static const Color border = Color(0xFF264A33);
   static const Color borderSubtle = Color(0x66264A33);

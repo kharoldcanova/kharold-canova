@@ -78,10 +78,10 @@ void main() {
       expect(theme.brightness, Brightness.dark);
       expect(theme.scaffoldBackgroundColor, Colors.black);
       expect(theme.colorScheme.surface, const Color(0xFF121212));
-      expect(theme.colorScheme.primary, const Color(0xFF4ADE80));
-      expect(theme.colorScheme.onPrimary, const Color(0xFF052E16));
-      expect(theme.colorScheme.outline, const Color(0xFF264A33));
-      expect(theme.colorScheme.outlineVariant, const Color(0x66264A33));
+      expect(theme.colorScheme.primary, const Color(0xFF8AA8FF));
+      expect(theme.colorScheme.onPrimary, const Color(0xFF0A1433));
+      expect(theme.colorScheme.outline, const Color(0xFF3F3F46));
+      expect(theme.colorScheme.outlineVariant, const Color(0x663F3F46));
       expect(theme.colorScheme.onSurface, const Color(0xFFF2F4F7));
       expect(theme.colorScheme.onSurfaceVariant, const Color(0xFFAAABAD));
     });
@@ -95,10 +95,44 @@ void main() {
       final tokens = theme.extension<PortfolioTokens>();
       expect(tokens, isNotNull);
       expect(tokens!.navSurface, const Color(0xEB000000));
-      expect(tokens.focusRing, const Color(0xFF4ADE80));
-      expect(tokens.borderSubtle, const Color(0x66264A33));
+      expect(tokens.focusRing, const Color(0xFF8AA8FF));
+      expect(tokens.borderSubtle, const Color(0x663F3F46));
       expect(tokens.elevated, const Color(0xFF1C1C1C));
     });
+  });
+
+  group('One accent per mode', () {
+    const terminalAccents = <Color>[
+      TerminalColors.green,
+      TerminalColors.cyan,
+      TerminalColors.yellow,
+      TerminalColors.magenta,
+    ];
+
+    for (final entry in <String, ThemeData Function()>{
+      'light': () => AppTheme().getTheme(),
+      'dark': () => AppTheme().getDarkTheme(),
+    }.entries) {
+      test('${entry.key} exposes a single accent and no terminal colors', () {
+        final scheme = entry.value().colorScheme;
+        final accents = <Color>{
+          scheme.primary,
+          scheme.secondary,
+          scheme.tertiary,
+          scheme.inversePrimary,
+        };
+        expect(accents, hasLength(1));
+        expect(scheme.onTertiary, scheme.onPrimary);
+        expect(
+          entry.value().extension<PortfolioTokens>()!.focusRing,
+          scheme.primary,
+        );
+        for (final color in terminalAccents) {
+          expect(accents.contains(color), isFalse);
+          expect(scheme.outline == color, isFalse);
+        }
+      });
+    }
   });
 
   group('AppTheme terminal easter egg', () {

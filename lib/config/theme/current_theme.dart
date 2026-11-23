@@ -19,7 +19,6 @@ class AppTheme {
     final textSecondary = palette.textSecondary;
     final primary = palette.primary;
     final onPrimary = palette.onPrimary;
-    final accent = palette.accent;
     final error = palette.error;
     final border = palette.border;
     final borderSubtle = palette.borderSubtle;
@@ -127,8 +126,9 @@ class AppTheme {
       onSecondary: onPrimary,
       secondaryContainer: bgElevated,
       onSecondaryContainer: textPrimary,
-      tertiary: accent,
-      onTertiary: Colors.white,
+      // One accent per mode (DESIGN.md 2.1): tertiary mirrors primary.
+      tertiary: primary,
+      onTertiary: onPrimary,
       error: error,
       onError: Colors.white,
       surface: bgSurface,
@@ -325,7 +325,6 @@ class _Palette {
     required this.textSecondary,
     required this.primary,
     required this.onPrimary,
-    required this.accent,
     required this.error,
     required this.border,
     required this.borderSubtle,
@@ -343,7 +342,6 @@ class _Palette {
   final Color textSecondary;
   final Color primary;
   final Color onPrimary;
-  final Color accent;
   final Color error;
   final Color border;
   final Color borderSubtle;
@@ -361,7 +359,6 @@ class _Palette {
     textSecondary: BrandColors.lightTextSecondary,
     primary: BrandColors.lightPrimary,
     onPrimary: BrandColors.lightOnPrimary,
-    accent: BrandColors.lightAccent,
     error: BrandColors.lightError,
     border: BrandColors.lightBorder,
     borderSubtle: BrandColors.lightBorderSubtle,
@@ -380,7 +377,6 @@ class _Palette {
     textSecondary: BrandColors.darkTextSecondary,
     primary: BrandColors.darkPrimary,
     onPrimary: BrandColors.darkOnPrimary,
-    accent: BrandColors.darkAccent,
     error: BrandColors.darkError,
     border: BrandColors.darkBorder,
     borderSubtle: BrandColors.darkBorderSubtle,
@@ -399,7 +395,6 @@ class _Palette {
     textSecondary: TerminalColors.textSecondary,
     primary: TerminalColors.green,
     onPrimary: TerminalColors.onGreen,
-    accent: TerminalColors.accent,
     error: TerminalColors.red,
     border: TerminalColors.border,
     borderSubtle: TerminalColors.borderSubtle,

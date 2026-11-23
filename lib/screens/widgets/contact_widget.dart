@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kharoldcanova/config/theme/brand_theme.dart';
+import 'package:kharoldcanova/config/theme/portfolio_tokens.dart';
 import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
 import 'package:kharoldcanova/l10n/app_localizations.dart';
 import 'package:kharoldcanova/screens/widgets/section_shell.dart';
@@ -16,13 +17,14 @@ class ContactWidget extends StatelessWidget {
     final baseTheme = Theme.of(context);
     final colorScheme = baseTheme.colorScheme;
     final isDark = baseTheme.brightness == Brightness.dark;
-    final sectionForeground = isDark ? Colors.white : colorScheme.onPrimary;
-    final sectionBackground =
-        isDark ? BrandColors.darkContactBackground : colorScheme.primary;
+    final tokens = baseTheme.extension<PortfolioTokens>()!;
+    final sectionForeground =
+        isDark ? colorScheme.onSurface : colorScheme.onPrimary;
+    final sectionBackground = isDark ? tokens.elevated : colorScheme.primary;
     final repo = PortfolioRepository();
 
-    // Light mode keeps the blue contact block. Dark mode instead uses a
-    // deep-green terminal panel with white text for accessible contrast.
+    // Light mode keeps the blue contact block. Dark mode uses the neutral
+    // elevated surface so the muted blue stays the only accent.
     final contactTheme = baseTheme.copyWith(
       colorScheme: colorScheme.copyWith(
         primary: sectionForeground,

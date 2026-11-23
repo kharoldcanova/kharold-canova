@@ -294,7 +294,7 @@ void main() {
     );
   });
 
-  testWidgets('dark contact uses a green surface and white text',
+  testWidgets('dark contact uses the elevated surface and primary text',
       (tester) async {
     await pumpApp(tester, size: const Size(1300, 900));
 
@@ -309,7 +309,7 @@ void main() {
         matching: find.byType(SectionContainer),
       ),
     );
-    expect(section.background, BrandColors.darkContactBackground);
+    expect(section.background, BrandColors.darkBgElevated);
 
     final title = tester.widget<Text>(
       find.descendant(
@@ -317,7 +317,7 @@ void main() {
         matching: find.text('Contacto'),
       ),
     );
-    expect(title.style?.color, Colors.white);
+    expect(title.style?.color, BrandColors.darkTextPrimary);
   });
 
   testWidgets('about renders the experience timeline and grouped tech stack',

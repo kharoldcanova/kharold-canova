@@ -130,13 +130,13 @@ void main() {
     expect(find.text('+30'), findsOneWidget);
   });
 
-  testWidgets('hero has no image ownership credit and dark theme is green',
+  testWidgets('hero has no image ownership credit and dark theme is muted blue',
       (tester) async {
     await pumpPortfolio(tester);
     expect(find.textContaining('Karem Adem'), findsNothing);
     await tester.tap(find.byKey(const Key('theme-toggle')));
     await tester.pumpAndSettle();
-    expect(BrandColors.darkPrimary, const Color(0xFF4ADE80));
+    expect(BrandColors.darkPrimary, const Color(0xFF8AA8FF));
   });
 
   testWidgets('dark mode keeps the portfolio and sans navigation',
