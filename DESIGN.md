@@ -35,14 +35,14 @@ Utiliza nombres semánticos en lugar de valores absolutos en el código.
 | `--error` | `#B91C1C` | `#F87171` | Errores, acciones destructivas |
 | `--on-primary` | `#FFFFFF` | `#0A1433` | Texto e iconos sobre `--primary` |
 | `--border` | `#111111` | `#3F3F46` | Bordes, separadores, líneas divisorias |
-| `--border-subtle` | `#111111` @ 40% | `#3F3F46` @ 40% | Divisores internos y metadatos |
+| `--border-subtle` | `#111111` @ 12% | `#F2F4F7` @ 12% | Bordes de tarjetas, divisores de sección, aristas de las redes |
 | `--nav-surface` | `#FFFFFF` @ 92% | `#000000` @ 92% | Fondo del header tras hacer scroll |
 | `--focus-ring` | `#0033CC` | `#8AA8FF` | Anillo de foco de accesibilidad (= `--primary`) |
 | `--content-max` | `1200px` | `1200px` | Ancho máximo del grid de contenido |
 
 ### 2.2. Tipografía
 * **Modos claro y oscuro:** la misma familia sans: `Poppins`, `Geist`, `Roboto`, system-ui, sans-serif. El modo oscuro solo cambia la paleta, nunca la tipografía.
-* **Terminal (easter egg):** `JetBrains Mono`, `Fira Code`, monospace, solo dentro de la terminal opcional (3.8).
+* **Monospace:** `JetBrains Mono` solo dentro de la terminal opcional (3.6). Fechas, métricas, etiquetas y chips usan la sans; las cifras alineadas usan `tabularFigures`.
 
 | Estilo | Tamaño (Desktop) | Tamaño (Mobile) | Peso (Font Weight) | Line Height |
 | :--- | :--- | :--- | :--- | :--- |
@@ -70,16 +70,19 @@ Utiliza nombres semánticos en lugar de valores absolutos en el código.
 * `radius-full`: 9999px (Avatares, botones circulares, pills)
 
 ### 2.5. Layout y Navegación
-* **Grid de contenido:** ancho máximo `--content-max` (1200px), centrado, con gutters de 80px en desktop y 24px en mobile.
-* **Hero:** altura acotada al 68% del viewport en mobile (mín. 500px, máx. 600px) y al 72% en desktop (mín. 540px, máx. 700px). La identidad va centrada-izquierda en todos los anchos. El nombre usa `Hero Display` y el rol `Hero Role`; esta es la única excepción a la escala tipográfica estándar.
-* **Hero · jerarquía:** nombre (`Hero Display`), rol (`Hero Role`), eyebrow mono en mayúsculas (`--text-secondary`) y una fila de acciones. El rol debe leerse antes que cualquier otro metadato.
-* **Hero · acciones:** `Descargar CV` (primaria), `Explorar sistemas de IA` (outline) y `Contáctame` (outline) en desktop; en mobile se mantienen CV, `Explorar sistemas de IA` y los accesos directos a GitHub/LinkedIn.
-* **Hero · enlaces sociales:** en desktop, riel vertical abajo-derecha con GitHub, LinkedIn y email; botones de 44px con borde `--border`.
-* **Hero · color:** fondo liso `--bg-base`; texto y controles usan los roles de tinta (`--text-primary`, `--text-secondary`, `--border`) en todos los anchos y en ambos modos. Bajo 700px se omite `Contáctame` para que la fila de acciones no se apile. Sin imagen, scrim, parallax ni sombras.
-* **Header:** transparente sobre el hero; tras hacer scroll usa `--nav-surface` y un borde inferior de 1px.
+* **Grid de contenido:** ancho máximo `--content-max` (1200px), centrado, con gutters de 80px desde 900px y 24px por debajo. Header, hero y secciones comparten ese mismo borde izquierdo.
+* **Breakpoints:** 900px separa header con enlaces / drawer; 920px separa hero a dos columnas / apilado; 760px separa grillas de 2 columnas / 1 columna. Todo se prueba a 320, 360, 390, 768, 900, 1200, 1440 y 1920px.
+* **Hero:** su altura la marca el contenido (no el viewport). Izquierda: identidad; derecha: las redes neuronales (3.2). Bajo 920px las redes van debajo.
+* **Header:** transparente sobre el hero; tras hacer scroll usa `--nav-surface` y un borde inferior de 1px en `--border-subtle`.
 * **Indicador activo:** subrayado de 2px en `--primary`, sin pills ni fondos rellenos.
 * **Foco:** anillo visible con `--focus-ring`.
-* **Contacto:** en claro, fondo dominante `--primary` con texto e iconos `--on-primary`; en oscuro, `--bg-elevated` con `--text-primary`. El footer conserva `--bg-surface` y su borde superior.
+* **Separación entre secciones:** borde superior de 1px en `--border-subtle`; sin eyebrows numerados (`01 — TÍTULO`), el título basta.
+
+### 2.6. Voz del contenido
+* Primera persona y frases que diría una persona: "Hola, soy", "Hablemos", "Con qué trabajo". Nada de fórmulas de CV en el cuerpo de la página ("tiempo completo", "único responsable", listas de palabras clave como eyebrow).
+* La única fórmula permitida es la etiqueta de estado `Disponibilidad inmediata` / `Available now` (hero y contacto).
+* Ubicación, modalidad e idiomas van en una línea discreta bajo los canales de contacto, no en "Sobre mí".
+* Los datos (cifras, fechas, stack) salen del CV principal y no se inventan.
 
 ---
 
@@ -99,21 +102,22 @@ Cualquier componente interactivo **debe** contemplar los siguientes estados visu
 * **Ghost:** Sin fondo ni borde, texto `--text-secondary`, adquiere fondo sutil en hover.
 
 ### 3.2. Hero
-* Fondo liso `--bg-base` en ambos modos: sin ilustración, wallpaper, retrato ni avatar. El nombre, el rol y las acciones mandan.
-* Si en el futuro se añade una ilustración, va como elemento lateral que no compita con el nombre, nunca como fondo a sangre.
-* El modo oscuro muestra el mismo hero, header y secciones que el claro; solo cambia la paleta.
-* Experiencia, proyectos y certificaciones se localizan según el idioma activo; los enlaces sociales usan tarjetas terminales uniformes en columnas responsivas.
-* El resumen de foco profesional aparece como `Desarrollo Full Stack · IA Aplicada` / `Full Stack Development · Applied AI`.
-* La acción principal usa `--primary` con `--on-primary`; la secundaria es outline con `--border` y `--text-primary`.
-* El CV se abre en una pestaña nueva.
+* Jerarquía: `HOLA, SOY` + etiqueta `Disponibilidad inmediata` (punto en `--success`: es un estado), nombre (68px / 42px en móvil, w600), rol "Desarrollador full stack, entre **Flutter** y la **IA**." con las dos palabras en `--primary`, y una frase de valor en `--text-secondary`.
+* Acciones: `Ver proyectos` (primaria) y `Descargar CV ↗` (enlace de texto). Debajo, `GitHub ↗ · LinkedIn ↗ · Medium ↗` como enlaces de texto. Sin riel social flotante, sin imagen de fondo ni retrato.
+* **Redes neuronales (sello):** panel con borde `--border-subtle` y título "Las redes detrás de mis proyectos". Tres redes, una por familia de proyecto: `Visión` (LAIN · MiniCPM-V), `Voz` (LAIN · Kokoro) y `Texto → SQL` (ia-sql · Ollama).
+  * En reposo: aristas en `--border-subtle`, nodos en `--text-secondary` tenue, sin animación.
+  * Al pasar el cursor: la red se activa (aristas y nombre hacia `--primary`, pulsos que viajan capa a capa, nodos que se iluminan y se inclinan hacia el cursor) y se calma al salir.
+  * Táctil: un toque lanza una ráfaga de pulsos en la red tocada.
+  * Columnas lado a lado desde 420px de ancho del panel (300px de alto); por debajo, filas apiladas (480px).
+  * El `Ticker` solo corre mientras algo se mueve (intro de 2,5s, hover, ráfaga); una página quieta no pide frames. Con `disableAnimations` se dibuja estática.
+  * Implementación: `CustomPainter` en `neural_networks.dart`, sin imágenes ni dependencias.
 
 ### 3.3. Navegación
-* Seis destinos: `Inicio`, `IA`, `Sobre mí`, `Proyectos`, `Certificaciones`, `Contacto`.
-* En desktop, GitHub, LinkedIn y CV viven en el header como iconos persistentes; Medium y la presentación se muestran solo cuando el ancho lo permite (1360px y 1280px respectivamente).
-* El header es transparente sobre el hero y pasa a `--nav-surface` con borde inferior al hacer scroll.
-* El estado activo se indica con un subrayado de 2px, nunca con una pill rellena.
-* El drawer replica todos los destinos y acciones; cierra al seleccionar y con `Escape`, devolviendo el foco al control de menú.
-* El drawer y el footer exponen GitHub, LinkedIn, email y CV sin depender del hero.
+* Header: monograma `KC` + nombre (el nombre se oculta bajo 480px) · `Sobre mí`, `Experiencia`, `Proyectos`, `Contacto` · `ES/EN`, tema y botón outline `CV ↗`. GitHub, LinkedIn, Medium y la terminal no viven en el header.
+* Bajo 900px los enlaces pasan al drawer (botón de menú a la derecha).
+* El drawer lista `Inicio`, `Sobre mí`, `Experiencia`, `Proyectos`, `Formación` y `Contacto`; cierra al seleccionar y con `Escape`, devolviendo el foco al menú.
+* No hay modo presentación.
+* Orden de la página: Hero · Sobre mí · Experiencia · Proyectos · Con qué trabajo · Formación y certificaciones · Contacto · Footer.
 
 ### 3.4. Formularios e Inputs
 * Altura estándar: `40px` (Desktop) / `44px` (Mobile touch target).
@@ -121,31 +125,17 @@ Cualquier componente interactivo **debe** contemplar los siguientes estados visu
 * Borde: `--border`. En foco cambia a `--primary`.
 * Mensaje de error: Texto en `--error` situado exactamente debajo del input con margen `xs`.
 
-### 3.5. Sección de Contacto
-* En modo claro: fondo dominante `--primary` y texto `--on-primary`.
-* En modo oscuro: fondo neutro `--bg-elevated` y texto `--text-primary`, para que el azul apagado siga siendo el único acento.
-* Cuatro canales en cuadrícula 2×2 (desktop) o 1 columna (mobile): email, teléfono, GitHub y LinkedIn.
-* Tarjetas de contacto transparentes con borde de 1px; el hover y el foco solo cambian el borde, nunca oscurecen imágenes.
-* El footer no se invierte: conserva `--bg-surface` con su borde superior de 1px.
+### 3.5. Secciones de contenido
+* **Sobre mí:** foto circular pequeña (`assets/profile.jpg`, 320px; 132px en desktop, 96px en móvil), dos párrafos en primera persona y una franja de 4 métricas del CV (4 · ~115 · 2 · 3) en una caja con borde: 4 columnas, 2 bajo 760px. Las cifras usan `--primary`.
+* **Experiencia:** línea de tiempo; periodo como `sep 2023 – sep 2026` / `Sep 2023 – Sep 2026` en `--text-secondary`, rol, empresa en `--primary` y viñetas en primera persona.
+* **Proyectos:** tarjetas enteras clicables con borde `--border-subtle` que pasa a `--primary` (y sube 2px) en hover/foco; categoría, título, descripción completa, chips de stack sobre `--bg-elevated` y `GitHub ↗` / `Ver sitio ↗`. Cada fila toma la altura de su tarjeta más alta (3 / 2 / 1 columnas).
+* **Con qué trabajo:** los 5 grupos del CV como lista de dos columnas (una bajo 760px): título y tecnologías separadas por comas.
+* **Contacto:** en claro, fondo `--primary` con `--on-primary`; en oscuro, `--bg-elevated` con `--text-primary`. Izquierda: etiqueta de disponibilidad, "Hablemos" y un párrafo; derecha: email (seleccionable, botón `Copiar`), LinkedIn y GitHub, y la línea discreta de ubicación/idiomas. Apilado bajo 860px.
+* El footer conserva `--bg-surface` con su borde superior y el botón `>_` de la terminal.
 
-### 3.6. Experiencia y Stack Técnico
-* La experiencia profesional vive dentro de `Sobre mí` como una línea de tiempo: periodo en mono, rol como título, empresa y ubicación, y viñetas de impacto.
-* El stack técnico reemplaza el radar por tarjetas agrupadas por área (`IA & MCP`, `DevOps & Cloud`, `Frontend & Móvil`, `Backend & Datos`).
-* Cada grupo muestra tecnologías como chips; no se usan niveles numéricos, porcentajes ni gráficos de radar.
-* En desktop los grupos van en dos columnas; en mobile, en una sola columna.
-
-### 3.7. Sistemas de Inteligencia Artificial y Agentes
-* Es el primer bloque de contenido después del hero y tiene destino propio en la navegación (`IA`).
-* Orden curado y fijo: `ia-sql`, `Alma`, `LAIN`. La sección no depende del orden del listado general de proyectos.
-* Encabezado `01 — SISTEMAS DE INTELIGENCIA ARTIFICIAL Y AGENTES`, descripción de posicionamiento y etiqueta `Proyectos destacados`.
-* Tarjetas de altura uniforme: icono, índice, título, línea de impacto en mono con `--primary`, descripción, hasta 3 tecnologías y contador `+N`, y acción `Ver en GitHub`.
-* La cuadrícula usa 3 columnas en desktop, 2 en tablet y 1 en mobile. El hover y el foco solo cambian el borde a `--primary`.
-* Al final, un enlace outline a todos los repositorios del perfil.
-* La terminal opcional (3.8) la reutiliza como pestaña `ai`, sin duplicar contenido.
-
-### 3.8. Terminal (easter egg)
+### 3.6. Terminal (easter egg)
 * El modo oscuro **no** es la terminal: es el mismo sitio con paleta oscura. La terminal es un extra opcional.
-* Se abre desde el botón `>_` del footer (tooltip `Abrir terminal` / `Open terminal`) como ruta a pantalla completa con fundido, igual que el modo presentación.
+* Se abre desde el botón `>_` del footer (tooltip `Abrir terminal` / `Open terminal`) o con la tecla `` ` ``, como ruta a pantalla completa con fundido.
 * Se cierra con el botón ✕ de la barra, el punto rojo de la ventana o `Escape`, y vuelve al portafolio.
 * Siempre se dibuja con su propio tema (`AppTheme.getTerminalTheme()`), sea cual sea el modo activo: ventana `kharold@portfolio:~`, prompt `whoami`, pestañas navegables, tipografía `JetBrains Mono` y scanlines muy tenues. El cursor respeta `disableAnimations`.
 * Su paleta vive aislada en `TerminalColors` y no se usa fuera de la terminal:
@@ -170,7 +160,7 @@ Cualquier componente interactivo **debe** contemplar los siguientes estados visu
 * **Regla 6 (Tokens, no hex):** Los únicos hexadecimales viven en la capa de tokens (`BrandColors`, `TerminalColors` y `PortfolioTokens`). Los widgets consumen roles semánticos.
 * **Regla 7 (Hero sin imagen):** El hero no carga imágenes de fondo. Cualquier recurso visual futuro es secundario al nombre y no muestra atribuciones.
 
-### 2.6 Movimiento
+### 2.7 Movimiento
 * `--motion-reveal-duration`: 500ms; `--motion-slide-duration`: 220ms.
 * `--motion-curve`: `easeOutCubic`; `--motion-distance`: 12px upward.
 * Stagger entre elementos revelados: 60ms. Todo movimiento se omite si `MediaQuery.disableAnimations` está activo.
