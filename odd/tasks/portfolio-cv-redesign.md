@@ -16,10 +16,10 @@ Branch: refactor/design-calm-theme · Delivery: ask-on-risk · Test runner: `flu
 ## Tasks
 - [x] T1 S1 inline: content restructure, commit 785cf4c
 - [x] T0 S7 inline: mockup approved at v5 (https://claude.ai/artifact/2cp73a8bxtGTKdNXspLbYN)
-- [ ] T2 S2,S3 inline: remove presentation; header/drawer/footer actions; terminal easter egg in footer + ` shortcut
-- [ ] T3 S5,S9 inline: NeuralNetworks widget (CustomPainter) + hero rewrite
-- [ ] T4 S4,S6,S9 inline: About photo/metrics, experience, projects, skills, contact restyle + natural copy ES/EN
-- [ ] T5 S2-S9 inline: DESIGN.md / AGENTS.md, tests, screenshots light/dark 390/1440
+- [x] T2 S2,S3 inline: remove presentation; header/drawer/footer actions; terminal easter egg in footer + ` shortcut
+- [x] T3 S5,S9 inline: NeuralNetworks widget (CustomPainter) + hero rewrite
+- [x] T4 S4,S6,S9 inline: About photo/metrics, experience, projects, skills, contact restyle + natural copy ES/EN
+- [x] T5 S2-S9 inline: DESIGN.md / AGENTS.md, tests, screenshots light/dark 390/1440 · T2-T4 in b222452, T5 docs in 81811b0
 
 ## Log
 - L1 (2026-11-25) user: "Necesito reestructurar el contenido de la pagina  de acuerdo al CV principañ puesto en ai-job-search. Despues rediseñar en su totalidad la pagina para un portafolio decente: lo que no me gusta es el modo oscuro en terminal, opaca el contenido, el modo presentacion es demasiado. Analiza tu el contenido, los botones creo que estan mal ubicados, necesito que analizas y lances una propuesta de diseño minimalista pero decente, conservando el color azul. Pero quiero mantener creatividad en mi portafolio, segun mi personalidad que me recomiendas?"
@@ -35,3 +35,4 @@ Branch: refactor/design-calm-theme · Delivery: ask-on-risk · Test runner: `flu
 - L11 (2026-11-25) user: "Puedes hacer una animacion de varias  redes neuronales que cambie al pasar el cursor?"
 - L12 T0: mockup v5: option 4 = three canvas networks (Visión · LAIN MiniCPM-V, Voz · LAIN Kokoro, Texto → SQL · ia-sql) that wake up under the pointer: pulses speed up, nodes light up and lean toward the cursor. On phones they stack in rows and react to taps. Static with reduced motion. Checked at 390px and 1440px. Flutter port would use CustomPainter + Ticker + MouseRegion/Listener.
 - L13 (2026-11-25) user: "Me gusta lo de las redes neuronales, bien entonces tenemos este plan, hagamoslo"
+- L14 T2-T5: implemented inline; flutter analyze clean, 74/74 tests (new: hover/rest ticker, phone tap burst, reduced motion, copy email, backquote shortcut, 8 widths x 2 themes without overflow). Release-build screenshots light/dark at 1440 and 390 reviewed; fixed the clipped phone label, header gutter and heavy borders. Pending: user approval of screenshots before merge/push (S8).
