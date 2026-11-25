@@ -4,49 +4,53 @@ import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
 import 'package:kharoldcanova/l10n/app_localizations.dart';
 import 'package:kharoldcanova/screens/widgets/section_shell.dart';
 
-class CertificationItem {
-  const CertificationItem({
-    required this.title,
-    required this.subtitle,
-    this.subtitleEn,
-    required this.date,
-    this.dateEn,
-    this.icon = Icons.workspace_premium_outlined,
-  });
-
-  final String title;
-  final String subtitle;
-  final String? subtitleEn;
-  final String date;
-  final String? dateEn;
-  final IconData icon;
-
-  String localizedSubtitle(String languageCode) =>
-      languageCode == 'en' ? (subtitleEn ?? subtitle) : subtitle;
-
-  String localizedDate(String languageCode) =>
-      languageCode == 'en' ? (dateEn ?? date) : date;
-}
-
+/// "Educación y certificaciones" (DESIGN.md 3.9): the CV's education entry,
+/// then its four certification groups with the CV's wording.
 class CertificationsSection extends StatelessWidget {
   const CertificationsSection({super.key});
+
+  static String _groupTitle(AppLocalizations t, String id) => switch (id) {
+        'genai' => t.cert_group_genai,
+        'ai' => t.cert_group_ai,
+        'dev' => t.cert_group_dev,
+        _ => t.cert_group_infra,
+      };
+
+  static IconData _groupIcon(String id) => switch (id) {
+        'genai' => Icons.auto_awesome,
+        'ai' => Icons.hub,
+        'dev' => Icons.code,
+        _ => Icons.lan,
+      };
 
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
-    final certifications = PortfolioRepository().getCertifications();
+    final languageCode = Localizations.localeOf(context).languageCode;
+    final groups = PortfolioRepository().getCertificationGroups();
+
+    final education = _EntryRow(
+      key: const Key('education-entry'),
+      icon: Icons.school,
+      eyebrow: '${t.education} · ${t.education_period}',
+      lines: [t.education_school, t.education_degree],
+      colorScheme: colorScheme,
+    );
 
     return SectionContainer(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SectionHeader(
-            index: '05',
-            title: t.certifications_title,
-            description: t.certifications_subtitle,
-          ),
+          SectionHeader(index: '04', title: t.education_title),
           const SizedBox(height: BrandTheme.space2XL),
+          education,
+          const SizedBox(height: BrandTheme.spaceXL),
+          Text(
+            t.certifications,
+            style: Theme.of(context).textTheme.headlineMedium,
+          ),
+          const SizedBox(height: BrandTheme.spaceMD),
           LayoutBuilder(
             builder: (context, constraints) {
               final columns = constraints.maxWidth >= 900 ? 2 : 1;
@@ -58,11 +62,18 @@ class CertificationsSection extends StatelessWidget {
                 spacing: gap,
                 runSpacing: 0,
                 children: [
-                  for (final certification in certifications)
+                  for (final group in groups)
                     SizedBox(
                       width: itemWidth,
-                      child: _CertificationRow(
-                        item: certification,
+                      child: _EntryRow(
+                        key: Key('cert-group-${group.id}'),
+                        icon: _groupIcon(group.id),
+                        eyebrow: [
+                          _groupTitle(t, group.id),
+                          if (group.localizedMeta(languageCode) != null)
+                            group.localizedMeta(languageCode)!,
+                        ].join(' · '),
+                        lines: group.localizedItems(languageCode),
                         colorScheme: colorScheme,
                       ),
                     ),
@@ -76,18 +87,23 @@ class CertificationsSection extends StatelessWidget {
   }
 }
 
-class _CertificationRow extends StatelessWidget {
-  const _CertificationRow({
-    required this.item,
+/// One bordered row: icon tile, mono eyebrow and one line per item.
+class _EntryRow extends StatelessWidget {
+  const _EntryRow({
+    super.key,
+    required this.icon,
+    required this.eyebrow,
+    required this.lines,
     required this.colorScheme,
   });
 
-  final CertificationItem item;
+  final IconData icon;
+  final String eyebrow;
+  final List<String> lines;
   final ColorScheme colorScheme;
 
   @override
   Widget build(BuildContext context) {
-    final languageCode = Localizations.localeOf(context).languageCode;
     return Container(
       padding: const EdgeInsets.symmetric(
         vertical: BrandTheme.spaceMD + 4,
@@ -111,7 +127,7 @@ class _CertificationRow extends StatelessWidget {
               ),
             ),
             child: Icon(
-              item.icon,
+              icon,
               size: 16,
               color: colorScheme.onSurfaceVariant,
             ),
@@ -122,7 +138,7 @@ class _CertificationRow extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  item.title.toUpperCase(),
+                  eyebrow.toUpperCase(),
                   style: BrandTextStyles.mono(
                     fontSize: 11,
                     weight: FontWeight.w500,
@@ -130,20 +146,15 @@ class _CertificationRow extends StatelessWidget {
                     letterSpacing: 1,
                   ),
                 ),
-                const SizedBox(height: BrandTheme.spaceXS),
-                Text(
-                  item.localizedSubtitle(languageCode),
-                  style: Theme.of(context).textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w500,
-                      ),
-                ),
-                const SizedBox(height: BrandTheme.spaceXS),
-                Text(
-                  item.localizedDate(languageCode),
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
-                      ),
-                ),
+                for (final line in lines) ...[
+                  const SizedBox(height: BrandTheme.spaceXS),
+                  Text(
+                    line,
+                    style: Theme.of(context).textTheme.titleSmall?.copyWith(
+                          fontWeight: FontWeight.w500,
+                        ),
+                  ),
+                ],
               ],
             ),
           ),

@@ -49,7 +49,7 @@ class ContactWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SectionHeader(
-              index: '06',
+              index: '05',
               title: t.contact,
               description: t.contact_desc,
             ),
@@ -129,14 +129,46 @@ class ContactWidget extends StatelessWidget {
               },
             ),
             const SizedBox(height: BrandTheme.spaceXL),
-            Text(
-              t.profile_expertise,
-              style: BrandTextStyles.mono(
-                fontSize: 12,
-                color: contactTheme.colorScheme.onSurfaceVariant,
-                letterSpacing: 0.8,
+            // Availability and languages close the CV; they close contact too.
+            for (final fact in <({Key key, String label, String text})>[
+              (
+                key: const Key('contact-availability'),
+                label: t.availability,
+                text: t.availability_desc,
               ),
-            ),
+              (
+                key: const Key('contact-languages'),
+                label: t.languages,
+                text: t.languages_desc,
+              ),
+            ]) ...[
+              Padding(
+                key: fact.key,
+                padding: const EdgeInsets.only(bottom: BrandTheme.spaceMD),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      fact.label.toUpperCase(),
+                      style: BrandTextStyles.mono(
+                        fontSize: 11,
+                        weight: FontWeight.w500,
+                        color: contactTheme.colorScheme.onSurfaceVariant,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                    const SizedBox(height: BrandTheme.spaceXS),
+                    Text(
+                      fact.text,
+                      style: contactTheme.textTheme.bodyMedium?.copyWith(
+                        color: contactTheme.colorScheme.onSurface,
+                        height: 1.6,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ],
         ),
       ),

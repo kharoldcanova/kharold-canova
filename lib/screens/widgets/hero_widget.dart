@@ -34,13 +34,13 @@ class HeroWidget extends StatelessWidget {
     super.key,
     required this.cvUrl,
     required this.onContact,
-    required this.onExploreAi,
+    required this.onViewProjects,
     required this.height,
   });
 
   final String cvUrl;
   final VoidCallback onContact;
-  final VoidCallback onExploreAi;
+  final VoidCallback onViewProjects;
   final double height;
 
   @override
@@ -144,7 +144,7 @@ class HeroWidget extends StatelessWidget {
                       foreground: heroForeground,
                       borderColor: heroBorder,
                       onContact: onContact,
-                      onExploreAi: onExploreAi,
+                      onViewProjects: onViewProjects,
                       showContact: !isCompact,
                       showSocials: isMobile,
                       socialUrls: (
@@ -182,7 +182,7 @@ class _HeroActions extends StatelessWidget {
     required this.foreground,
     required this.borderColor,
     required this.onContact,
-    required this.onExploreAi,
+    required this.onViewProjects,
     required this.showContact,
     required this.showSocials,
     required this.socialUrls,
@@ -192,7 +192,7 @@ class _HeroActions extends StatelessWidget {
   final Color foreground;
   final Color borderColor;
   final VoidCallback onContact;
-  final VoidCallback onExploreAi;
+  final VoidCallback onViewProjects;
   final bool showContact;
   final bool showSocials;
   final ({String github, String linkedin, String email}) socialUrls;
@@ -217,10 +217,10 @@ class _HeroActions extends StatelessWidget {
           label: Text(t.download_cv),
         ),
         OutlinedButton.icon(
-          key: const Key('hero-explore-ai'),
-          onPressed: onExploreAi,
-          icon: const Icon(Icons.auto_awesome_outlined, size: 18),
-          label: Text(t.hero_explore_ai),
+          key: const Key('hero-projects'),
+          onPressed: onViewProjects,
+          icon: const Icon(Icons.arrow_downward, size: 18),
+          label: Text(t.hero_view_projects),
           style: _outlinedSecondary(),
         ),
         if (showContact)

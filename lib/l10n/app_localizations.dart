@@ -323,7 +323,7 @@ abstract class AppLocalizations {
   /// Top hero line summarizing the technical profile.
   ///
   /// In en, this message translates to:
-  /// **'RAG · AGENTS · NL2SQL · MULTIMODAL'**
+  /// **'PIURA, PERU · AVAILABLE IMMEDIATELY'**
   String get hero_eyebrow;
 
   /// Hero section subtitle emphasizing Systems, Full-Stack and Applied AI roles.
@@ -671,25 +671,25 @@ abstract class AppLocalizations {
   /// Technical stack group for AI and MCP.
   ///
   /// In en, this message translates to:
-  /// **'AI & MCP'**
+  /// **'Applied AI and automation'**
   String get skill_group_ai;
 
   /// Technical stack group for DevOps and cloud.
   ///
   /// In en, this message translates to:
-  /// **'DevOps & Cloud'**
+  /// **'DevOps and CI/CD'**
   String get skill_group_devops;
 
   /// Technical stack group for frontend and mobile.
   ///
   /// In en, this message translates to:
-  /// **'Frontend & Mobile'**
+  /// **'Web frontend'**
   String get skill_group_frontend;
 
   /// Technical stack group for backend and data.
   ///
   /// In en, this message translates to:
-  /// **'Backend & Data'**
+  /// **'Backend and APIs'**
   String get skill_group_backend;
 
   /// No description provided for @presentation_mode.
@@ -727,6 +727,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Close terminal'**
   String get terminal_close;
+
+  /// No description provided for @hero_view_projects.
+  ///
+  /// In en, this message translates to:
+  /// **'See projects'**
+  String get hero_view_projects;
+
+  /// No description provided for @core_competencies.
+  ///
+  /// In en, this message translates to:
+  /// **'Core competencies'**
+  String get core_competencies;
+
+  /// No description provided for @skill_group_mobile.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile development (Flutter)'**
+  String get skill_group_mobile;
+
+  /// No description provided for @stat_years_value.
+  ///
+  /// In en, this message translates to:
+  /// **'4'**
+  String get stat_years_value;
+
+  /// No description provided for @stat_years_label.
+  ///
+  /// In en, this message translates to:
+  /// **'years shipping mobile apps and APIs to production'**
+  String get stat_years_label;
+
+  /// No description provided for @stat_users_value.
+  ///
+  /// In en, this message translates to:
+  /// **'~115'**
+  String get stat_users_value;
+
+  /// No description provided for @stat_users_label.
+  ///
+  /// In en, this message translates to:
+  /// **'active users on mm2 (App Store and Google Play)'**
+  String get stat_users_label;
+
+  /// No description provided for @stat_remote_value.
+  ///
+  /// In en, this message translates to:
+  /// **'3'**
+  String get stat_remote_value;
+
+  /// No description provided for @stat_remote_label.
+  ///
+  /// In en, this message translates to:
+  /// **'years working remotely for a US company'**
+  String get stat_remote_label;
+
+  /// No description provided for @projects_cv_note.
+  ///
+  /// In en, this message translates to:
+  /// **'All are personal projects built with AI-assisted development, from architecture design to integration and testing.'**
+  String get projects_cv_note;
+
+  /// No description provided for @view_site.
+  ///
+  /// In en, this message translates to:
+  /// **'Visit site'**
+  String get view_site;
+
+  /// No description provided for @nav_experience.
+  ///
+  /// In en, this message translates to:
+  /// **'Experience'**
+  String get nav_experience;
+
+  /// No description provided for @nav_education.
+  ///
+  /// In en, this message translates to:
+  /// **'Education'**
+  String get nav_education;
+
+  /// No description provided for @education_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Education and certifications'**
+  String get education_title;
+
+  /// No description provided for @education.
+  ///
+  /// In en, this message translates to:
+  /// **'Education'**
+  String get education;
+
+  /// No description provided for @education_school.
+  ///
+  /// In en, this message translates to:
+  /// **'Universidad César Vallejo'**
+  String get education_school;
+
+  /// No description provided for @education_degree.
+  ///
+  /// In en, this message translates to:
+  /// **'Systems Engineering degree (Professional Title)'**
+  String get education_degree;
+
+  /// No description provided for @education_period.
+  ///
+  /// In en, this message translates to:
+  /// **'Peru · 2018 — 2023'**
+  String get education_period;
+
+  /// No description provided for @cert_group_genai.
+  ///
+  /// In en, this message translates to:
+  /// **'Generative AI'**
+  String get cert_group_genai;
+
+  /// No description provided for @cert_group_ai.
+  ///
+  /// In en, this message translates to:
+  /// **'AI and automation'**
+  String get cert_group_ai;
+
+  /// No description provided for @cert_group_dev.
+  ///
+  /// In en, this message translates to:
+  /// **'Development'**
+  String get cert_group_dev;
+
+  /// No description provided for @cert_group_infra.
+  ///
+  /// In en, this message translates to:
+  /// **'Infrastructure'**
+  String get cert_group_infra;
+
+  /// No description provided for @availability.
+  ///
+  /// In en, this message translates to:
+  /// **'Availability'**
+  String get availability;
+
+  /// No description provided for @availability_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Available to start immediately · Full time · Remote from Piura, Peru, with three years of experience working remotely with a US team.'**
+  String get availability_desc;
+
+  /// No description provided for @languages.
+  ///
+  /// In en, this message translates to:
+  /// **'Languages'**
+  String get languages;
+
+  /// No description provided for @languages_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'Spanish (native) · English (B1 intermediate, EF SET): technical reading and written communication with US teams.'**
+  String get languages_desc;
 }
 
 class _AppLocalizationsDelegate

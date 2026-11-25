@@ -131,7 +131,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get contact_me => 'Contáctame';
 
   @override
-  String get hero_eyebrow => 'RAG · AGENTES · NL2SQL · MULTIMODAL';
+  String get hero_eyebrow => 'PIURA, PERÚ · DISPONIBILIDAD INMEDIATA';
 
   @override
   String get hero_subtitle =>
@@ -320,16 +320,16 @@ class AppLocalizationsEs extends AppLocalizations {
       'Tecnologías que uso para construir, desplegar y operar software.';
 
   @override
-  String get skill_group_ai => 'IA & MCP';
+  String get skill_group_ai => 'IA aplicada y automatización';
 
   @override
-  String get skill_group_devops => 'DevOps & Cloud';
+  String get skill_group_devops => 'DevOps y CI/CD';
 
   @override
-  String get skill_group_frontend => 'Frontend & Móvil';
+  String get skill_group_frontend => 'Frontend web';
 
   @override
-  String get skill_group_backend => 'Backend & Datos';
+  String get skill_group_backend => 'Backend y APIs';
 
   @override
   String get presentation_mode => 'Iniciar presentación';
@@ -348,4 +348,87 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get terminal_close => 'Cerrar terminal';
+
+  @override
+  String get hero_view_projects => 'Ver proyectos';
+
+  @override
+  String get core_competencies => 'Competencias clave';
+
+  @override
+  String get skill_group_mobile => 'Desarrollo móvil (Flutter)';
+
+  @override
+  String get stat_years_value => '4';
+
+  @override
+  String get stat_years_label =>
+      'años llevando apps móviles y APIs a producción';
+
+  @override
+  String get stat_users_value => '~115';
+
+  @override
+  String get stat_users_label =>
+      'usuarios activos en mm2 (App Store y Google Play)';
+
+  @override
+  String get stat_remote_value => '3';
+
+  @override
+  String get stat_remote_label => 'años en remoto para una empresa de EE.UU.';
+
+  @override
+  String get projects_cv_note =>
+      'Todos son proyectos propios construidos con desarrollo asistido por IA, desde el diseño de la arquitectura hasta la integración y las pruebas.';
+
+  @override
+  String get view_site => 'Ver sitio';
+
+  @override
+  String get nav_experience => 'Experiencia';
+
+  @override
+  String get nav_education => 'Formación';
+
+  @override
+  String get education_title => 'Educación y certificaciones';
+
+  @override
+  String get education => 'Educación';
+
+  @override
+  String get education_school => 'Universidad César Vallejo';
+
+  @override
+  String get education_degree => 'Ingeniería de Sistemas (Título Profesional)';
+
+  @override
+  String get education_period => 'Perú · 2018 — 2023';
+
+  @override
+  String get cert_group_genai => 'IA generativa';
+
+  @override
+  String get cert_group_ai => 'IA y automatización';
+
+  @override
+  String get cert_group_dev => 'Desarrollo';
+
+  @override
+  String get cert_group_infra => 'Infraestructura';
+
+  @override
+  String get availability => 'Disponibilidad';
+
+  @override
+  String get availability_desc =>
+      'Disponibilidad inmediata · Tiempo completo · Remoto desde Piura, Perú, con tres años de experiencia trabajando en remoto con un equipo de EE.UU.; híbrido en Lima posible tras el primer mes.';
+
+  @override
+  String get languages => 'Idiomas';
+
+  @override
+  String get languages_desc =>
+      'Español (nativo) · Inglés (B1 intermedio, EF SET): lectura técnica y comunicación escrita con equipos de EE.UU.';
 }

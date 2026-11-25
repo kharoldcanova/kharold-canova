@@ -118,7 +118,7 @@
   "@contact_me": {
     "description": "Header call-to-action button."
   },
-  "hero_eyebrow": "RAG · AGENTS · NL2SQL · MULTIMODAL",
+  "hero_eyebrow": "PIURA, PERU · AVAILABLE IMMEDIATELY",
   "@hero_eyebrow": {
     "description": "Top hero line summarizing the technical profile."
   },
@@ -359,19 +359,19 @@
   "@tech_stack_desc": {
     "description": "Description for the grouped technical stack."
   },
-  "skill_group_ai": "AI & MCP",
+  "skill_group_ai": "Applied AI and automation",
   "@skill_group_ai": {
     "description": "Technical stack group for AI and MCP."
   },
-  "skill_group_devops": "DevOps & Cloud",
+  "skill_group_devops": "DevOps and CI/CD",
   "@skill_group_devops": {
     "description": "Technical stack group for DevOps and cloud."
   },
-  "skill_group_frontend": "Frontend & Mobile",
+  "skill_group_frontend": "Web frontend",
   "@skill_group_frontend": {
     "description": "Technical stack group for frontend and mobile."
   },
-  "skill_group_backend": "Backend & Data",
+  "skill_group_backend": "Backend and APIs",
   "@skill_group_backend": {
     "description": "Technical stack group for backend and data."
   },
@@ -380,5 +380,31 @@
   "presentation_next": "Next slide",
   "presentation_close": "Close presentation",
   "terminal_open": "Open terminal",
-  "terminal_close": "Close terminal"
+  "terminal_close": "Close terminal",
+  "hero_view_projects": "See projects",
+  "core_competencies": "Core competencies",
+  "skill_group_mobile": "Mobile development (Flutter)",
+  "stat_years_value": "4",
+  "stat_years_label": "years shipping mobile apps and APIs to production",
+  "stat_users_value": "~115",
+  "stat_users_label": "active users on mm2 (App Store and Google Play)",
+  "stat_remote_value": "3",
+  "stat_remote_label": "years working remotely for a US company",
+  "projects_cv_note": "All are personal projects built with AI-assisted development, from architecture design to integration and testing.",
+  "view_site": "Visit site",
+  "nav_experience": "Experience",
+  "nav_education": "Education",
+  "education_title": "Education and certifications",
+  "education": "Education",
+  "education_school": "Universidad César Vallejo",
+  "education_degree": "Systems Engineering degree (Professional Title)",
+  "education_period": "Peru · 2018 — 2023",
+  "cert_group_genai": "Generative AI",
+  "cert_group_ai": "AI and automation",
+  "cert_group_dev": "Development",
+  "cert_group_infra": "Infrastructure",
+  "availability": "Availability",
+  "availability_desc": "Available to start immediately · Full time · Remote from Piura, Peru, with three years of experience working remotely with a US team.",
+  "languages": "Languages",
+  "languages_desc": "Spanish (native) · English (B1 intermediate, EF SET): technical reading and written communication with US teams."
 }

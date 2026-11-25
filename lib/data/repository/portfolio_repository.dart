@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kharoldcanova/data/models/certification_group.dart';
 import 'package:kharoldcanova/data/models/experience.dart';
 import 'package:kharoldcanova/data/models/project.dart';
 import 'package:kharoldcanova/data/models/published_skill.dart';
 import 'package:kharoldcanova/data/models/skill_group.dart';
-import 'package:kharoldcanova/screens/widgets/certifications_section.dart';
 
 class PortfolioRepository {
   List<Experience> getExperiences() => [
@@ -60,47 +60,54 @@ class PortfolioRepository {
     return total;
   }
 
+  /// "Competencias clave", in the CV's order and wording.
   List<SkillGroup> getSkillGroups() => const [
+        SkillGroup(
+          id: 'mobile',
+          technologies: [
+            'Dart',
+            'Clean Architecture',
+            'BLoC',
+            'Provider',
+            'Riverpod (básico)',
+            'GoRouter',
+            'Drift (SQLite, offline-first)',
+            'Push con Firebase',
+            'App Store y Google Play',
+          ],
+          technologiesEn: [
+            'Dart',
+            'Clean Architecture',
+            'BLoC',
+            'Provider',
+            'Riverpod (basic)',
+            'GoRouter',
+            'Drift (SQLite, offline-first)',
+            'Firebase push notifications',
+            'App Store and Google Play',
+          ],
+        ),
         SkillGroup(
           id: 'ai',
           technologies: [
-            'Ollama',
-            'RAG',
-            'LlamaIndex',
             'Python',
-            'FastAPI',
+            'RAG con LlamaIndex',
+            'Ollama (LLMs locales)',
+            'Agentes de IA',
             'MCP',
             'n8n',
+            'Google Apps Script',
+            'OpenCode · Claude Code · Codex',
           ],
-        ),
-        SkillGroup(
-          id: 'devops',
-          technologies: [
-            'Docker',
-            'Docker Compose',
-            'GitHub Actions',
-            'Linux',
-            'VPS',
-            'Nginx',
-            'Bash',
-            'Git',
-            'CI/CD',
-          ],
-        ),
-        SkillGroup(
-          id: 'frontend',
-          technologies: [
-            'Flutter',
-            'Clean Architecture',
-            'BLoC',
-            'Riverpod',
-            'GoRouter',
-            'Drift',
-            'SQLite',
-            'TypeScript',
-            'React',
-            'Vue.js',
-            'Tailwind CSS',
+          technologiesEn: [
+            'Python',
+            'RAG with LlamaIndex',
+            'Ollama (local LLMs)',
+            'AI agents',
+            'MCP',
+            'n8n',
+            'Google Apps Script',
+            'OpenCode · Claude Code · Codex',
           ],
         ),
         SkillGroup(
@@ -108,17 +115,56 @@ class PortfolioRepository {
           technologies: [
             'Laravel 10',
             'PHP 8.x',
-            'REST APIs',
+            'Eloquent',
+            'FastAPI',
+            'APIs RESTful',
             'MySQL',
             'Firebase',
-            'Authentication',
-            'Cloud Firestore',
-            'FCM',
+          ],
+          technologiesEn: [
+            'Laravel 10',
+            'PHP 8.x',
+            'Eloquent',
+            'FastAPI',
+            'RESTful APIs',
+            'MySQL',
+            'Firebase',
+          ],
+        ),
+        SkillGroup(
+          id: 'devops',
+          technologies: [
+            'GitHub Actions',
+            'Docker',
+            'Docker Compose',
+            'Linux (Arch, Ubuntu)',
+            'VPS con Nginx/Apache',
+            'Bash',
+            'Git',
+            'Vercel',
+          ],
+          technologiesEn: [
+            'GitHub Actions',
+            'Docker',
+            'Docker Compose',
+            'Linux (Arch, Ubuntu)',
+            'VPS with Nginx/Apache',
+            'Bash',
+            'Git',
+            'Vercel',
+          ],
+        ),
+        SkillGroup(
+          id: 'frontend',
+          technologies: [
+            'Vue.js',
+            'React',
+            'Vite',
+            'TypeScript',
+            'Tailwind CSS',
           ],
         ),
       ];
-
-  int getTotalRepos() => 30;
 
   String getEmail() => 'kharoldcanova@gmail.com';
 
@@ -139,18 +185,7 @@ class PortfolioRepository {
   /// Set this when the owner provides the published skill details.
   PublishedSkill? getPublishedSkill() => null;
 
-  /// Curated order for the Applied AI section. These projects lead the
-  /// portfolio regardless of how the full project list is sorted.
-  static const featuredAiTitles = <String>['ia-sql', 'Alma', 'LAIN'];
-
-  List<Project> getFeaturedAiProjects() {
-    final projects = getProjects();
-    return [
-      for (final title in featuredAiTitles)
-        ...projects.where((project) => project.title == title),
-    ];
-  }
-
+  /// Projects in the CV's order. mm2 is covered under Experience, as on the CV.
   List<Project> getProjects() => [
         const Project(
           title: 'ia-sql',
@@ -172,9 +207,9 @@ class PortfolioRepository {
         const Project(
           title: 'Alma',
           description:
-              'Asistente de IA local desarrollado en Python, con más de 2.5k líneas y 36 pruebas automatizadas.',
+              'Asistente de IA local con TFLite: más de 2.500 líneas de Python y 36 tests automatizados.',
           descriptionEn:
-              'Local AI assistant built in Python, with over 2.5k lines of code and 36 automated tests.',
+              'Local AI assistant with TFLite: 2,500+ lines of Python and 36 automated tests.',
           techStack: ['Python', 'IA local', 'TFLite', '36 tests'],
           techStackEn: ['Python', 'Local AI', 'TFLite', '36 tests'],
           category: 'IA',
@@ -216,6 +251,18 @@ class PortfolioRepository {
           icon: Icons.devices_outlined,
         ),
         const Project(
+          title: 'kharold-canova',
+          description:
+              'Portafolio personal en Flutter Web, en español e inglés, con tema claro y oscuro, descarga del CV según el idioma, tests de widgets y despliegue automatizado con GitHub Actions.',
+          descriptionEn:
+              'Personal portfolio built with Flutter Web, with English and Spanish versions, light and dark themes, a CV download that follows the site language, widget tests, and automated deployment with GitHub Actions.',
+          techStack: ['Flutter Web', 'BLoC', 'GitHub Actions'],
+          category: 'Este sitio',
+          categoryEn: 'This site',
+          liveUrl: 'https://kharoldcanova.github.io',
+          icon: Icons.web_outlined,
+        ),
+        const Project(
           title: 'design-md',
           description:
               'Skill publicada para diseño de interfaces: editor visual, verificación de tokens de diseño y servidor local.',
@@ -229,25 +276,11 @@ class PortfolioRepository {
           icon: Icons.design_services_outlined,
         ),
         const Project(
-          title: 'mm2',
-          description:
-              'App Flutter para clientes de servicios legales, reconstruida desde cero con Clean Architecture y BLoC: diseño UX renovado, notificaciones push con Firebase, API Laravel y publicación automatizada en App Store y Google Play.',
-          descriptionEn:
-              'Flutter app for legal-services clients, rebuilt from scratch with Clean Architecture and BLoC: redesigned UX, Firebase push notifications, a Laravel API and automated App Store and Google Play releases.',
-          techStack: ['Flutter', 'BLoC', 'Laravel API', 'GitHub Actions'],
-          techStackEn: ['Flutter', 'BLoC', 'Laravel API', 'GitHub Actions'],
-          category: 'Proyecto interno',
-          categoryEn: 'Internal project',
-          impact: '~115 usuarios activos · único desarrollador responsable.',
-          impactEn: '~115 active users · sole developer.',
-          icon: Icons.gavel_outlined,
-        ),
-        const Project(
           title: 'Kipu',
           description:
-              'Wallet personal para finanzas con Flutter, Clean Architecture, BLoC y almacenamiento offline-first con Drift y SQLite, con tests automatizados.',
+              'App de finanzas personales en Flutter con Clean Architecture, BLoC, Drift/SQLite offline-first, tests automatizados y CI (en desarrollo).',
           descriptionEn:
-              'Personal finance wallet built with Flutter, Clean Architecture, BLoC, and offline-first storage using Drift and SQLite, with automated tests.',
+              'Personal finance app in Flutter with Clean Architecture, BLoC, offline-first Drift/SQLite, automated tests and CI (in progress).',
           techStack: ['Flutter', 'BLoC', 'Drift', 'SQLite', 'Offline-first'],
           techStackEn: ['Flutter', 'BLoC', 'Drift', 'SQLite', 'Offline-first'],
           category: 'Proyecto interno',
@@ -256,86 +289,58 @@ class PortfolioRepository {
         ),
       ];
 
-  List<CertificationItem> getCertifications() => const [
-        CertificationItem(
-          title: 'Google',
-          subtitle: 'Gen AI: Navigate the Landscape',
-          subtitleEn: 'Gen AI: Navigate the Landscape',
-          date: 'Julio 2026',
-          dateEn: 'July 2026',
-          icon: Icons.travel_explore,
+  /// Certifications grouped and worded as in the CV.
+  List<CertificationGroup> getCertificationGroups() => const [
+        CertificationGroup(
+          id: 'genai',
+          meta: 'Google · 2026',
+          items: [
+            'Introduction to Generative AI',
+            'Gen AI: Navigate the Landscape',
+            'Gen AI: Unlock Foundational Concepts',
+            'Gen AI: Beyond the Chatbot',
+          ],
         ),
-        CertificationItem(
-          title: 'Google',
-          subtitle: 'Gen AI: Unlock Foundational Concepts',
-          subtitleEn: 'Gen AI: Unlock Foundational Concepts',
-          date: 'Julio 2026',
-          dateEn: 'July 2026',
-          icon: Icons.lightbulb,
+        CertificationGroup(
+          id: 'ai',
+          items: [
+            'Anthropic · AI Fluency Framework & Foundations (2026)',
+            'BIG School · Desarrollo con IA: Programa con Agentes (2026)',
+            'Platzi · Automatizaciones con n8n (2025)',
+          ],
+          itemsEn: [
+            'Anthropic · AI Fluency Framework & Foundations (2026)',
+            'BIG School · AI Development: Agent Program (2026)',
+            'Platzi · n8n Automation (2025)',
+          ],
         ),
-        CertificationItem(
-          title: 'Google',
-          subtitle: 'Gen AI: Beyond the Chatbot',
-          subtitleEn: 'Gen AI: Beyond the Chatbot',
-          date: 'Julio 2026',
-          dateEn: 'July 2026',
-          icon: Icons.smart_toy,
+        CertificationGroup(
+          id: 'dev',
+          meta: '2022',
+          items: [
+            'Python Essentials 1',
+            'JavaScript Fundamentals',
+            'Diseño Web con HTML5 y CSS, Conecta Empleo',
+          ],
+          itemsEn: [
+            'Python Essentials 1',
+            'JavaScript Fundamentals',
+            'Web Design with HTML5 and CSS, Conecta Empleo',
+          ],
         ),
-        CertificationItem(
-          title: 'Google',
-          subtitle: 'Introduction to Generative AI',
-          subtitleEn: 'Introduction to Generative AI',
-          date: 'Julio 2026',
-          dateEn: 'July 2026',
-          icon: Icons.auto_awesome,
-        ),
-        CertificationItem(
-          title: 'Anthropic',
-          subtitle: 'AI Fluency Framework & Foundations',
-          subtitleEn: 'AI Fluency Framework & Foundations',
-          date: 'Julio 2026',
-          dateEn: 'July 2026',
-          icon: Icons.psychology,
-        ),
-        CertificationItem(
-          title: 'BIG School',
-          subtitle: 'Desarrollo con IA: Programa con Agentes',
-          subtitleEn: 'AI-driven development: Agent Program',
-          date: 'Junio 2026',
-          dateEn: 'June 2026',
-          icon: Icons.hub,
-        ),
-        CertificationItem(
-          title: 'Platzi',
-          subtitle: 'Curso de Automatizaciones con n8n',
-          subtitleEn: 'n8n Automation Course',
-          date: 'Diciembre 2025',
-          dateEn: 'December 2025',
-          icon: Icons.bolt,
-        ),
-        CertificationItem(
-          title: 'Cisco Networking Academy',
-          subtitle: 'NDG Linux Essentials',
-          subtitleEn: 'NDG Linux Essentials',
-          date: 'Abril 2022',
-          dateEn: 'April 2022',
-          icon: Icons.terminal,
-        ),
-        CertificationItem(
-          title: 'Cisco Networking Academy',
-          subtitle: 'Cybersecurity Essentials',
-          subtitleEn: 'Cybersecurity Essentials',
-          date: 'Marzo 2022',
-          dateEn: 'March 2022',
-          icon: Icons.security,
-        ),
-        CertificationItem(
-          title: 'EF SET',
-          subtitle: 'EF SET English Certificate (B1 Intermediate - 42/100)',
-          subtitleEn: 'EF SET English Certificate (B1 Intermediate - 42/100)',
-          date: 'Febrero 2023',
-          dateEn: 'February 2023',
-          icon: Icons.translate,
+        CertificationGroup(
+          id: 'infra',
+          meta: 'Cisco Networking Academy · 2022',
+          items: [
+            'NDG Linux Essentials',
+            'Cybersecurity Essentials',
+            'Redes empresariales, Seguridad y Automatización',
+          ],
+          itemsEn: [
+            'NDG Linux Essentials',
+            'Cybersecurity Essentials',
+            'Enterprise Networking, Security and Automation',
+          ],
         ),
       ];
 }

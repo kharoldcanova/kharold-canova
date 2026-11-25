@@ -9,6 +9,9 @@ class Project {
   final String category;
   final String? categoryEn;
   final String? repoUrl;
+
+  /// Public site for projects without a public repository.
+  final String? liveUrl;
   final String? impact;
   final String? impactEn;
   final IconData icon;
@@ -22,6 +25,7 @@ class Project {
     required this.category,
     this.categoryEn,
     this.repoUrl,
+    this.liveUrl,
     this.impact,
     this.impactEn,
     this.icon = Icons.folder_outlined,
@@ -36,6 +40,9 @@ class Project {
   String localizedCategory(String languageCode) =>
       languageCode == 'en' ? (categoryEn ?? category) : category;
 
+  /// Where the whole card links to, if anywhere.
+  String? get link => repoUrl ?? liveUrl;
+
   String? localizedImpact(String languageCode) =>
       languageCode == 'en' ? (impactEn ?? impact) : impact;
 
@@ -48,6 +55,7 @@ class Project {
         'category': category,
         'categoryEn': categoryEn,
         'repoUrl': repoUrl,
+        'liveUrl': liveUrl,
         'impact': impact,
         'impactEn': impactEn,
       };

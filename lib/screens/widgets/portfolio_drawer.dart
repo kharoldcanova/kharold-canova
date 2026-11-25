@@ -39,13 +39,17 @@ class PortfolioDrawer extends StatelessWidget {
 
     final items = <({String id, String label, IconData icon})>[
       (id: 'home', label: t.home, icon: Icons.home_outlined),
-      (id: 'ai', label: t.nav_ai, icon: Icons.auto_awesome_outlined),
       (id: 'about', label: t.about, icon: Icons.person_outline),
+      (
+        id: 'experience',
+        label: t.nav_experience,
+        icon: Icons.timeline_outlined,
+      ),
       (id: 'projects', label: t.projects, icon: Icons.work_outline),
       (
         id: 'certifications',
-        label: t.certifications,
-        icon: Icons.workspace_premium_outlined,
+        label: t.nav_education,
+        icon: Icons.school_outlined,
       ),
       (id: 'contact', label: t.contact, icon: Icons.mail_outline),
     ];

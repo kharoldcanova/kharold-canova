@@ -54,8 +54,8 @@ void main() {
     expect(find.byKey(const Key('terminal-window-minimize')), findsOneWidget);
     expect(find.byKey(const Key('terminal-window-maximize')), findsOneWidget);
     for (final tab in [
-      'ai',
       'about',
+      'experience',
       'skills',
       'projects',
       'certifications',
@@ -70,7 +70,8 @@ void main() {
     await pumpPortfolio(tester);
     await openTerminal(tester);
 
-    final terminalContext = tester.element(find.byKey(const Key('terminal-window')));
+    final terminalContext =
+        tester.element(find.byKey(const Key('terminal-window')));
     expect(Theme.of(terminalContext).brightness, Brightness.dark);
     expect(
       Theme.of(terminalContext).textTheme.bodyLarge?.fontFamily,
@@ -114,7 +115,7 @@ void main() {
 
     await tester.tap(find.byKey(const Key('terminal-tab-skills')));
     await tester.pumpAndSettle();
-    expect(find.text('Flutter'), findsWidgets);
+    expect(find.text('Dart'), findsWidgets);
 
     await tester.tap(find.byKey(const Key('terminal-tab-projects')));
     await tester.pumpAndSettle();
@@ -139,7 +140,7 @@ void main() {
     await tester.tap(find.byKey(const Key('terminal-language-toggle')));
     await tester.pumpAndSettle();
     expect(find.text('Full Stack Development · Applied AI'), findsOneWidget);
-    await tester.tap(find.byKey(const Key('terminal-tab-about')));
+    await tester.tap(find.byKey(const Key('terminal-tab-experience')));
     await tester.pumpAndSettle();
     expect(find.text('Full Stack Developer'), findsNWidgets(2));
     expect(find.text('USA (remote from Peru)'), findsOneWidget);
@@ -153,8 +154,11 @@ void main() {
 
     await tester.tap(find.byKey(const Key('terminal-tab-certifications')));
     await tester.pumpAndSettle();
-    expect(find.text('July 2026'), findsWidgets);
-    expect(find.text('AI-driven development: Agent Program'), findsOneWidget);
+    expect(find.text('Introduction to Generative AI'), findsOneWidget);
+    expect(
+      find.text('BIG School · AI Development: Agent Program (2026)'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('terminal window fits a mobile viewport without overflow',

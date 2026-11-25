@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:kharoldcanova/config/theme/brand_theme.dart';
 import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
-import 'package:kharoldcanova/screens/widgets/ai_systems_widget.dart';
 import 'package:kharoldcanova/screens/widgets/about_skills_widget.dart';
 import 'package:kharoldcanova/screens/widgets/certifications_section.dart';
 import 'package:kharoldcanova/screens/widgets/contact_widget.dart';
+import 'package:kharoldcanova/screens/widgets/experience_section.dart';
 import 'package:kharoldcanova/screens/widgets/footer_widget.dart';
 import 'package:kharoldcanova/screens/widgets/header_widget.dart';
 import 'package:kharoldcanova/screens/widgets/hero_widget.dart';
-import 'package:kharoldcanova/screens/widgets/knowledge_widget.dart';
 import 'package:kharoldcanova/screens/widgets/portfolio_drawer.dart';
 import 'package:kharoldcanova/screens/widgets/portfolio_widget.dart';
 import 'package:kharoldcanova/screens/widgets/presentation_page.dart';
@@ -30,8 +29,8 @@ class _PortfolioPageState extends State<PortfolioPage> {
 
   final _sectionKeys = <String, GlobalKey>{
     'home': GlobalKey(),
-    'ai': GlobalKey(),
     'about': GlobalKey(),
+    'experience': GlobalKey(),
     'projects': GlobalKey(),
     'certifications': GlobalKey(),
     'contact': GlobalKey(),
@@ -136,20 +135,17 @@ class _PortfolioPageState extends State<PortfolioPage> {
         child: reveal(HeroWidget(
           cvUrl: cvUrl,
           onContact: () => _scrollToSection('contact'),
-          onExploreAi: () => _scrollToSection('ai'),
+          onViewProjects: () => _scrollToSection('projects'),
           height: height,
         )),
       ),
-      (id: 'ai', child: reveal(const AISystemsWidget())),
       (
         id: 'about',
-        child: reveal(Column(
-          children: [
-            AboutSkillsWidget(onHireMe: () => _scrollToSection('contact')),
-            const KnowledgeWidget(),
-          ],
-        )),
+        child: reveal(
+          AboutSkillsWidget(onHireMe: () => _scrollToSection('contact')),
+        ),
       ),
+      (id: 'experience', child: reveal(const ExperienceSection())),
       (id: 'projects', child: reveal(const PortfolioWidget())),
       (id: 'certifications', child: reveal(const CertificationsSection())),
       (id: 'contact', child: reveal(const ContactWidget())),

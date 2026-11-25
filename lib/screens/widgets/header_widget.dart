@@ -52,10 +52,10 @@ class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
 
     final items = <({String id, String label})>[
       (id: 'home', label: t.home),
-      (id: 'ai', label: t.nav_ai),
       (id: 'about', label: t.about),
+      (id: 'experience', label: t.nav_experience),
       (id: 'projects', label: t.projects),
-      (id: 'certifications', label: t.certifications),
+      (id: 'certifications', label: t.nav_education),
       (id: 'contact', label: t.contact),
     ];
 
@@ -78,13 +78,28 @@ class HeaderWidget extends StatelessWidget implements PreferredSizeWidget {
           child: isDesktop
               ? Row(
                   children: [
-                    for (final item in items)
-                      _NavLink(
-                        label: item.label,
-                        isActive: activeSection == item.id,
-                        onTap: () => onSectionTap(item.id),
+                    // Nav links take the free space and only scale down
+                    // when the labels do not fit next to the actions.
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              for (final item in items)
+                                _NavLink(
+                                  label: item.label,
+                                  isActive: activeSection == item.id,
+                                  onTap: () => onSectionTap(item.id),
+                                ),
+                            ],
+                          ),
+                        ),
                       ),
-                    const Spacer(),
+                    ),
                     _HeaderIconButton(
                       key: const Key('header-github'),
                       tooltip: 'GitHub',

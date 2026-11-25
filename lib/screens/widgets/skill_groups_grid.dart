@@ -18,18 +18,7 @@ class SkillGroupsGrid extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(t.tech_stack, style: theme.textTheme.headlineMedium),
-        const SizedBox(height: BrandTheme.spaceSM),
-        ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 640),
-          child: Text(
-            t.tech_stack_desc,
-            style: theme.textTheme.bodyLarge?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-              height: 1.6,
-            ),
-          ),
-        ),
+        Text(t.core_competencies, style: theme.textTheme.headlineMedium),
         const SizedBox(height: BrandTheme.spaceXL),
         LayoutBuilder(
           builder: (context, constraints) {
@@ -44,6 +33,7 @@ class SkillGroupsGrid extends StatelessWidget {
               children: [
                 for (final group in groups)
                   SizedBox(
+                    key: Key('skill-group-${group.id}'),
                     width: cardWidth,
                     child: _SkillGroupCard(group: group),
                   ),
@@ -66,6 +56,7 @@ class _SkillGroupCard extends StatelessWidget {
     final t = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final languageCode = Localizations.localeOf(context).languageCode;
 
     return Container(
       padding: const EdgeInsets.all(BrandTheme.spaceLG),
@@ -100,7 +91,8 @@ class _SkillGroupCard extends StatelessWidget {
             spacing: BrandTheme.spaceSM,
             runSpacing: BrandTheme.spaceSM,
             children: [
-              for (final technology in group.technologies)
+              for (final technology
+                  in group.localizedTechnologies(languageCode))
                 Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 10,
@@ -132,6 +124,8 @@ class _SkillGroupCard extends StatelessWidget {
 
   static String _titleFor(AppLocalizations t, String id) {
     switch (id) {
+      case 'mobile':
+        return t.skill_group_mobile;
       case 'ai':
         return t.skill_group_ai;
       case 'devops':
@@ -145,12 +139,14 @@ class _SkillGroupCard extends StatelessWidget {
 
   static IconData _iconFor(String id) {
     switch (id) {
+      case 'mobile':
+        return Icons.phone_iphone_outlined;
       case 'ai':
         return Icons.auto_awesome_outlined;
       case 'devops':
         return Icons.terminal_outlined;
       case 'frontend':
-        return Icons.devices_outlined;
+        return Icons.web_outlined;
       default:
         return Icons.storage_outlined;
     }

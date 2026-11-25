@@ -31,9 +31,9 @@ class PortfolioWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionHeader(
-            index: '04',
+            index: '03',
             title: t.projects,
-            description: t.portfolio_desc,
+            description: t.projects_cv_note,
           ),
           if (skill != null) ...[
             const SizedBox(height: BrandTheme.space2XL),
@@ -182,13 +182,12 @@ class _ProjectCardState extends State<_ProjectCard> {
   bool _hovered = false;
   bool _focused = false;
 
-  bool get _hasLink =>
-      widget.project.repoUrl != null && widget.project.repoUrl!.isNotEmpty;
+  bool get _hasLink => widget.project.link?.isNotEmpty ?? false;
 
   void _open() {
     if (!_hasLink) return;
     launchUrl(
-      Uri.parse(widget.project.repoUrl!),
+      Uri.parse(widget.project.link!),
       mode: LaunchMode.externalApplication,
       webOnlyWindowName: '_blank',
     );
@@ -318,7 +317,9 @@ class _ProjectCardState extends State<_ProjectCard> {
                       Row(
                         children: [
                           Text(
-                            t.go_to_project,
+                            widget.project.repoUrl != null
+                                ? t.go_to_project
+                                : t.view_site,
                             style: Theme.of(context)
                                 .textTheme
                                 .labelLarge

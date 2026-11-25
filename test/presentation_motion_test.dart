@@ -4,11 +4,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:kharoldcanova/config/theme/brand_theme.dart';
 import 'package:kharoldcanova/config/theme/current_theme.dart';
-import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
 import 'package:kharoldcanova/main.dart';
 import 'package:kharoldcanova/l10n/app_localizations.dart';
 import 'package:kharoldcanova/screens/widgets/animate_on_visible.dart';
-import 'package:kharoldcanova/screens/widgets/about_skills_widget.dart';
 import 'package:kharoldcanova/screens/widgets/hero_widget.dart';
 import 'package:kharoldcanova/screens/widgets/header_widget.dart';
 import 'package:kharoldcanova/screens/widgets/portfolio_widget.dart';
@@ -113,21 +111,9 @@ void main() {
     );
   });
 
-  testWidgets('Medium link is configured and impact counts animate on arrival',
-      (tester) async {
+  testWidgets('Medium link is configured', (tester) async {
     await pumpPortfolio(tester);
     expect(find.byTooltip('Medium'), findsWidgets);
-
-    await Scrollable.ensureVisible(
-      tester.element(find.byType(AboutSkillsWidget)),
-      duration: Duration.zero,
-    );
-    await tester.pumpAndSettle();
-    await tester.pump(const Duration(milliseconds: 1500));
-    final years =
-        PortfolioRepository().getTotalYearsExperience().toStringAsFixed(1);
-    expect(find.text('+$years'), findsOneWidget);
-    expect(find.text('+30'), findsOneWidget);
   });
 
   testWidgets('hero has no image ownership credit and dark theme is muted blue',
@@ -186,7 +172,7 @@ void main() {
       );
       expect(background.color, Theme.of(hero).scaffoldBackgroundColor);
       expect(find.byKey(const Key('hero-cv')), findsOneWidget);
-      expect(find.byKey(const Key('hero-explore-ai')), findsOneWidget);
+      expect(find.byKey(const Key('hero-projects')), findsOneWidget);
       expect(find.byKey(const Key('hero-contact')), findsOneWidget);
     });
   }

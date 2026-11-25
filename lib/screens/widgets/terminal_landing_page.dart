@@ -10,17 +10,22 @@ import 'package:kharoldcanova/config/theme/current_theme.dart';
 import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
 import 'package:kharoldcanova/domain/language_model.dart';
 import 'package:kharoldcanova/l10n/app_localizations.dart';
-import 'package:kharoldcanova/screens/widgets/ai_systems_widget.dart';
 import 'package:kharoldcanova/screens/widgets/certifications_section.dart';
 import 'package:kharoldcanova/screens/widgets/contact_widget.dart';
-import 'package:kharoldcanova/screens/widgets/experience_timeline.dart';
-import 'package:kharoldcanova/screens/widgets/knowledge_widget.dart';
+import 'package:kharoldcanova/screens/widgets/experience_section.dart';
 import 'package:kharoldcanova/screens/widgets/portfolio_widget.dart';
 import 'package:kharoldcanova/screens/widgets/section_shell.dart';
 import 'package:kharoldcanova/screens/widgets/skill_groups_grid.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-enum _TerminalTab { ai, about, skills, projects, certifications, contact }
+enum _TerminalTab {
+  about,
+  experience,
+  skills,
+  projects,
+  certifications,
+  contact
+}
 
 /// Optional terminal easter egg, opened from the footer `>_` button.
 ///
@@ -42,8 +47,8 @@ class _TerminalLandingPageState extends State<TerminalLandingPage> {
   String get _command {
     if (_selectedTab == null) return _showHelp ? 'help' : 'whoami';
     return switch (_selectedTab!) {
-      _TerminalTab.ai => 'agents --list',
       _TerminalTab.about => 'about',
+      _TerminalTab.experience => 'git log --author=kharold',
       _TerminalTab.skills => 'stack',
       _TerminalTab.projects => 'git log --oneline',
       _TerminalTab.certifications => 'certifications --list',
@@ -199,7 +204,6 @@ class _TerminalLandingPageState extends State<TerminalLandingPage> {
     }
 
     return switch (tab) {
-      _TerminalTab.ai => const AISystemsWidget(),
       _TerminalTab.about => SectionContainer(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -217,11 +221,10 @@ class _TerminalLandingPageState extends State<TerminalLandingPage> {
                       height: 1.65,
                     ),
               ),
-              const SizedBox(height: BrandTheme.space2XL),
-              ExperienceTimeline(experiences: _repository.getExperiences()),
             ],
           ),
         ),
+      _TerminalTab.experience => const ExperienceSection(),
       _TerminalTab.skills => SectionContainer(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -233,8 +236,6 @@ class _TerminalLandingPageState extends State<TerminalLandingPage> {
               ),
               const SizedBox(height: BrandTheme.space2XL),
               SkillGroupsGrid(groups: _repository.getSkillGroups()),
-              const SizedBox(height: BrandTheme.space2XL),
-              const KnowledgeWidget(),
             ],
           ),
         ),
@@ -663,8 +664,8 @@ class _TerminalTabButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   String get _label => switch (tab) {
-        _TerminalTab.ai => 'ai',
         _TerminalTab.about => 'about',
+        _TerminalTab.experience => 'experience',
         _TerminalTab.skills => 'skills',
         _TerminalTab.projects => 'projects',
         _TerminalTab.certifications => 'certifications',

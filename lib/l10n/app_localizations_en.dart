@@ -130,7 +130,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get contact_me => 'Contact Me';
 
   @override
-  String get hero_eyebrow => 'RAG · AGENTS · NL2SQL · MULTIMODAL';
+  String get hero_eyebrow => 'PIURA, PERU · AVAILABLE IMMEDIATELY';
 
   @override
   String get hero_subtitle => 'Full Stack Developer · Flutter · Applied AI';
@@ -318,16 +318,16 @@ class AppLocalizationsEn extends AppLocalizations {
       'Technologies I use to build, ship, and operate software.';
 
   @override
-  String get skill_group_ai => 'AI & MCP';
+  String get skill_group_ai => 'Applied AI and automation';
 
   @override
-  String get skill_group_devops => 'DevOps & Cloud';
+  String get skill_group_devops => 'DevOps and CI/CD';
 
   @override
-  String get skill_group_frontend => 'Frontend & Mobile';
+  String get skill_group_frontend => 'Web frontend';
 
   @override
-  String get skill_group_backend => 'Backend & Data';
+  String get skill_group_backend => 'Backend and APIs';
 
   @override
   String get presentation_mode => 'Start presentation';
@@ -346,4 +346,88 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get terminal_close => 'Close terminal';
+
+  @override
+  String get hero_view_projects => 'See projects';
+
+  @override
+  String get core_competencies => 'Core competencies';
+
+  @override
+  String get skill_group_mobile => 'Mobile development (Flutter)';
+
+  @override
+  String get stat_years_value => '4';
+
+  @override
+  String get stat_years_label =>
+      'years shipping mobile apps and APIs to production';
+
+  @override
+  String get stat_users_value => '~115';
+
+  @override
+  String get stat_users_label =>
+      'active users on mm2 (App Store and Google Play)';
+
+  @override
+  String get stat_remote_value => '3';
+
+  @override
+  String get stat_remote_label => 'years working remotely for a US company';
+
+  @override
+  String get projects_cv_note =>
+      'All are personal projects built with AI-assisted development, from architecture design to integration and testing.';
+
+  @override
+  String get view_site => 'Visit site';
+
+  @override
+  String get nav_experience => 'Experience';
+
+  @override
+  String get nav_education => 'Education';
+
+  @override
+  String get education_title => 'Education and certifications';
+
+  @override
+  String get education => 'Education';
+
+  @override
+  String get education_school => 'Universidad César Vallejo';
+
+  @override
+  String get education_degree =>
+      'Systems Engineering degree (Professional Title)';
+
+  @override
+  String get education_period => 'Peru · 2018 — 2023';
+
+  @override
+  String get cert_group_genai => 'Generative AI';
+
+  @override
+  String get cert_group_ai => 'AI and automation';
+
+  @override
+  String get cert_group_dev => 'Development';
+
+  @override
+  String get cert_group_infra => 'Infrastructure';
+
+  @override
+  String get availability => 'Availability';
+
+  @override
+  String get availability_desc =>
+      'Available to start immediately · Full time · Remote from Piura, Peru, with three years of experience working remotely with a US team.';
+
+  @override
+  String get languages => 'Languages';
+
+  @override
+  String get languages_desc =>
+      'Spanish (native) · English (B1 intermediate, EF SET): technical reading and written communication with US teams.';
 }

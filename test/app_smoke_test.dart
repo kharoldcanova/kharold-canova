@@ -7,8 +7,6 @@ import 'package:kharoldcanova/config/theme/brand_theme.dart';
 import 'package:kharoldcanova/config/theme/theme_preferences.dart';
 import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
 import 'package:kharoldcanova/main.dart';
-import 'package:kharoldcanova/screens/widgets/about_skills_widget.dart';
-import 'package:kharoldcanova/screens/widgets/ai_systems_widget.dart';
 import 'package:kharoldcanova/screens/widgets/contact_widget.dart';
 import 'package:kharoldcanova/screens/widgets/experience_timeline.dart';
 import 'package:kharoldcanova/screens/widgets/header_widget.dart';
@@ -61,7 +59,8 @@ void main() {
     expect(lain.description, contains('Hugging Face'));
   });
 
-  test('portfolio carries the CV facts: webhooks, OpenAI-to-local, Kipu tests', () {
+  test('portfolio carries the CV facts: webhooks, OpenAI-to-local, Kipu tests',
+      () {
     final repo = PortfolioRepository();
     final milMujeres = repo.getExperiences().first;
     expect(milMujeres.highlights.join(' '), contains('Google Chat'));
@@ -133,28 +132,7 @@ void main() {
     expect(find.text('Descargar CV'), findsOneWidget);
   });
 
-  testWidgets('AI section is the first content block and precedes about',
-      (tester) async {
-    await pumpApp(tester, size: const Size(1300, 900));
-
-    final aiTop = tester.getTopLeft(find.byType(AISystemsWidget)).dy;
-    final aboutTop = tester.getTopLeft(find.byType(AboutSkillsWidget)).dy;
-    expect(aiTop, lessThan(aboutTop));
-
-    for (final project in <String>['ia-sql', 'Alma', 'LAIN']) {
-      expect(
-        find.descendant(
-          of: find.byType(AISystemsWidget),
-          matching: find.text(project),
-        ),
-        findsOneWidget,
-        reason: project,
-      );
-      expect(find.byKey(Key('ai-project-link-$project')), findsOneWidget);
-    }
-  });
-
-  testWidgets('hero surfaces the applied AI role and key links',
+  testWidgets('hero surfaces the CV role, CV facts and key links',
       (tester) async {
     await pumpApp(tester, size: const Size(1300, 900));
 
@@ -162,8 +140,8 @@ void main() {
       find.text('Desarrollador Full Stack · Flutter · IA aplicada'),
       findsOneWidget,
     );
-    expect(find.text('RAG · AGENTES · NL2SQL · MULTIMODAL'), findsOneWidget);
-    expect(find.text('Explorar sistemas de IA'), findsOneWidget);
+    expect(find.text('PIURA, PERÚ · DISPONIBILIDAD INMEDIATA'), findsOneWidget);
+    expect(find.text('Ver proyectos'), findsOneWidget);
 
     for (final key in <String>[
       'hero-cv',
@@ -186,8 +164,7 @@ void main() {
 
   for (final size in <Size>[const Size(390, 844), const Size(1300, 900)]) {
     for (final mode in <ThemeMode>[ThemeMode.light, ThemeMode.dark]) {
-      testWidgets(
-          'hero uses ink roles at ${size.width.toInt()}px ${mode.name}',
+      testWidgets('hero uses ink roles at ${size.width.toInt()}px ${mode.name}',
           (tester) async {
         tester.view.devicePixelRatio = 1;
         tester.view.physicalSize = size;
@@ -196,22 +173,22 @@ void main() {
         await tester.pumpWidget(MainApp(initialMode: mode));
         await tester.pumpAndSettle();
 
-        final scheme = Theme.of(tester.element(find.byType(Scaffold)))
-            .colorScheme;
+        final scheme =
+            Theme.of(tester.element(find.byType(Scaffold))).colorScheme;
         final name = tester.widget<Text>(find.text('Kharold Canova'));
         expect(name.style?.color, scheme.onSurface);
       });
     }
   }
 
-  testWidgets('hero AI action scrolls to the AI section and marks it active',
+  testWidgets('hero projects action scrolls to Proyectos and marks it active',
       (tester) async {
     await pumpApp(tester, size: const Size(1300, 900));
 
-    await tester.tap(find.byKey(const Key('hero-explore-ai')));
+    await tester.tap(find.byKey(const Key('hero-projects')));
     await tester.pumpAndSettle();
 
-    expect(underlineColor(tester, 'IA'), const Color(0xFF0033CC));
+    expect(underlineColor(tester, 'Proyectos'), const Color(0xFF0033CC));
   });
 
   testWidgets('contact exposes GitHub and LinkedIn next to email and phone',
@@ -320,20 +297,19 @@ void main() {
     expect(title.style?.color, BrandColors.darkTextPrimary);
   });
 
-  testWidgets('about renders the experience timeline and grouped tech stack',
+  testWidgets('experience and core competencies render the CV content',
       (tester) async {
     await pumpApp(tester, size: const Size(1300, 900));
 
     expect(find.byType(ExperienceTimeline), findsOneWidget);
-    expect(find.text('Experiencia'), findsOneWidget);
     expect(find.text('Mil Mujeres Legal Services'), findsOneWidget);
     expect(find.text('Desarrollador Full Stack'), findsNWidgets(2));
     expect(find.text('TECLEAR S.A.C.'), findsOneWidget);
 
     expect(find.byType(SkillGroupsGrid), findsOneWidget);
-    expect(find.text('Stack técnico'), findsOneWidget);
+    expect(find.text('Competencias clave'), findsOneWidget);
     for (final technology in <String>[
-      'LlamaIndex',
+      'RAG con LlamaIndex',
       'GitHub Actions',
       'Clean Architecture',
       'MySQL',
@@ -369,10 +345,10 @@ void main() {
 
     for (final label in <String>[
       'Inicio',
-      'IA',
       'Sobre mí',
+      'Experiencia',
       'Proyectos',
-      'Certificaciones',
+      'Formación',
       'Contacto',
     ]) {
       expect(headerText(label), findsOneWidget, reason: label);
@@ -390,7 +366,7 @@ void main() {
 
     expect(headerText('Home'), findsOneWidget);
     expect(headerText('Projects'), findsOneWidget);
-    expect(headerText('Certifications'), findsOneWidget);
+    expect(headerText('Education'), findsOneWidget);
   });
 
   testWidgets('theme control tooltip follows the locale and active mode',
@@ -461,7 +437,7 @@ void main() {
     expect(underlineColor(tester, 'Inicio'), Colors.transparent);
   });
 
-  testWidgets('Sobre mí covers Conocimientos and Certificaciones activates',
+  testWidgets('Sobre mí covers Competencias clave and Formación activates',
       (tester) async {
     await pumpApp(tester, size: const Size(1300, 900));
 
@@ -482,40 +458,21 @@ void main() {
     expect(
       underlineColor(tester, 'Sobre mí'),
       const Color(0xFF0033CC),
-      reason: 'the knowledge block belongs to the about destination',
+      reason: 'the competencies block belongs to the about destination',
     );
 
-    await tester.tap(headerText('Certificaciones'));
+    await tester.tap(headerText('Formación'));
     await tester.pumpAndSettle();
     expect(
-      underlineColor(tester, 'Certificaciones'),
+      underlineColor(tester, 'Formación'),
       const Color(0xFF0033CC),
     );
-  });
-
-  testWidgets('knowledge renders six localized cards and no Servicios heading',
-      (tester) async {
-    await pumpApp(tester, size: const Size(1300, 900));
-
-    for (final label in <String>[
-      'Desarrollo Android con Flutter',
-      'Desarrollo iOS con Flutter',
-      'Desarrollo Web',
-      'Automatización & CI/CD',
-      'Integración de IA Generativa',
-      'Apps Script & Automatización',
-    ]) {
-      expect(find.text(label), findsOneWidget, reason: label);
-    }
-
-    expect(find.text('Conocimientos'), findsOneWidget);
-    expect(find.text('Servicios'), findsNothing);
   });
 
   testWidgets('certifications render the full repository list', (tester) async {
     await pumpApp(tester, size: const Size(1300, 900));
 
-    expect(find.text('Certificaciones Técnicas'), findsOneWidget);
+    expect(find.text('Educación y certificaciones'), findsOneWidget);
     expect(find.text('Gen AI: Navigate the Landscape'), findsOneWidget);
     expect(find.text('Gen AI: Unlock Foundational Concepts'), findsOneWidget);
   });
@@ -530,10 +487,10 @@ void main() {
     expect(find.byType(Drawer), findsOneWidget);
     for (final label in <String>[
       'Inicio',
-      'IA',
       'Sobre mí',
+      'Experiencia',
       'Proyectos',
-      'Certificaciones',
+      'Formación',
       'Contacto',
     ]) {
       expect(
@@ -583,10 +540,10 @@ void main() {
 
     const labels = <String>[
       'Inicio',
-      'IA',
       'Sobre mí',
+      'Experiencia',
       'Proyectos',
-      'Certificaciones',
+      'Formación',
       'Contacto',
     ];
 

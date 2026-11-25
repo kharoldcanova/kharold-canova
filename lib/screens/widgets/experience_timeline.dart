@@ -12,25 +12,11 @@ class ExperienceTimeline extends StatelessWidget {
   Widget build(BuildContext context) {
     if (experiences.isEmpty) return const SizedBox.shrink();
 
-    final t = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(t.experience, style: theme.textTheme.headlineMedium),
-        const SizedBox(height: BrandTheme.spaceSM),
-        ConstrainedBox(
-          constraints: const BoxConstraints(maxWidth: 640),
-          child: Text(
-            t.experience_desc,
-            style: theme.textTheme.bodyLarge?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
-              height: 1.6,
-            ),
-          ),
-        ),
-        const SizedBox(height: BrandTheme.spaceXL),
         for (var i = 0; i < experiences.length; i++) ...[
           if (i > 0) ...[
             const SizedBox(height: BrandTheme.spaceXL),
@@ -47,6 +33,10 @@ class ExperienceTimeline extends StatelessWidget {
   }
 }
 
+/// CV date format: `09/2023`.
+String cvMonth(DateTime date) =>
+    '${date.month.toString().padLeft(2, '0')}/${date.year}';
+
 class _ExperienceEntry extends StatelessWidget {
   const _ExperienceEntry({required this.experience});
 
@@ -58,7 +48,9 @@ class _ExperienceEntry extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final languageCode = Localizations.localeOf(context).languageCode;
-    final period = experience.periodLabel(t.present);
+    final end =
+        experience.endDate == null ? t.present : cvMonth(experience.endDate!);
+    final period = '${cvMonth(experience.startDate)} — $end';
 
     final periodText = Text(
       period,
