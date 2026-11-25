@@ -330,18 +330,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get skill_group_backend => 'Backend and APIs';
 
   @override
-  String get presentation_mode => 'Start presentation';
-
-  @override
-  String get presentation_previous => 'Previous slide';
-
-  @override
-  String get presentation_next => 'Next slide';
-
-  @override
-  String get presentation_close => 'Close presentation';
-
-  @override
   String get terminal_open => 'Open terminal';
 
   @override
@@ -360,21 +348,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get stat_years_value => '4';
 
   @override
-  String get stat_years_label =>
-      'years shipping mobile apps and APIs to production';
+  String get stat_years_label => 'years building apps and APIs';
 
   @override
   String get stat_users_value => '~115';
 
   @override
-  String get stat_users_label =>
-      'active users on mm2 (App Store and Google Play)';
+  String get stat_users_label => 'people use mm2';
 
   @override
   String get stat_remote_value => '3';
 
   @override
-  String get stat_remote_label => 'years working remotely for a US company';
+  String get stat_remote_label => 'years remote with a US team';
 
   @override
   String get projects_cv_note =>
@@ -430,4 +416,86 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get languages_desc =>
       'Spanish (native) · English (B1 intermediate, EF SET): technical reading and written communication with US teams.';
+
+  @override
+  String get hero_greeting => 'Hi, I\'m';
+
+  @override
+  String get availability_now => 'Available now';
+
+  @override
+  String get hero_role_lead => 'Full stack developer, between';
+
+  @override
+  String get hero_role_and => 'and';
+
+  @override
+  String get hero_role_ai => 'AI';
+
+  @override
+  String get hero_value =>
+      'For four years I\'ve been building apps and APIs that people use every day. I also like seeing how far an AI can go when it runs on your own device, without the cloud.';
+
+  @override
+  String get nn_title => 'The networks behind my projects';
+
+  @override
+  String get nn_hint => 'interactive';
+
+  @override
+  String get nn_vision => 'Vision';
+
+  @override
+  String get nn_voice => 'Voice';
+
+  @override
+  String get nn_sql => 'Text → SQL';
+
+  @override
+  String get nn_semantics =>
+      'Three animated neural networks: vision, voice and text to SQL. They light up when you hover or tap them.';
+
+  @override
+  String get about_p1 =>
+      'I\'m a systems engineer and I\'ve spent four years building mobile apps and APIs. For the last three I worked remotely from Piura for a US law firm, where I owned their client app: first I maintained it, then I rebuilt it from scratch with Clean Architecture and BLoC, and automated its releases to the app stores.';
+
+  @override
+  String get about_p2 =>
+      'I also build things with AI: an assistant that sees and talks inside a phone with no internet, a RAG that turns questions into SQL, and automations with n8n. What drives me most is making products that make someone\'s day easier.';
+
+  @override
+  String get photo_alt => 'Photo of Kharold Canova';
+
+  @override
+  String get stat_stores_value => '2';
+
+  @override
+  String get stat_stores_label => 'app stores it ships to';
+
+  @override
+  String get skills_title => 'What I work with';
+
+  @override
+  String get projects_desc =>
+      'My own projects. I built most of them with help from coding agents.';
+
+  @override
+  String get contact_title => 'Let\'s talk';
+
+  @override
+  String get contact_text =>
+      'I\'m looking for my next job in mobile development or AI. If you have something in mind, or just want to talk about Flutter or local models, write to me.';
+
+  @override
+  String get contact_meta =>
+      'Piura, Peru (UTC−5) · remote or hybrid in Lima · Spanish and English (B1)';
+
+  @override
+  String get copy_email => 'Copy';
+
+  @override
+  String get email_copied => 'Email copied';
+
+  @override
+  String get footer_made_with => 'Made with Flutter Web';
 }

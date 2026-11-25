@@ -39,10 +39,11 @@ class CertificationsSection extends StatelessWidget {
     );
 
     return SectionContainer(
+      topBorder: true,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SectionHeader(index: '04', title: t.education_title),
+          SectionHeader(title: t.education_title),
           const SizedBox(height: BrandTheme.space2XL),
           education,
           const SizedBox(height: BrandTheme.spaceXL),

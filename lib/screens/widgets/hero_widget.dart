@@ -1,387 +1,232 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kharoldcanova/config/theme/brand_theme.dart';
 import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
 import 'package:kharoldcanova/l10n/app_localizations.dart';
+import 'package:kharoldcanova/screens/widgets/availability_pill.dart';
+import 'package:kharoldcanova/screens/widgets/neural_networks.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-/// Viewport fractions and bounds for the reduced hero height.
-const double _mobileHeroFraction = 0.68;
-const double _mobileHeroMinHeight = 500;
-const double _mobileHeroMaxHeight = 600;
-const double _desktopHeroFraction = 0.72;
-const double _desktopHeroMinHeight = 540;
-const double _desktopHeroMaxHeight = 700;
-
-/// Shared hero height so the page's scroll/header detection matches the
-/// rendered hero exactly.
-double heroHeightFor(BuildContext context) {
-  final size = MediaQuery.sizeOf(context);
-  final isMobile = size.width < 1200;
-  final target =
-      size.height * (isMobile ? _mobileHeroFraction : _desktopHeroFraction);
-
-  return target
-      .clamp(
-        isMobile ? _mobileHeroMinHeight : _desktopHeroMinHeight,
-        isMobile ? _mobileHeroMaxHeight : _desktopHeroMaxHeight,
-      )
-      .toDouble();
-}
-
+/// Hero (DESIGN.md 2.5, 3.2): identity on the left, the neural networks on
+/// the right; they stack below 920px. Height follows the content.
 class HeroWidget extends StatelessWidget {
   const HeroWidget({
     super.key,
     required this.cvUrl,
-    required this.onContact,
     required this.onViewProjects,
-    required this.height,
   });
 
   final String cvUrl;
-  final VoidCallback onContact;
   final VoidCallback onViewProjects;
-  final double height;
+
+  static const double twoColumnWidth = 920;
 
   @override
   Widget build(BuildContext context) {
-    final t = AppLocalizations.of(context)!;
-    final repo = PortfolioRepository();
     final width = MediaQuery.sizeOf(context).width;
-    final isMobile = width < 1200;
-    final isCompact = width < 700;
-    const heroFont = BrandTheme.fontFamily;
+    final isWide = width >= twoColumnWidth;
+    // Same gutters as SectionContainer so every block shares one left edge.
+    final gutter =
+        width < 900 ? BrandTheme.gutterMobile : BrandTheme.gutterDesktop;
 
-    // Plain background (DESIGN.md 3.2): the name, role and actions lead, so
-    // the hero uses the regular ink roles at every width and in both modes.
-    final theme = Theme.of(context);
-    final colorScheme = theme.colorScheme;
-    final heroForeground = colorScheme.onSurface;
-    final heroMuted = colorScheme.onSurfaceVariant;
-    final heroBorder = colorScheme.outline;
+    final identity = _Identity(
+      cvUrl: cvUrl,
+      onViewProjects: onViewProjects,
+      compact: width < 600,
+    );
+    const networks = NeuralNetworksPanel();
 
-    final nameSize = isMobile ? 36.0 : 80.0;
-    final roleSize = isMobile ? 20.0 : 38.0;
-    final horizontal =
-        isMobile ? BrandTheme.gutterMobile : BrandTheme.gutterDesktop;
-
-    return SizedBox(
-      height: height,
+    return Container(
+      key: const Key('hero-background'),
       width: double.infinity,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          ColoredBox(
-            key: const Key('hero-background'),
-            color: theme.scaffoldBackgroundColor,
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(
-                horizontal,
-                0,
-                horizontal,
-                isMobile ? BrandTheme.spaceLG : 80,
-              ),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxWidth: isMobile ? 460 : 860,
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      color: Theme.of(context).scaffoldBackgroundColor,
+      padding: EdgeInsets.fromLTRB(
+        gutter,
+        BrandTheme.headerHeight + (isWide ? 72 : 32),
+        gutter,
+        isWide ? 72 : 48,
+      ),
+      child: Center(
+        child: ConstrainedBox(
+          constraints:
+              const BoxConstraints(maxWidth: BrandTheme.contentMaxWidth),
+          child: isWide
+              ? Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Semantics(
-                      header: true,
-                      child: Text(
-                        'Kharold Canova',
-                        style: TextStyle(
-                          fontFamily: heroFont,
-                          fontSize: nameSize,
-                          height: 1,
-                          fontWeight: FontWeight.w500,
-                          letterSpacing: isMobile ? -0.8 : -1.6,
-                          color: heroForeground,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: isMobile
-                          ? BrandTheme.spaceSM
-                          : BrandTheme.spaceSM + 4,
-                    ),
-                    Semantics(
-                      header: true,
-                      child: Text(
-                        t.hero_subtitle,
-                        style: TextStyle(
-                          fontFamily: heroFont,
-                          fontSize: roleSize,
-                          height: 1.1,
-                          fontWeight: FontWeight.w400,
-                          letterSpacing: isMobile ? 0 : -0.5,
-                          color: heroMuted,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: BrandTheme.spaceSM + 4),
-                    Text(
-                      t.hero_eyebrow,
-                      style: BrandTextStyles.mono(
-                        fontSize: 11,
-                        weight: FontWeight.w500,
-                        color: heroMuted,
-                        letterSpacing: 1.2,
-                      ),
-                    ),
-                    SizedBox(
-                      height:
-                          isMobile ? BrandTheme.spaceLG : BrandTheme.spaceXL,
-                    ),
-                    _HeroActions(
-                      cvUrl: cvUrl,
-                      foreground: heroForeground,
-                      borderColor: heroBorder,
-                      onContact: onContact,
-                      onViewProjects: onViewProjects,
-                      showContact: !isCompact,
-                      showSocials: isMobile,
-                      socialUrls: (
-                        github: repo.getGithub(),
-                        linkedin: repo.getLinkedin(),
-                        email: repo.getEmail(),
-                      ),
-                    ),
+                    Expanded(child: identity),
+                    const SizedBox(width: 56),
+                    const Expanded(child: networks),
+                  ],
+                )
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    identity,
+                    const SizedBox(height: 36),
+                    networks,
                   ],
                 ),
-              ),
-            ),
-          ),
-          if (!isMobile)
-            Positioned(
-              right: BrandTheme.gutterDesktop,
-              bottom: 80,
-              child: _HeroSocialRail(
-                foreground: heroForeground,
-                borderColor: heroBorder,
-                githubUrl: repo.getGithub(),
-                linkedinUrl: repo.getLinkedin(),
-                email: repo.getEmail(),
-              ),
-            ),
-        ],
+        ),
       ),
     );
   }
 }
 
-class _HeroActions extends StatelessWidget {
-  const _HeroActions({
+class _Identity extends StatelessWidget {
+  const _Identity({
     required this.cvUrl,
-    required this.foreground,
-    required this.borderColor,
-    required this.onContact,
     required this.onViewProjects,
-    required this.showContact,
-    required this.showSocials,
-    required this.socialUrls,
+    required this.compact,
   });
 
   final String cvUrl;
-  final Color foreground;
-  final Color borderColor;
-  final VoidCallback onContact;
   final VoidCallback onViewProjects;
-  final bool showContact;
-  final bool showSocials;
-  final ({String github, String linkedin, String email}) socialUrls;
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final repo = PortfolioRepository();
+    final accent = TextStyle(color: colorScheme.primary);
 
-    return Wrap(
-      spacing: BrandTheme.spaceSM + 4,
-      runSpacing: BrandTheme.spaceSM + 4,
-      crossAxisAlignment: WrapCrossAlignment.center,
-      children: [
-        ElevatedButton.icon(
-          key: const Key('hero-cv'),
-          onPressed: () => launchUrl(
-            Uri.base.resolve(cvUrl),
-            mode: LaunchMode.externalApplication,
-            webOnlyWindowName: '_blank',
-          ),
-          icon: const Icon(Icons.download_outlined, size: 18),
-          label: Text(t.download_cv),
-        ),
-        OutlinedButton.icon(
-          key: const Key('hero-projects'),
-          onPressed: onViewProjects,
-          icon: const Icon(Icons.arrow_downward, size: 18),
-          label: Text(t.hero_view_projects),
-          style: _outlinedSecondary(),
-        ),
-        if (showContact)
-          OutlinedButton.icon(
-            key: const Key('hero-contact'),
-            onPressed: onContact,
-            icon: const Icon(Icons.mail_outline, size: 18),
-            label: Text(t.contact_me),
-            style: _outlinedSecondary(),
-          ),
-        if (showSocials) ...[
-          _HeroIconLink(
-            key: const Key('hero-github'),
-            tooltip: 'GitHub',
-            color: foreground,
-            borderColor: borderColor,
-            icon: const FaIcon(FontAwesomeIcons.github, size: 18),
-            onPressed: () => _open(socialUrls.github),
-          ),
-          _HeroIconLink(
-            key: const Key('hero-linkedin'),
-            tooltip: 'LinkedIn',
-            color: foreground,
-            borderColor: borderColor,
-            icon: const FaIcon(FontAwesomeIcons.linkedin, size: 18),
-            onPressed: () => _open(socialUrls.linkedin),
-          ),
-        ],
-      ],
-    );
-  }
-
-  ButtonStyle _outlinedSecondary() {
-    return OutlinedButton.styleFrom(
-      foregroundColor: foreground,
-      side: BorderSide(color: borderColor, width: 1),
-      backgroundColor: Colors.transparent,
-    );
-  }
-
-  void _open(String url) {
-    launchUrl(
-      Uri.parse(url),
-      mode: LaunchMode.externalApplication,
-      webOnlyWindowName: '_blank',
-    );
-  }
-}
-
-class _HeroSocialRail extends StatelessWidget {
-  const _HeroSocialRail({
-    required this.foreground,
-    required this.borderColor,
-    required this.githubUrl,
-    required this.linkedinUrl,
-    required this.email,
-  });
-
-  final Color foreground;
-  final Color borderColor;
-  final String githubUrl;
-  final String linkedinUrl;
-  final String email;
-
-  @override
-  Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _HeroIconLink(
-          key: const Key('hero-github-rail'),
-          tooltip: 'GitHub',
-          color: foreground,
-          borderColor: borderColor,
-          icon: const FaIcon(FontAwesomeIcons.github, size: 18),
-          onPressed: () => launchUrl(
-            Uri.parse(githubUrl),
-            mode: LaunchMode.externalApplication,
-            webOnlyWindowName: '_blank',
+        Wrap(
+          spacing: BrandTheme.spaceSM,
+          runSpacing: BrandTheme.spaceSM,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            Text(
+              t.hero_greeting.toUpperCase(),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: colorScheme.onSurfaceVariant,
+                fontWeight: FontWeight.w500,
+                letterSpacing: 1.4,
+              ),
+            ),
+            const AvailabilityPill(key: Key('hero-availability')),
+          ],
+        ),
+        const SizedBox(height: 14),
+        Text(
+          'Kharold Canova',
+          key: const Key('hero-name'),
+          style: TextStyle(
+            fontSize: compact ? 42 : 68,
+            fontWeight: FontWeight.w600,
+            height: 1.02,
+            letterSpacing: compact ? -1.2 : -2,
+            color: colorScheme.onSurface,
           ),
         ),
-        const SizedBox(height: BrandTheme.spaceSM),
-        _HeroIconLink(
-          key: const Key('hero-linkedin-rail'),
-          tooltip: 'LinkedIn',
-          color: foreground,
-          borderColor: borderColor,
-          icon: const FaIcon(FontAwesomeIcons.linkedin, size: 18),
-          onPressed: () => launchUrl(
-            Uri.parse(linkedinUrl),
-            mode: LaunchMode.externalApplication,
-            webOnlyWindowName: '_blank',
+        const SizedBox(height: 10),
+        Text.rich(
+          TextSpan(
+            children: [
+              TextSpan(text: '${t.hero_role_lead} '),
+              TextSpan(text: 'Flutter', style: accent),
+              TextSpan(text: ' ${t.hero_role_and} '),
+              TextSpan(text: t.hero_role_ai, style: accent),
+              const TextSpan(text: '.'),
+            ],
+          ),
+          style: TextStyle(
+            fontSize: compact ? 18 : 21,
+            fontWeight: FontWeight.w500,
+            height: 1.35,
+            color: colorScheme.onSurface,
           ),
         ),
-        const SizedBox(height: BrandTheme.spaceSM),
-        _HeroIconLink(
-          key: const Key('hero-email-rail'),
-          tooltip: AppLocalizations.of(context)!.email,
-          color: foreground,
-          borderColor: borderColor,
-          icon: const Icon(Icons.mail_outline, size: 18),
-          onPressed: () => launchUrl(
-            Uri(scheme: 'mailto', path: email),
-            mode: LaunchMode.externalApplication,
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _HeroIconLink extends StatelessWidget {
-  const _HeroIconLink({
-    super.key,
-    required this.tooltip,
-    required this.color,
-    required this.borderColor,
-    required this.icon,
-    required this.onPressed,
-  });
-
-  final String tooltip;
-  final Color color;
-  final Color borderColor;
-  final Widget icon;
-  final VoidCallback onPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Tooltip(
-      message: tooltip,
-      child: IconButton(
-        onPressed: onPressed,
-        icon: icon,
-        color: color,
-        style: ButtonStyle(
-          minimumSize: const WidgetStatePropertyAll(Size(44, 44)),
-          padding: const WidgetStatePropertyAll(EdgeInsets.zero),
-          foregroundColor: WidgetStatePropertyAll(color),
-          overlayColor: WidgetStateProperty.resolveWith((states) {
-            if (states.contains(WidgetState.focused)) {
-              return color.withValues(alpha: 0.2);
-            }
-            if (states.contains(WidgetState.hovered)) {
-              return color.withValues(alpha: 0.1);
-            }
-            return null;
-          }),
-          side: WidgetStateProperty.resolveWith((states) {
-            if (states.contains(WidgetState.focused)) {
-              return BorderSide(color: color, width: 2);
-            }
-            return BorderSide(color: borderColor, width: 1);
-          }),
-          shape: WidgetStatePropertyAll(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(BrandTheme.radius),
+        const SizedBox(height: 14),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 480),
+          child: Text(
+            t.hero_value,
+            style: theme.textTheme.bodyLarge?.copyWith(
+              color: colorScheme.onSurfaceVariant,
+              height: 1.6,
             ),
           ),
         ),
+        const SizedBox(height: 28),
+        Wrap(
+          spacing: BrandTheme.spaceMD,
+          runSpacing: BrandTheme.spaceSM,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            ElevatedButton(
+              key: const Key('hero-projects'),
+              onPressed: onViewProjects,
+              child: Text(t.hero_view_projects),
+            ),
+            _TextLink(
+              key: const Key('hero-cv'),
+              label: '${t.download_cv} ↗',
+              color: colorScheme.primary,
+              url: Uri.base.resolve(cvUrl),
+            ),
+          ],
+        ),
+        const SizedBox(height: 18),
+        Wrap(
+          spacing: BrandTheme.spaceSM,
+          children: [
+            _TextLink(
+              key: const Key('hero-github'),
+              label: 'GitHub ↗',
+              color: colorScheme.onSurfaceVariant,
+              url: Uri.parse(repo.getGithub()),
+            ),
+            _TextLink(
+              key: const Key('hero-linkedin'),
+              label: 'LinkedIn ↗',
+              color: colorScheme.onSurfaceVariant,
+              url: Uri.parse(repo.getLinkedin()),
+            ),
+            if (repo.getMedium() != null)
+              _TextLink(
+                key: const Key('hero-medium'),
+                label: 'Medium ↗',
+                color: colorScheme.onSurfaceVariant,
+                url: Uri.parse(repo.getMedium()!),
+              ),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _TextLink extends StatelessWidget {
+  const _TextLink({
+    super.key,
+    required this.label,
+    required this.color,
+    required this.url,
+  });
+
+  final String label;
+  final Color color;
+  final Uri url;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () => launchUrl(
+        url,
+        mode: LaunchMode.externalApplication,
+        webOnlyWindowName: '_blank',
       ),
+      style: TextButton.styleFrom(
+        foregroundColor: color,
+        minimumSize: const Size(0, 40),
+        padding: const EdgeInsets.symmetric(horizontal: 6),
+        textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+      ),
+      child: Text(label),
     );
   }
 }

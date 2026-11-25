@@ -5,7 +5,7 @@ import 'package:kharoldcanova/l10n/app_localizations.dart';
 import 'package:kharoldcanova/screens/widgets/experience_timeline.dart';
 import 'package:kharoldcanova/screens/widgets/section_shell.dart';
 
-/// "Experiencia" (DESIGN.md 3.6): its own destination, after "Sobre mí" and
+/// "Experiencia" (DESIGN.md 3.5): its own destination, after "Sobre mí" and
 /// before "Proyectos", as on the CV.
 class ExperienceSection extends StatelessWidget {
   const ExperienceSection({super.key});
@@ -14,15 +14,12 @@ class ExperienceSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
     return SectionContainer(
+      topBorder: true,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SectionHeader(
-            index: '02',
-            title: t.experience,
-            description: t.experience_desc,
-          ),
-          const SizedBox(height: BrandTheme.space2XL),
+          SectionHeader(title: t.experience),
+          const SizedBox(height: BrandTheme.spaceXL),
           ExperienceTimeline(
             experiences: PortfolioRepository().getExperiences(),
           ),

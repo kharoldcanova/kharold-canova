@@ -16,7 +16,7 @@ class BrandColors {
   static const Color lightWarning = Color(0xFF92400E);
   static const Color lightError = Color(0xFFB91C1C);
   static const Color lightBorder = Color(0xFF111111);
-  static const Color lightBorderSubtle = Color(0x66111111);
+  static const Color lightBorderSubtle = Color(0x1F111111);
   static const Color lightNavSurface = Color(0xEBFFFFFF);
   static const Color lightFocusRing = Color(0xFF0033CC);
 
@@ -33,12 +33,12 @@ class BrandColors {
   static const Color darkWarning = Color(0xFFFACC15);
   static const Color darkError = Color(0xFFF87171);
   static const Color darkBorder = Color(0xFF3F3F46);
-  static const Color darkBorderSubtle = Color(0x663F3F46);
+  static const Color darkBorderSubtle = Color(0x1FF2F4F7);
   static const Color darkNavSurface = Color(0xEB000000);
   static const Color darkFocusRing = darkPrimary;
 }
 
-/// Palette of the optional terminal easter egg (DESIGN.md 3.8).
+/// Palette of the optional terminal easter egg (DESIGN.md 3.6).
 ///
 /// Scoped to `TerminalLandingPage`: the portfolio itself never uses these.
 class TerminalColors {

@@ -10,7 +10,6 @@ import 'package:kharoldcanova/screens/widgets/header_widget.dart';
 import 'package:kharoldcanova/screens/widgets/hero_widget.dart';
 import 'package:kharoldcanova/screens/widgets/portfolio_drawer.dart';
 import 'package:kharoldcanova/screens/widgets/portfolio_widget.dart';
-import 'package:kharoldcanova/screens/widgets/presentation_page.dart';
 import 'package:kharoldcanova/screens/widgets/terminal_landing_page.dart';
 import 'package:kharoldcanova/screens/widgets/animate_on_visible.dart';
 
@@ -32,6 +31,7 @@ class _PortfolioPageState extends State<PortfolioPage> {
     'about': GlobalKey(),
     'experience': GlobalKey(),
     'projects': GlobalKey(),
+    'skills': GlobalKey(),
     'certifications': GlobalKey(),
     'contact': GlobalKey(),
   };
@@ -56,6 +56,10 @@ class _PortfolioPageState extends State<PortfolioPage> {
 
   void _onScroll() {
     if (!_scrollController.hasClients) return;
+    // The hero sizes itself to its content, so read its height each time.
+    final heroBox =
+        _sectionKeys['home']?.currentContext?.findRenderObject() as RenderBox?;
+    if (heroBox != null && heroBox.hasSize) _heroHeight = heroBox.size.height;
 
     // Keep a 1px tolerance so tapping a section that starts exactly at the
     // hero boundary does not leave the header transparent over the hero edge.
@@ -122,54 +126,25 @@ class _PortfolioPageState extends State<PortfolioPage> {
     _menuFocusNode.requestFocus();
   }
 
-  List<({String id, Widget child})> _buildSections({
-    required String cvUrl,
-    required double height,
-  }) {
+  List<({String id, Widget child})> _buildSections({required String cvUrl}) {
     Widget reveal(Widget child) => AnimateOnVisible(
           builder: (context, isVisible) => child,
         );
     return [
       (
         id: 'home',
-        child: reveal(HeroWidget(
+        child: HeroWidget(
           cvUrl: cvUrl,
-          onContact: () => _scrollToSection('contact'),
           onViewProjects: () => _scrollToSection('projects'),
-          height: height,
-        )),
-      ),
-      (
-        id: 'about',
-        child: reveal(
-          AboutSkillsWidget(onHireMe: () => _scrollToSection('contact')),
         ),
       ),
+      (id: 'about', child: reveal(const AboutWidget())),
       (id: 'experience', child: reveal(const ExperienceSection())),
       (id: 'projects', child: reveal(const PortfolioWidget())),
+      (id: 'skills', child: reveal(const SkillsSection())),
       (id: 'certifications', child: reveal(const CertificationsSection())),
       (id: 'contact', child: reveal(const ContactWidget())),
     ];
-  }
-
-  void _openPresentation() {
-    Navigator.of(context).push<void>(
-      PageRouteBuilder<void>(
-        fullscreenDialog: true,
-        pageBuilder: (_, __, ___) => PresentationPage(
-          slides: _buildSections(
-                  cvUrl: _repo
-                      .getCvUrl(Localizations.localeOf(context).languageCode),
-                  height: _heroHeight)
-              .map((section) => section.child)
-              .toList(),
-        ),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          if (MediaQuery.disableAnimationsOf(context)) return child;
-          return FadeTransition(opacity: animation, child: child);
-        },
-      ),
-    );
   }
 
   void _openTerminal() {
@@ -188,50 +163,56 @@ class _PortfolioPageState extends State<PortfolioPage> {
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
-    final isSmallScreen = width < 1200;
-    _heroHeight = heroHeightFor(context);
+    final isSmallScreen = width < kHeaderInlineNavWidth;
 
     final mediumUrl = _repo.getMedium();
     final cvUrl = _repo.getCvUrl(Localizations.localeOf(context).languageCode);
-    final sections = _buildSections(cvUrl: cvUrl, height: _heroHeight);
+    final sections = _buildSections(cvUrl: cvUrl);
 
-    return Scaffold(
-      key: _scaffoldKey,
-      extendBodyBehindAppBar: true,
-      appBar: HeaderWidget(
-        activeSection: _activeSection,
-        onSectionTap: _scrollToSection,
-        isOverHero: _isOverHero,
-        onMenuTap: _openDrawer,
-        onPresentationTap: _openPresentation,
-        mediumUrl: mediumUrl,
-        cvUrl: cvUrl,
-        menuFocusNode: _menuFocusNode,
-      ),
-      drawer: isSmallScreen
-          ? PortfolioDrawer(
-              activeSection: _activeSection,
-              onSectionTap: _scrollToSection,
-              onClose: _closeDrawer,
-              onPresentationTap: _openPresentation,
-              cvUrl: cvUrl,
-              mediumUrl: mediumUrl,
-            )
-          : null,
-      body: SingleChildScrollView(
-        controller: _scrollController,
-        child: Column(
-          children: [
-            for (final section in sections)
-              Container(
-                key: _sectionKeys[section.id],
-                child: section.child,
-              ),
-            FooterWidget(
-              mediumUrl: mediumUrl,
-              onTerminalTap: _openTerminal,
+    // "`" opens the terminal easter egg (DESIGN.md 3.6); typing in a text
+    // field is unaffected because the field handles the key first.
+    return CallbackShortcuts(
+      bindings: <ShortcutActivator, VoidCallback>{
+        const CharacterActivator('`'): _openTerminal,
+      },
+      child: Focus(
+        autofocus: true,
+        child: Scaffold(
+          key: _scaffoldKey,
+          extendBodyBehindAppBar: true,
+          appBar: HeaderWidget(
+            activeSection: _activeSection,
+            onSectionTap: _scrollToSection,
+            isOverHero: _isOverHero,
+            onMenuTap: _openDrawer,
+            cvUrl: cvUrl,
+            menuFocusNode: _menuFocusNode,
+          ),
+          drawer: isSmallScreen
+              ? PortfolioDrawer(
+                  activeSection: _activeSection,
+                  onSectionTap: _scrollToSection,
+                  onClose: _closeDrawer,
+                  cvUrl: cvUrl,
+                  mediumUrl: mediumUrl,
+                )
+              : null,
+          body: SingleChildScrollView(
+            controller: _scrollController,
+            child: Column(
+              children: [
+                for (final section in sections)
+                  Container(
+                    key: _sectionKeys[section.id],
+                    child: section.child,
+                  ),
+                FooterWidget(
+                  mediumUrl: mediumUrl,
+                  onTerminalTap: _openTerminal,
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

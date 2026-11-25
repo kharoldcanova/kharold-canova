@@ -19,7 +19,7 @@ void main() {
       expect(theme.colorScheme.primary, const Color(0xFF0033CC));
       expect(theme.colorScheme.onPrimary, const Color(0xFFFFFFFF));
       expect(theme.colorScheme.outline, const Color(0xFF111111));
-      expect(theme.colorScheme.outlineVariant, const Color(0x66111111));
+      expect(theme.colorScheme.outlineVariant, const Color(0x1F111111));
       expect(theme.colorScheme.onSurface, const Color(0xFF000000));
       expect(theme.colorScheme.onSurfaceVariant, const Color(0xFF3F3F46));
     });
@@ -75,7 +75,7 @@ void main() {
       expect(theme.colorScheme.primary, const Color(0xFF8AA8FF));
       expect(theme.colorScheme.onPrimary, const Color(0xFF0A1433));
       expect(theme.colorScheme.outline, const Color(0xFF3F3F46));
-      expect(theme.colorScheme.outlineVariant, const Color(0x663F3F46));
+      expect(theme.colorScheme.outlineVariant, const Color(0x1FF2F4F7));
       expect(theme.colorScheme.onSurface, const Color(0xFFF2F4F7));
       expect(theme.colorScheme.onSurfaceVariant, const Color(0xFFAAABAD));
     });
@@ -90,7 +90,7 @@ void main() {
       expect(tokens, isNotNull);
       expect(tokens!.navSurface, const Color(0xEB000000));
       expect(tokens.focusRing, const Color(0xFF8AA8FF));
-      expect(tokens.borderSubtle, const Color(0x663F3F46));
+      expect(tokens.borderSubtle, const Color(0x1FF2F4F7));
       expect(tokens.elevated, const Color(0xFF1C1C1C));
     });
   });

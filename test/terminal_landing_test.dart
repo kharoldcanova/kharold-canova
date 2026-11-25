@@ -65,6 +65,17 @@ void main() {
     }
   });
 
+  testWidgets('the backquote key opens the terminal easter egg',
+      (tester) async {
+    await pumpPortfolio(tester, size: const Size(1300, 900));
+    expect(find.byType(TerminalLandingPage), findsNothing);
+
+    await tester.sendKeyEvent(LogicalKeyboardKey.backquote, character: '`');
+    await tester.pumpAndSettle();
+
+    expect(find.byType(TerminalLandingPage), findsOneWidget);
+  });
+
   testWidgets('terminal keeps its own dark mono look from the light site',
       (tester) async {
     await pumpPortfolio(tester);
@@ -115,7 +126,7 @@ void main() {
 
     await tester.tap(find.byKey(const Key('terminal-tab-skills')));
     await tester.pumpAndSettle();
-    expect(find.text('Dart'), findsWidgets);
+    expect(find.textContaining('Dart'), findsWidgets);
 
     await tester.tap(find.byKey(const Key('terminal-tab-projects')));
     await tester.pumpAndSettle();
@@ -144,11 +155,11 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text('Full Stack Developer'), findsNWidgets(2));
     expect(find.text('USA (remote from Peru)'), findsOneWidget);
-    expect(find.textContaining('Sole owner of mm2'), findsOneWidget);
+    expect(find.textContaining('I owned mm2'), findsOneWidget);
 
     await tester.tap(find.byKey(const Key('terminal-tab-projects')));
     await tester.pumpAndSettle();
-    expect(find.textContaining('Published interface-design skill'),
+    expect(find.textContaining('A skill for designing interfaces'),
         findsOneWidget);
     expect(find.text('INTERNAL PROJECT'), findsWidgets);
 

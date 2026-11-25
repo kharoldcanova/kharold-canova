@@ -17,7 +17,6 @@ class PortfolioDrawer extends StatelessWidget {
     required this.activeSection,
     required this.onSectionTap,
     required this.onClose,
-    this.onPresentationTap,
     required this.cvUrl,
     this.mediumUrl,
   });
@@ -25,7 +24,6 @@ class PortfolioDrawer extends StatelessWidget {
   final String activeSection;
   final ValueChanged<String> onSectionTap;
   final VoidCallback onClose;
-  final VoidCallback? onPresentationTap;
   final String cvUrl;
   final String? mediumUrl;
 
@@ -87,10 +85,9 @@ class PortfolioDrawer extends StatelessWidget {
                       const SizedBox(height: BrandTheme.spaceXS),
                       Text(
                         t.hero_subtitle,
-                        style: BrandTextStyles.mono(
-                          fontSize: 12,
+                        style: TextStyle(
+                          fontSize: 13,
                           color: colorScheme.onSurfaceVariant,
-                          letterSpacing: 0.6,
                         ),
                       ),
                     ],
@@ -113,14 +110,6 @@ class PortfolioDrawer extends StatelessWidget {
                             onSectionTap(item.id);
                           },
                         ),
-                      ListTile(
-                        leading: const Icon(Icons.play_arrow),
-                        title: Text(t.presentation_mode),
-                        onTap: () {
-                          onClose();
-                          onPresentationTap?.call();
-                        },
-                      ),
                     ],
                   ),
                 ),

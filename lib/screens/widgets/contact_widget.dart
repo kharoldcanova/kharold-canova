@@ -1,284 +1,247 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kharoldcanova/config/theme/brand_theme.dart';
 import 'package:kharoldcanova/config/theme/portfolio_tokens.dart';
 import 'package:kharoldcanova/data/repository/portfolio_repository.dart';
 import 'package:kharoldcanova/l10n/app_localizations.dart';
+import 'package:kharoldcanova/screens/widgets/availability_pill.dart';
 import 'package:kharoldcanova/screens/widgets/section_shell.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+/// Contact (DESIGN.md 2.5): blue block in light mode, elevated neutral in
+/// dark. Message on the left, channels on the right; stacked below 860px.
 class ContactWidget extends StatelessWidget {
   const ContactWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!;
-    final baseTheme = Theme.of(context);
-    final colorScheme = baseTheme.colorScheme;
-    final isDark = baseTheme.brightness == Brightness.dark;
-    final tokens = baseTheme.extension<PortfolioTokens>()!;
-    final sectionForeground =
-        isDark ? colorScheme.onSurface : colorScheme.onPrimary;
-    final sectionBackground = isDark ? tokens.elevated : colorScheme.primary;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final isDark = theme.brightness == Brightness.dark;
+    final tokens = theme.extension<PortfolioTokens>()!;
+    final fg = isDark ? colorScheme.onSurface : colorScheme.onPrimary;
+    final background = isDark ? tokens.elevated : colorScheme.primary;
+    final line = fg.withValues(alpha: isDark ? 0.16 : 0.3);
     final repo = PortfolioRepository();
 
-    // Light mode keeps the blue contact block. Dark mode uses the neutral
-    // elevated surface so the muted blue stays the only accent.
-    final contactTheme = baseTheme.copyWith(
-      colorScheme: colorScheme.copyWith(
-        primary: sectionForeground,
-        surface: Colors.transparent,
-        onSurface: sectionForeground,
-        onSurfaceVariant: sectionForeground.withValues(alpha: 0.82),
-        outline: sectionForeground.withValues(alpha: 0.4),
-        outlineVariant: sectionForeground.withValues(alpha: 0.4),
-      ),
-      textTheme: baseTheme.textTheme.apply(
-        bodyColor: sectionForeground,
-        displayColor: sectionForeground,
-      ),
+    final message = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        AvailabilityPill(
+          key: const Key('contact-availability'),
+          foreground: fg,
+          border: line,
+        ),
+        const SizedBox(height: BrandTheme.spaceMD),
+        Text(
+          t.contact_title,
+          style: TextStyle(
+            fontSize: 40,
+            fontWeight: FontWeight.w600,
+            letterSpacing: -0.8,
+            height: 1.1,
+            color: fg,
+          ),
+        ),
+        const SizedBox(height: 12),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 480),
+          child: Text(
+            t.contact_text,
+            style: theme.textTheme.bodyLarge?.copyWith(
+              color: fg.withValues(alpha: 0.86),
+              height: 1.6,
+            ),
+          ),
+        ),
+      ],
     );
 
-    return Theme(
-      data: contactTheme,
-      child: SectionContainer(
-        background: sectionBackground,
-        topBorder: true,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SectionHeader(
-              index: '05',
-              title: t.contact,
-              description: t.contact_desc,
-            ),
-            const SizedBox(height: BrandTheme.spaceXL),
-            Text(
-              t.work_with_me,
-              style: contactTheme.textTheme.headlineLarge,
-            ),
-            const SizedBox(height: BrandTheme.spaceXL),
-            LayoutBuilder(
-              builder: (context, constraints) {
-                final isWide = constraints.maxWidth >= 760;
-                final cards = [
-                  _ContactCard(
-                    icon: const Icon(Icons.email_outlined),
-                    label: t.email,
-                    value: repo.getEmail(),
-                    onTap: () => launchUrl(
-                      Uri.https('mail.google.com', '/mail/', {
-                        'view': 'cm',
-                        'fs': '1',
-                        'to': repo.getEmail(),
-                      }),
-                      mode: LaunchMode.externalApplication,
-                      webOnlyWindowName: '_blank',
-                    ),
-                  ),
-                  _ContactCard(
-                    icon: const Icon(Icons.phone_outlined),
-                    label: t.phones,
-                    value: repo.getPhone(),
-                    onTap: () => launchUrl(
-                      Uri(
-                        scheme: 'tel',
-                        path: repo.getPhone().replaceAll(' ', ''),
-                      ),
-                      mode: LaunchMode.externalApplication,
-                    ),
-                  ),
-                  _ContactCard(
-                    key: const Key('contact-github'),
-                    icon: const FaIcon(FontAwesomeIcons.github),
-                    label: 'GitHub',
-                    value: repo.getGithub().replaceFirst('https://', ''),
-                    onTap: () => launchUrl(
-                      Uri.parse(repo.getGithub()),
-                      mode: LaunchMode.externalApplication,
-                      webOnlyWindowName: '_blank',
-                    ),
-                  ),
-                  _ContactCard(
-                    key: const Key('contact-linkedin'),
-                    icon: const FaIcon(FontAwesomeIcons.linkedin),
-                    label: 'LinkedIn',
-                    value: repo.getLinkedin().replaceFirst('https://', ''),
-                    onTap: () => launchUrl(
-                      Uri.parse(repo.getLinkedin()),
-                      mode: LaunchMode.externalApplication,
-                      webOnlyWindowName: '_blank',
-                    ),
-                  ),
-                ];
-
-                final columns = isWide ? 2 : 1;
-                const gap = BrandTheme.spaceMD;
-                final width =
-                    (constraints.maxWidth - gap * (columns - 1)) / columns;
-
-                return Wrap(
-                  spacing: gap,
-                  runSpacing: gap,
-                  children: [
-                    for (final card in cards)
-                      SizedBox(width: width, child: card),
-                  ],
-                );
-              },
-            ),
-            const SizedBox(height: BrandTheme.spaceXL),
-            // Availability and languages close the CV; they close contact too.
-            for (final fact in <({Key key, String label, String text})>[
-              (
-                key: const Key('contact-availability'),
-                label: t.availability,
-                text: t.availability_desc,
-              ),
-              (
-                key: const Key('contact-languages'),
-                label: t.languages,
-                text: t.languages_desc,
-              ),
-            ]) ...[
-              Padding(
-                key: fact.key,
-                padding: const EdgeInsets.only(bottom: BrandTheme.spaceMD),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      fact.label.toUpperCase(),
-                      style: BrandTextStyles.mono(
-                        fontSize: 11,
-                        weight: FontWeight.w500,
-                        color: contactTheme.colorScheme.onSurfaceVariant,
-                        letterSpacing: 1,
-                      ),
-                    ),
-                    const SizedBox(height: BrandTheme.spaceXS),
-                    Text(
-                      fact.text,
-                      style: contactTheme.textTheme.bodyMedium?.copyWith(
-                        color: contactTheme.colorScheme.onSurface,
-                        height: 1.6,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ],
+    final channels = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        _EmailRow(email: repo.getEmail(), fg: fg, line: line),
+        const SizedBox(height: 10),
+        _LinkRow(
+          key: const Key('contact-linkedin'),
+          label: 'LinkedIn',
+          value: repo.getLinkedin().replaceFirst('https://', ''),
+          url: repo.getLinkedin(),
+          fg: fg,
+          line: line,
         ),
+        const SizedBox(height: 10),
+        _LinkRow(
+          key: const Key('contact-github'),
+          label: 'GitHub',
+          value: repo.getGithub().replaceFirst('https://', ''),
+          url: repo.getGithub(),
+          fg: fg,
+          line: line,
+        ),
+        const SizedBox(height: BrandTheme.spaceSM),
+        Text(
+          t.contact_meta,
+          key: const Key('contact-meta'),
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: fg.withValues(alpha: 0.7),
+          ),
+        ),
+      ],
+    );
+
+    return SectionContainer(
+      background: background,
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          if (constraints.maxWidth < 860) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [message, const SizedBox(height: 28), channels],
+            );
+          }
+          return Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(flex: 6, child: message),
+              const SizedBox(width: BrandTheme.space2XL),
+              Expanded(flex: 5, child: channels),
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-class _ContactCard extends StatefulWidget {
-  const _ContactCard({
-    super.key,
-    required this.icon,
+class _RowShell extends StatelessWidget {
+  const _RowShell({
     required this.label,
     required this.value,
-    required this.onTap,
+    required this.trailing,
+    required this.fg,
+    required this.line,
+    this.selectable = false,
   });
 
-  final Widget icon;
   final String label;
   final String value;
-  final VoidCallback onTap;
-
-  @override
-  State<_ContactCard> createState() => _ContactCardState();
-}
-
-class _ContactCardState extends State<_ContactCard> {
-  bool _hovered = false;
-  bool _focused = false;
+  final Widget trailing;
+  final bool selectable;
+  final Color fg;
+  final Color line;
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final borderColor =
-        _hovered || _focused ? colorScheme.primary : colorScheme.outline;
-
-    return CallbackShortcuts(
-      bindings: <ShortcutActivator, VoidCallback>{
-        const SingleActivator(LogicalKeyboardKey.enter): widget.onTap,
-        const SingleActivator(LogicalKeyboardKey.space): widget.onTap,
-      },
-      child: Focus(
-        onFocusChange: (value) => setState(() => _focused = value),
-        child: MouseRegion(
-          cursor: SystemMouseCursors.click,
-          onEnter: (_) => setState(() => _hovered = true),
-          onExit: (_) => setState(() => _hovered = false),
-          child: GestureDetector(
-            onTap: widget.onTap,
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 180),
-              padding: const EdgeInsets.all(BrandTheme.spaceLG),
-              decoration: BoxDecoration(
-                color: colorScheme.surface,
-                borderRadius: BorderRadius.circular(BrandTheme.radiusLG),
-                border: Border.all(color: borderColor, width: 1),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(BrandTheme.radius),
-                      border: Border.all(
-                        color: colorScheme.outlineVariant,
-                        width: 1,
-                      ),
-                    ),
-                    child: IconTheme(
-                      data: IconThemeData(
-                        color: colorScheme.primary,
-                        size: 18,
-                      ),
-                      child: Center(child: widget.icon),
-                    ),
+    final textTheme = Theme.of(context).textTheme;
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        border: Border.all(color: line),
+        borderRadius: BorderRadius.circular(BrandTheme.radius),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: textTheme.bodySmall
+                      ?.copyWith(color: fg.withValues(alpha: 0.7)),
+                ),
+                if (selectable)
+                  SelectableText(
+                    value,
+                    style: textTheme.titleSmall?.copyWith(color: fg),
+                  )
+                else
+                  Text(
+                    value,
+                    style: textTheme.titleSmall?.copyWith(color: fg),
                   ),
-                  const SizedBox(width: BrandTheme.spaceMD),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.label.toUpperCase(),
-                          style: BrandTextStyles.mono(
-                            fontSize: 11,
-                            color: colorScheme.onSurfaceVariant,
-                            letterSpacing: 1,
-                          ),
-                        ),
-                        const SizedBox(height: BrandTheme.spaceXS),
-                        Text(
-                          widget.value,
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleSmall
-                              ?.copyWith(fontWeight: FontWeight.w500),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Icon(
-                    Icons.arrow_outward,
-                    size: 16,
-                    color: colorScheme.onSurfaceVariant,
-                  ),
-                ],
-              ),
+              ],
             ),
           ),
+          const SizedBox(width: BrandTheme.spaceSM),
+          trailing,
+        ],
+      ),
+    );
+  }
+}
+
+class _EmailRow extends StatelessWidget {
+  const _EmailRow({required this.email, required this.fg, required this.line});
+
+  final String email;
+  final Color fg;
+  final Color line;
+
+  @override
+  Widget build(BuildContext context) {
+    final t = AppLocalizations.of(context)!;
+    return _RowShell(
+      label: t.email,
+      value: email,
+      selectable: true,
+      fg: fg,
+      line: line,
+      trailing: OutlinedButton(
+        key: const Key('contact-copy-email'),
+        onPressed: () async {
+          await Clipboard.setData(ClipboardData(text: email));
+          if (!context.mounted) return;
+          ScaffoldMessenger.maybeOf(context)?.showSnackBar(
+            SnackBar(content: Text(t.email_copied)),
+          );
+        },
+        style: OutlinedButton.styleFrom(
+          foregroundColor: fg,
+          side: BorderSide(color: line),
+          minimumSize: const Size(0, 34),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
+          textStyle: const TextStyle(fontSize: 13),
         ),
+        child: Text(t.copy_email),
+      ),
+    );
+  }
+}
+
+class _LinkRow extends StatelessWidget {
+  const _LinkRow({
+    super.key,
+    required this.label,
+    required this.value,
+    required this.url,
+    required this.fg,
+    required this.line,
+  });
+
+  final String label;
+  final String value;
+  final String url;
+  final Color fg;
+  final Color line;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(BrandTheme.radius),
+      onTap: () => launchUrl(
+        Uri.parse(url),
+        mode: LaunchMode.externalApplication,
+        webOnlyWindowName: '_blank',
+      ),
+      child: _RowShell(
+        label: label,
+        value: value,
+        fg: fg,
+        line: line,
+        trailing: Icon(Icons.arrow_outward, size: 18, color: fg),
       ),
     );
   }

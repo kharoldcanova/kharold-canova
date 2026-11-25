@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,20 +12,20 @@ import 'package:kharoldcanova/screens/widgets/contact_widget.dart';
 import 'package:kharoldcanova/screens/widgets/experience_timeline.dart';
 import 'package:kharoldcanova/screens/widgets/header_widget.dart';
 import 'package:kharoldcanova/screens/widgets/hero_widget.dart';
+import 'package:kharoldcanova/screens/widgets/neural_networks.dart';
 import 'package:kharoldcanova/screens/widgets/section_shell.dart';
 import 'package:kharoldcanova/screens/widgets/skill_groups_grid.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+const _primary = Color(0xFF0033CC);
 
 void main() {
   setUp(() {
     SharedPreferences.setMockInitialValues(<String, Object>{});
   });
 
-  test('the repository points at the new AI & DevOps CV', () {
-    expect(
-      PortfolioRepository().getCvUrl(),
-      'cv-kharold-canova.pdf',
-    );
+  test('the repository points at the main CV', () {
+    expect(PortfolioRepository().getCvUrl(), 'cv-kharold-canova.pdf');
   });
 
   test('the CV download follows the site language and both PDFs ship', () {
@@ -39,7 +40,7 @@ void main() {
   test('experience data matches the CV (active users, TECLEAR dates)', () {
     final experiences = PortfolioRepository().getExperiences();
     final milMujeres = experiences.first;
-    expect(milMujeres.highlights.join(' '), contains('115 usuarios activos'));
+    expect(milMujeres.highlights.join(' '), contains('115 personas activas'));
     expect(milMujeres.highlightsEn!.join(' '), contains('115 active users'));
     expect(milMujeres.highlights.join(' '), isNot(contains('miles')));
     final teclear = experiences[1];
@@ -56,7 +57,7 @@ void main() {
       expect(text.toLowerCase(), isNot(contains('consc')));
     }
     expect(lain.techStack, isNot(contains('QLoRA')));
-    expect(lain.description, contains('Hugging Face'));
+    expect(lain.techStack, contains('Hugging Face'));
   });
 
   test('portfolio carries the CV facts: webhooks, OpenAI-to-local, Kipu tests',
@@ -74,16 +75,24 @@ void main() {
     expect(kipu.descriptionEn, contains('tests'));
   });
 
+  test('dates read like a person writes them', () {
+    expect(cvMonth(DateTime(2023, 9, 1)), 'sep 2023');
+    expect(cvMonth(DateTime(2023, 9, 1), 'en'), 'Sep 2023');
+  });
+
   Future<void> pumpApp(
     WidgetTester tester, {
     Size size = const Size(390, 844),
+    ThemeMode? mode,
   }) async {
     tester.view.devicePixelRatio = 1;
     tester.view.physicalSize = size;
     addTearDown(tester.view.resetDevicePixelRatio);
     addTearDown(tester.view.resetPhysicalSize);
 
-    await tester.pumpWidget(const MainApp());
+    await tester.pumpWidget(
+      mode == null ? const MainApp() : MainApp(initialMode: mode),
+    );
     await tester.pumpAndSettle();
   }
 
@@ -97,12 +106,7 @@ void main() {
   Color? underlineColor(WidgetTester tester, String label) {
     final link = find.widgetWithText(TextButton, label).first;
     final container = tester.widget<AnimatedContainer>(
-      find
-          .descendant(
-            of: link,
-            matching: find.byType(AnimatedContainer),
-          )
-          .first,
+      find.descendant(of: link, matching: find.byType(AnimatedContainer)).first,
     );
     final border = (container.decoration! as BoxDecoration).border! as Border;
     return border.bottom.color;
@@ -120,66 +124,120 @@ void main() {
     return container.decoration! as BoxDecoration;
   }
 
-  testWidgets(
-      'first visit is light and renders the image hero without a portrait',
+  testWidgets('first visit is light, with the name and no avatar in the hero',
       (tester) async {
     await pumpApp(tester);
 
     final scaffold = tester.element(find.byType(Scaffold));
     expect(Theme.of(scaffold).brightness, Brightness.light);
-    expect(find.text('Kharold Canova'), findsOneWidget);
+    expect(find.byKey(const Key('hero-name')), findsOneWidget);
     expect(find.byType(CircleAvatar), findsNothing);
-    expect(find.text('Descargar CV'), findsOneWidget);
+    expect(find.text('Descargar CV ↗'), findsOneWidget);
   });
 
-  testWidgets('hero surfaces the CV role, CV facts and key links',
-      (tester) async {
+  for (final size in <Size>[const Size(390, 844), const Size(1300, 900)]) {
+    testWidgets('hero shows the role, availability and links at ${size.width}',
+        (tester) async {
+      await pumpApp(tester, size: size);
+
+      expect(find.text('HOLA, SOY'), findsOneWidget);
+      expect(
+        find.descendant(
+          of: find.byType(HeroWidget),
+          matching: find.text('Disponibilidad inmediata'),
+        ),
+        findsOneWidget,
+      );
+      expect(
+        find.textContaining('Desarrollador full stack, entre',
+            findRichText: true),
+        findsOneWidget,
+      );
+      expect(find.byType(NeuralNetworks), findsOneWidget);
+      for (final key in <String>[
+        'hero-projects',
+        'hero-cv',
+        'hero-github',
+        'hero-linkedin',
+        'hero-medium',
+      ]) {
+        expect(find.byKey(Key(key)), findsOneWidget, reason: key);
+      }
+      expect(tester.takeException(), isNull);
+    });
+  }
+
+  testWidgets('the hero copy has no CV boilerplate', (tester) async {
     await pumpApp(tester, size: const Size(1300, 900));
-
-    expect(
-      find.text('Desarrollador Full Stack · Flutter · IA aplicada'),
-      findsOneWidget,
-    );
-    expect(find.text('PIURA, PERÚ · DISPONIBILIDAD INMEDIATA'), findsOneWidget);
-    expect(find.text('Ver proyectos'), findsOneWidget);
-
-    for (final key in <String>[
-      'hero-cv',
-      'hero-github-rail',
-      'hero-linkedin-rail',
-    ]) {
-      expect(find.byKey(Key(key)), findsOneWidget, reason: key);
-    }
-  });
-
-  testWidgets('mobile hero keeps GitHub and LinkedIn reachable',
-      (tester) async {
-    await pumpApp(tester);
-
-    for (final key in <String>['hero-github', 'hero-linkedin']) {
-      expect(find.byKey(Key(key)), findsOneWidget, reason: key);
-    }
-    expect(find.byKey(const Key('hero-github-rail')), findsNothing);
+    expect(find.textContaining('TIEMPO COMPLETO'), findsNothing);
+    expect(find.textContaining('Pregúntale'), findsNothing);
+    expect(find.textContaining('PIURA, PERÚ ·'), findsNothing);
   });
 
   for (final size in <Size>[const Size(390, 844), const Size(1300, 900)]) {
     for (final mode in <ThemeMode>[ThemeMode.light, ThemeMode.dark]) {
       testWidgets('hero uses ink roles at ${size.width.toInt()}px ${mode.name}',
           (tester) async {
-        tester.view.devicePixelRatio = 1;
-        tester.view.physicalSize = size;
-        addTearDown(tester.view.resetDevicePixelRatio);
-        addTearDown(tester.view.resetPhysicalSize);
-        await tester.pumpWidget(MainApp(initialMode: mode));
-        await tester.pumpAndSettle();
+        await pumpApp(tester, size: size, mode: mode);
 
         final scheme =
             Theme.of(tester.element(find.byType(Scaffold))).colorScheme;
-        final name = tester.widget<Text>(find.text('Kharold Canova'));
+        final name = tester.widget<Text>(find.byKey(const Key('hero-name')));
         expect(name.style?.color, scheme.onSurface);
       });
     }
   }
+
+  testWidgets('neural networks wake on hover and rest afterwards',
+      (tester) async {
+    await pumpApp(tester, size: const Size(1300, 900));
+    // After the intro the ticker stops: an idle page schedules no frames.
+    expect(tester.binding.hasScheduledFrame, isFalse);
+
+    final networks = find.byType(NeuralNetworks);
+    final mouse = await tester.createGesture(kind: PointerDeviceKind.mouse);
+    addTearDown(mouse.removePointer);
+    await mouse.addPointer(location: Offset.zero);
+    await mouse.moveTo(tester.getCenter(networks));
+    await tester.pump(const Duration(milliseconds: 16));
+    expect(tester.binding.hasScheduledFrame, isTrue);
+
+    await tester.pump(const Duration(seconds: 1));
+    await mouse.moveTo(Offset.zero);
+    await tester.pumpAndSettle();
+    expect(tester.binding.hasScheduledFrame, isFalse);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('neural networks stack and react to taps on a phone',
+      (tester) async {
+    await pumpApp(tester);
+    final networks = find.byType(NeuralNetworks);
+    await tester.ensureVisible(networks);
+    await tester.pumpAndSettle();
+
+    expect(tester.getSize(networks).height, 480);
+    await tester.tapAt(tester.getCenter(networks));
+    await tester.pump(const Duration(milliseconds: 16));
+    expect(tester.binding.hasScheduledFrame, isTrue);
+    await tester.pumpAndSettle();
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('reduced motion keeps the networks still', (tester) async {
+    tester.view.devicePixelRatio = 1;
+    tester.view.physicalSize = const Size(1300, 900);
+    addTearDown(tester.view.resetDevicePixelRatio);
+    addTearDown(tester.view.resetPhysicalSize);
+    tester.platformDispatcher.accessibilityFeaturesTestValue =
+        const FakeAccessibilityFeatures(disableAnimations: true);
+    addTearDown(tester.platformDispatcher.clearAccessibilityFeaturesTestValue);
+
+    await tester.pumpWidget(const MainApp());
+    await tester.pump();
+    await tester.pump();
+    expect(tester.binding.hasScheduledFrame, isFalse);
+  });
 
   testWidgets('hero projects action scrolls to Proyectos and marks it active',
       (tester) async {
@@ -188,36 +246,10 @@ void main() {
     await tester.tap(find.byKey(const Key('hero-projects')));
     await tester.pumpAndSettle();
 
-    expect(underlineColor(tester, 'Proyectos'), const Color(0xFF0033CC));
+    expect(underlineColor(tester, 'Proyectos'), _primary);
   });
 
-  testWidgets('contact exposes GitHub and LinkedIn next to email and phone',
-      (tester) async {
-    await pumpApp(tester, size: const Size(1300, 900));
-
-    expect(find.byKey(const Key('contact-github')), findsOneWidget);
-    expect(find.byKey(const Key('contact-linkedin')), findsOneWidget);
-  });
-
-  testWidgets('hero stays shorter than the viewport on mobile and desktop',
-      (tester) async {
-    await pumpApp(tester, size: const Size(390, 844));
-
-    var hero = tester.getSize(find.byType(HeroWidget));
-    expect(hero.width, 390);
-    expect(hero.height, closeTo(844 * 0.68, 0.01));
-    expect(hero.height, lessThan(844));
-
-    tester.view.physicalSize = const Size(1300, 900);
-    await tester.pumpAndSettle();
-
-    hero = tester.getSize(find.byType(HeroWidget));
-    expect(hero.width, 1300);
-    expect(hero.height, closeTo(900 * 0.72, 0.01));
-    expect(hero.height, lessThan(900));
-  });
-
-  testWidgets('contact uses the primary blue surface with on-primary text',
+  testWidgets('contact: blue block, availability, channels and quiet meta line',
       (tester) async {
     await pumpApp(tester, size: const Size(1300, 900));
 
@@ -227,48 +259,47 @@ void main() {
         matching: find.byType(SectionContainer),
       ),
     );
-    expect(section.background, const Color(0xFF0033CC));
+    expect(section.background, _primary);
 
-    final title = tester.widget<Text>(
-      find.descendant(
-        of: find.byType(ContactWidget),
-        matching: find.text('Contacto'),
-      ),
-    );
+    final title = tester.widget<Text>(find.text('Hablemos'));
     expect(title.style?.color, Colors.white);
+    for (final key in <String>[
+      'contact-availability',
+      'contact-github',
+      'contact-linkedin',
+      'contact-copy-email',
+      'contact-meta',
+    ]) {
+      expect(find.byKey(Key(key)), findsOneWidget, reason: key);
+    }
+    expect(find.textContaining('Piura, Perú (UTC−5)'), findsOneWidget);
+    // Location no longer sits in "Sobre mí".
+    expect(find.textContaining('Vivo en Piura'), findsNothing);
+  });
 
-    final heading = tester.widget<Text>(
-      find.descendant(
-        of: find.byType(ContactWidget),
-        matching: find.text('¿Te gustaría trabajar conmigo?'),
-      ),
+  testWidgets('the copy button puts the email on the clipboard',
+      (tester) async {
+    await pumpApp(tester, size: const Size(1300, 900));
+    String? copied;
+    tester.binding.defaultBinaryMessenger.setMockMethodCallHandler(
+      SystemChannels.platform,
+      (call) async {
+        if (call.method == 'Clipboard.setData') {
+          copied = (call.arguments as Map)['text'] as String?;
+        }
+        return null;
+      },
     );
-    expect(heading.style?.color, Colors.white);
+    addTearDown(() => tester.binding.defaultBinaryMessenger
+        .setMockMethodCallHandler(SystemChannels.platform, null));
 
-    final description = tester.widget<Text>(
-      find.descendant(
-        of: find.byType(ContactWidget),
-        matching: find.text('Cuéntame sobre tu proyecto o simplemente saluda.'),
-      ),
-    );
-    expect(
-      description.style?.color,
-      Colors.white.withValues(alpha: 0.82),
-    );
+    final button = find.byKey(const Key('contact-copy-email'));
+    await tester.ensureVisible(button);
+    await tester.tap(button);
+    await tester.pumpAndSettle();
 
-    final card = find
-        .ancestor(
-          of: find.byIcon(Icons.email_outlined),
-          matching: find.byType(AnimatedContainer),
-        )
-        .first;
-    final decoration =
-        tester.widget<AnimatedContainer>(card).decoration! as BoxDecoration;
-    expect(decoration.color, Colors.transparent);
-    expect(
-      (decoration.border! as Border).top.color,
-      Colors.white.withValues(alpha: 0.4),
-    );
+    expect(copied, 'kharoldcanova@gmail.com');
+    expect(find.text('Email copiado'), findsOneWidget);
   });
 
   testWidgets('dark contact uses the elevated surface and primary text',
@@ -276,8 +307,6 @@ void main() {
     await pumpApp(tester, size: const Size(1300, 900));
 
     await tester.tap(find.byKey(const Key('theme-toggle')));
-    await tester.pumpAndSettle();
-    await tester.ensureVisible(find.byType(ContactWidget));
     await tester.pumpAndSettle();
 
     final section = tester.widget<SectionContainer>(
@@ -287,27 +316,30 @@ void main() {
       ),
     );
     expect(section.background, BrandColors.darkBgElevated);
-
-    final title = tester.widget<Text>(
-      find.descendant(
-        of: find.byType(ContactWidget),
-        matching: find.text('Contacto'),
-      ),
-    );
+    final title = tester.widget<Text>(find.text('Hablemos'));
     expect(title.style?.color, BrandColors.darkTextPrimary);
   });
 
-  testWidgets('experience and core competencies render the CV content',
-      (tester) async {
+  testWidgets('about shows the photo and the four CV metrics', (tester) async {
+    await pumpApp(tester, size: const Size(1300, 900));
+
+    expect(find.byKey(const Key('about-photo')), findsOneWidget);
+    for (final key in <String>['years', 'users', 'stores', 'remote']) {
+      expect(find.byKey(Key('about-fact-$key')), findsOneWidget, reason: key);
+    }
+    expect(find.text('~115'), findsOneWidget);
+  });
+
+  testWidgets('experience and skills render the CV content', (tester) async {
     await pumpApp(tester, size: const Size(1300, 900));
 
     expect(find.byType(ExperienceTimeline), findsOneWidget);
     expect(find.text('Mil Mujeres Legal Services'), findsOneWidget);
     expect(find.text('Desarrollador Full Stack'), findsNWidgets(2));
     expect(find.text('TECLEAR S.A.C.'), findsOneWidget);
+    expect(find.text('sep 2023 – sep 2026'), findsOneWidget);
 
-    expect(find.byType(SkillGroupsGrid), findsOneWidget);
-    expect(find.text('Competencias clave'), findsOneWidget);
+    expect(find.text('Con qué trabajo'), findsOneWidget);
     for (final technology in <String>[
       'RAG con LlamaIndex',
       'GitHub Actions',
@@ -317,7 +349,7 @@ void main() {
       expect(
         find.descendant(
           of: find.byType(SkillGroupsGrid),
-          matching: find.text(technology),
+          matching: find.textContaining(technology),
         ),
         findsOneWidget,
         reason: technology,
@@ -339,34 +371,54 @@ void main() {
     expect(prefs.getString(ThemePreferences.storageKey), 'dark');
   });
 
-  testWidgets('desktop navigation exposes six labels and scrolls to projects',
+  testWidgets('header: four links, language, theme and CV; nothing else',
       (tester) async {
     await pumpApp(tester, size: const Size(1300, 900));
 
     for (final label in <String>[
-      'Inicio',
       'Sobre mí',
       'Experiencia',
       'Proyectos',
-      'Formación',
       'Contacto',
     ]) {
       expect(headerText(label), findsOneWidget, reason: label);
     }
+    for (final key in <String>[
+      'language-toggle',
+      'theme-toggle',
+      'header-cv'
+    ]) {
+      expect(find.byKey(Key(key)), findsOneWidget, reason: key);
+    }
+    for (final key in <String>[
+      'presentation-control',
+      'header-github',
+      'header-linkedin',
+    ]) {
+      expect(find.byKey(Key(key)), findsNothing, reason: key);
+    }
 
     await tester.tap(headerText('Proyectos'));
     await tester.pumpAndSettle();
-
     final scrollView = tester
         .widget<SingleChildScrollView>(find.byType(SingleChildScrollView));
     expect(scrollView.controller!.offset, greaterThan(0));
 
     await tester.tap(find.byKey(const Key('language-toggle')));
     await tester.pumpAndSettle();
-
-    expect(headerText('Home'), findsOneWidget);
+    expect(headerText('About me'), findsOneWidget);
     expect(headerText('Projects'), findsOneWidget);
-    expect(headerText('Education'), findsOneWidget);
+  });
+
+  testWidgets('English hero and contact read naturally', (tester) async {
+    await pumpApp(tester, size: const Size(1300, 900));
+    await tester.tap(find.byKey(const Key('language-toggle')));
+    await tester.pumpAndSettle();
+
+    expect(find.text("HI, I'M"), findsOneWidget);
+    expect(find.text('Available now'), findsNWidgets(2));
+    expect(find.text("Let's talk"), findsOneWidget);
+    expect(find.text('Download CV ↗'), findsOneWidget);
   });
 
   testWidgets('theme control tooltip follows the locale and active mode',
@@ -390,92 +442,56 @@ void main() {
 
     var decoration = headerDecoration(tester);
     expect(decoration.color, Colors.transparent);
-    expect(
-      (decoration.border! as Border).bottom.color,
-      Colors.transparent,
-    );
+    expect((decoration.border! as Border).bottom.color, Colors.transparent);
 
     await tester.tap(headerText('Proyectos'));
     await tester.pumpAndSettle();
 
     decoration = headerDecoration(tester);
-    expect(decoration.color, const Color(0xEBFFFFFF));
+    expect(decoration.color, BrandColors.lightNavSurface);
     expect(
       (decoration.border! as Border).bottom.color,
-      const Color(0xFF111111),
+      BrandColors.lightBorderSubtle,
     );
-  });
-
-  testWidgets('hero contact action scrolls to Contacto and marks it active',
-      (tester) async {
-    await pumpApp(tester, size: const Size(1300, 900));
-
-    await tester.tap(
-      find.descendant(
-        of: find.byType(HeroWidget),
-        matching: find.text('Contáctame'),
-      ),
-    );
-    await tester.pumpAndSettle();
-
-    expect(underlineColor(tester, 'Contacto'), const Color(0xFF0033CC));
   });
 
   testWidgets('the active destination underline follows the current section',
       (tester) async {
     await pumpApp(tester, size: const Size(1300, 900));
 
-    // The wallpaper stays bright at the top, so the header uses the regular
-    // text/primary roles over the hero instead of white-on-image.
-    expect(underlineColor(tester, 'Inicio'), const Color(0xFF0033CC));
     expect(underlineColor(tester, 'Proyectos'), Colors.transparent);
 
     await tester.tap(headerText('Proyectos'));
     await tester.pumpAndSettle();
-
-    expect(underlineColor(tester, 'Proyectos'), const Color(0xFF0033CC));
-    expect(underlineColor(tester, 'Inicio'), Colors.transparent);
-  });
-
-  testWidgets('Sobre mí covers Competencias clave and Formación activates',
-      (tester) async {
-    await pumpApp(tester, size: const Size(1300, 900));
+    expect(underlineColor(tester, 'Proyectos'), _primary);
 
     await tester.tap(headerText('Sobre mí'));
     await tester.pumpAndSettle();
-    expect(underlineColor(tester, 'Sobre mí'), const Color(0xFF0033CC));
+    expect(underlineColor(tester, 'Sobre mí'), _primary);
+    expect(underlineColor(tester, 'Proyectos'), Colors.transparent);
     expect(
       tester.widget<HeaderWidget>(find.byType(HeaderWidget)).isOverHero,
       isFalse,
-      reason: 'the header must become opaque at the hero boundary',
-    );
-
-    final scrollView = tester
-        .widget<SingleChildScrollView>(find.byType(SingleChildScrollView));
-    final aboutOffset = scrollView.controller!.offset;
-    scrollView.controller!.jumpTo(aboutOffset + 200);
-    await tester.pumpAndSettle();
-    expect(
-      underlineColor(tester, 'Sobre mí'),
-      const Color(0xFF0033CC),
-      reason: 'the competencies block belongs to the about destination',
-    );
-
-    await tester.tap(headerText('Formación'));
-    await tester.pumpAndSettle();
-    expect(
-      underlineColor(tester, 'Formación'),
-      const Color(0xFF0033CC),
+      reason: 'the header must become opaque past the hero',
     );
   });
 
   testWidgets('certifications render the full repository list', (tester) async {
     await pumpApp(tester, size: const Size(1300, 900));
 
-    expect(find.text('Educación y certificaciones'), findsOneWidget);
+    expect(find.text('Formación y certificaciones'), findsOneWidget);
     expect(find.text('Gen AI: Navigate the Landscape'), findsOneWidget);
     expect(find.text('Gen AI: Unlock Foundational Concepts'), findsOneWidget);
   });
+
+  const drawerLabels = <String>[
+    'Inicio',
+    'Sobre mí',
+    'Experiencia',
+    'Proyectos',
+    'Formación',
+    'Contacto',
+  ];
 
   testWidgets('mobile drawer lists all destinations and closes with Escape',
       (tester) async {
@@ -485,19 +501,9 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(Drawer), findsOneWidget);
-    for (final label in <String>[
-      'Inicio',
-      'Sobre mí',
-      'Experiencia',
-      'Proyectos',
-      'Formación',
-      'Contacto',
-    ]) {
+    for (final label in drawerLabels) {
       expect(
-        find.descendant(
-          of: find.byType(Drawer),
-          matching: find.text(label),
-        ),
+        find.descendant(of: find.byType(Drawer), matching: find.text(label)),
         findsOneWidget,
         reason: label,
       );
@@ -532,22 +538,13 @@ void main() {
     expect(scrollView.controller!.offset, greaterThan(0));
   });
 
-  testWidgets('reviewed widths render in both themes with header parity',
+  testWidgets('reviewed widths render in both themes without overflow',
       (tester) async {
     addTearDown(tester.view.resetDevicePixelRatio);
     addTearDown(tester.view.resetPhysicalSize);
     tester.view.devicePixelRatio = 1;
 
-    const labels = <String>[
-      'Inicio',
-      'Sobre mí',
-      'Experiencia',
-      'Proyectos',
-      'Formación',
-      'Contacto',
-    ];
-
-    for (final width in <double>[360, 768, 1200, 1440, 1920]) {
+    for (final width in <double>[320, 360, 390, 768, 900, 1200, 1440, 1920]) {
       for (final mode in <ThemeMode>[ThemeMode.light, ThemeMode.dark]) {
         tester.view.physicalSize = Size(width, 900);
         await tester.pumpWidget(
@@ -561,48 +558,34 @@ void main() {
         final label = '${width.toInt()}px ${mode.name}';
         expect(tester.takeException(), isNull, reason: label);
 
-        final scaffold = tester.element(find.byType(Scaffold));
-        expect(
-          Theme.of(scaffold).brightness,
-          mode == ThemeMode.dark ? Brightness.dark : Brightness.light,
-          reason: label,
-        );
+        // Scroll through the whole page so every section lays out.
+        final scrollView = tester
+            .widget<SingleChildScrollView>(find.byType(SingleChildScrollView));
+        final controller = scrollView.controller!;
+        controller.jumpTo(controller.position.maxScrollExtent);
+        await tester.pumpAndSettle();
+        expect(tester.takeException(), isNull, reason: '$label bottom');
 
-        if (width >= 1200) {
-          expect(
-            find.byKey(const Key('menu-button')),
-            findsNothing,
-            reason: 'desktop header at $label',
-          );
-          for (final destination in labels) {
-            expect(headerText(destination), findsOneWidget,
-                reason: destination);
-          }
+        if (width >= kHeaderInlineNavWidth) {
+          expect(find.byKey(const Key('menu-button')), findsNothing,
+              reason: label);
         } else {
-          expect(
-            find.byKey(const Key('menu-button')),
-            findsOneWidget,
-            reason: 'mobile header at $label',
-          );
-
+          expect(find.byKey(const Key('menu-button')), findsOneWidget,
+              reason: label);
           await tester.tap(find.byKey(const Key('menu-button')));
           await tester.pumpAndSettle();
-          expect(find.byType(Drawer), findsOneWidget, reason: label);
-          for (final destination in labels) {
+          for (final destination in drawerLabels) {
             expect(
               find.descendant(
                 of: find.byType(Drawer),
                 matching: find.text(destination),
               ),
               findsOneWidget,
-              reason: destination,
+              reason: '$destination at $label',
             );
           }
-
           await tester.sendKeyEvent(LogicalKeyboardKey.escape);
           await tester.pumpAndSettle();
-          expect(find.byType(Drawer), findsNothing, reason: label);
-          expect(tester.takeException(), isNull, reason: label);
         }
       }
     }

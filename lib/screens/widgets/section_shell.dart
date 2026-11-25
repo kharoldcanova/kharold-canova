@@ -51,12 +51,13 @@ class SectionContainer extends StatelessWidget {
 class SectionHeader extends StatelessWidget {
   const SectionHeader({
     super.key,
-    required this.index,
+    this.index,
     required this.title,
     this.description,
   });
 
-  final String index;
+  /// Optional mono eyebrow ("01 — TITLE"); only the terminal easter egg uses it.
+  final String? index;
   final String title;
   final String? description;
 
@@ -67,16 +68,18 @@ class SectionHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          '$index — ${title.toUpperCase()}',
-          style: BrandTextStyles.mono(
-            fontSize: 12,
-            weight: FontWeight.w500,
-            color: colorScheme.primary,
-            letterSpacing: 1.2,
+        if (index != null) ...[
+          Text(
+            '$index — ${title.toUpperCase()}',
+            style: BrandTextStyles.mono(
+              fontSize: 12,
+              weight: FontWeight.w500,
+              color: colorScheme.primary,
+              letterSpacing: 1.2,
+            ),
           ),
-        ),
-        const SizedBox(height: BrandTheme.spaceSM + 4),
+          const SizedBox(height: BrandTheme.spaceSM + 4),
+        ],
         Text(
           title,
           style: Theme.of(context).textTheme.headlineLarge,

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:kharoldcanova/config/theme/brand_theme.dart';
 import 'package:kharoldcanova/bloc/locale/language_bloc.dart';
 import 'package:kharoldcanova/bloc/theme/theme_bloc.dart';
 import 'package:kharoldcanova/config/theme/current_theme.dart';
@@ -73,14 +74,14 @@ void main() {
               onSectionTap: (_) {},
               isOverHero: true,
               onMenuTap: () {},
-              mediumUrl: 'https://medium.com/@kharoldcanova',
             ),
             body: const SizedBox.shrink(),
           ),
         ),
       );
 
-      expect(find.byTooltip('Medium'), findsOneWidget);
+      // Medium now lives in the hero and footer, never in the header.
+      expect(find.byTooltip('Medium'), findsNothing);
     });
 
     testWidgets(
@@ -235,7 +236,7 @@ void main() {
       expect(decoration().boxShadow, isNull);
       expect(
         (decoration().border! as Border).top.color,
-        const Color(0xFF111111),
+        BrandColors.lightBorderSubtle,
       );
 
       final mouse = await tester.createGesture(kind: PointerDeviceKind.mouse);

@@ -692,30 +692,6 @@ abstract class AppLocalizations {
   /// **'Backend and APIs'**
   String get skill_group_backend;
 
-  /// No description provided for @presentation_mode.
-  ///
-  /// In en, this message translates to:
-  /// **'Start presentation'**
-  String get presentation_mode;
-
-  /// No description provided for @presentation_previous.
-  ///
-  /// In en, this message translates to:
-  /// **'Previous slide'**
-  String get presentation_previous;
-
-  /// No description provided for @presentation_next.
-  ///
-  /// In en, this message translates to:
-  /// **'Next slide'**
-  String get presentation_next;
-
-  /// No description provided for @presentation_close.
-  ///
-  /// In en, this message translates to:
-  /// **'Close presentation'**
-  String get presentation_close;
-
   /// No description provided for @terminal_open.
   ///
   /// In en, this message translates to:
@@ -755,7 +731,7 @@ abstract class AppLocalizations {
   /// No description provided for @stat_years_label.
   ///
   /// In en, this message translates to:
-  /// **'years shipping mobile apps and APIs to production'**
+  /// **'years building apps and APIs'**
   String get stat_years_label;
 
   /// No description provided for @stat_users_value.
@@ -767,7 +743,7 @@ abstract class AppLocalizations {
   /// No description provided for @stat_users_label.
   ///
   /// In en, this message translates to:
-  /// **'active users on mm2 (App Store and Google Play)'**
+  /// **'people use mm2'**
   String get stat_users_label;
 
   /// No description provided for @stat_remote_value.
@@ -779,7 +755,7 @@ abstract class AppLocalizations {
   /// No description provided for @stat_remote_label.
   ///
   /// In en, this message translates to:
-  /// **'years working remotely for a US company'**
+  /// **'years remote with a US team'**
   String get stat_remote_label;
 
   /// No description provided for @projects_cv_note.
@@ -883,6 +859,156 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Spanish (native) · English (B1 intermediate, EF SET): technical reading and written communication with US teams.'**
   String get languages_desc;
+
+  /// No description provided for @hero_greeting.
+  ///
+  /// In en, this message translates to:
+  /// **'Hi, I\'m'**
+  String get hero_greeting;
+
+  /// No description provided for @availability_now.
+  ///
+  /// In en, this message translates to:
+  /// **'Available now'**
+  String get availability_now;
+
+  /// No description provided for @hero_role_lead.
+  ///
+  /// In en, this message translates to:
+  /// **'Full stack developer, between'**
+  String get hero_role_lead;
+
+  /// No description provided for @hero_role_and.
+  ///
+  /// In en, this message translates to:
+  /// **'and'**
+  String get hero_role_and;
+
+  /// No description provided for @hero_role_ai.
+  ///
+  /// In en, this message translates to:
+  /// **'AI'**
+  String get hero_role_ai;
+
+  /// No description provided for @hero_value.
+  ///
+  /// In en, this message translates to:
+  /// **'For four years I\'ve been building apps and APIs that people use every day. I also like seeing how far an AI can go when it runs on your own device, without the cloud.'**
+  String get hero_value;
+
+  /// No description provided for @nn_title.
+  ///
+  /// In en, this message translates to:
+  /// **'The networks behind my projects'**
+  String get nn_title;
+
+  /// No description provided for @nn_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'interactive'**
+  String get nn_hint;
+
+  /// No description provided for @nn_vision.
+  ///
+  /// In en, this message translates to:
+  /// **'Vision'**
+  String get nn_vision;
+
+  /// No description provided for @nn_voice.
+  ///
+  /// In en, this message translates to:
+  /// **'Voice'**
+  String get nn_voice;
+
+  /// No description provided for @nn_sql.
+  ///
+  /// In en, this message translates to:
+  /// **'Text → SQL'**
+  String get nn_sql;
+
+  /// No description provided for @nn_semantics.
+  ///
+  /// In en, this message translates to:
+  /// **'Three animated neural networks: vision, voice and text to SQL. They light up when you hover or tap them.'**
+  String get nn_semantics;
+
+  /// No description provided for @about_p1.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m a systems engineer and I\'ve spent four years building mobile apps and APIs. For the last three I worked remotely from Piura for a US law firm, where I owned their client app: first I maintained it, then I rebuilt it from scratch with Clean Architecture and BLoC, and automated its releases to the app stores.'**
+  String get about_p1;
+
+  /// No description provided for @about_p2.
+  ///
+  /// In en, this message translates to:
+  /// **'I also build things with AI: an assistant that sees and talks inside a phone with no internet, a RAG that turns questions into SQL, and automations with n8n. What drives me most is making products that make someone\'s day easier.'**
+  String get about_p2;
+
+  /// No description provided for @photo_alt.
+  ///
+  /// In en, this message translates to:
+  /// **'Photo of Kharold Canova'**
+  String get photo_alt;
+
+  /// No description provided for @stat_stores_value.
+  ///
+  /// In en, this message translates to:
+  /// **'2'**
+  String get stat_stores_value;
+
+  /// No description provided for @stat_stores_label.
+  ///
+  /// In en, this message translates to:
+  /// **'app stores it ships to'**
+  String get stat_stores_label;
+
+  /// No description provided for @skills_title.
+  ///
+  /// In en, this message translates to:
+  /// **'What I work with'**
+  String get skills_title;
+
+  /// No description provided for @projects_desc.
+  ///
+  /// In en, this message translates to:
+  /// **'My own projects. I built most of them with help from coding agents.'**
+  String get projects_desc;
+
+  /// No description provided for @contact_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s talk'**
+  String get contact_title;
+
+  /// No description provided for @contact_text.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'m looking for my next job in mobile development or AI. If you have something in mind, or just want to talk about Flutter or local models, write to me.'**
+  String get contact_text;
+
+  /// No description provided for @contact_meta.
+  ///
+  /// In en, this message translates to:
+  /// **'Piura, Peru (UTC−5) · remote or hybrid in Lima · Spanish and English (B1)'**
+  String get contact_meta;
+
+  /// No description provided for @copy_email.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy'**
+  String get copy_email;
+
+  /// No description provided for @email_copied.
+  ///
+  /// In en, this message translates to:
+  /// **'Email copied'**
+  String get email_copied;
+
+  /// No description provided for @footer_made_with.
+  ///
+  /// In en, this message translates to:
+  /// **'Made with Flutter Web'**
+  String get footer_made_with;
 }
 
 class _AppLocalizationsDelegate

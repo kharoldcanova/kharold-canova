@@ -27,19 +27,19 @@ class PortfolioWidget extends StatelessWidget {
     final items = projects ?? repo.getProjects();
 
     return SectionContainer(
+      topBorder: true,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SectionHeader(
-            index: '03',
             title: t.projects,
-            description: t.projects_cv_note,
+            description: t.projects_desc,
           ),
           if (skill != null) ...[
             const SizedBox(height: BrandTheme.space2XL),
             _PublishedSkillCard(skill: skill),
           ],
-          const SizedBox(height: BrandTheme.space2XL),
+          const SizedBox(height: BrandTheme.spaceXL),
           LayoutBuilder(
             builder: (context, constraints) {
               final columns = constraints.maxWidth >= 1000
@@ -47,21 +47,35 @@ class PortfolioWidget extends StatelessWidget {
                   : constraints.maxWidth >= 640
                       ? 2
                       : 1;
-              const gap = BrandTheme.spaceLG;
-              const cardHeight = 410.0;
+              const gap = BrandTheme.spaceMD;
+              final stretch = columns > 1;
               final cardWidth =
                   (constraints.maxWidth - gap * (columns - 1)) / columns;
 
-              return Wrap(
-                spacing: gap,
-                runSpacing: gap,
+              // Each row takes the height of its tallest card, so no card
+              // clips its text at any width.
+              return Column(
                 children: [
-                  for (final project in items)
-                    _ProjectCard(
-                      project: project,
-                      width: cardWidth,
-                      height: cardHeight,
+                  for (var i = 0; i < items.length; i += columns) ...[
+                    if (i > 0) const SizedBox(height: gap),
+                    IntrinsicHeight(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          for (var j = i;
+                              j < i + columns && j < items.length;
+                              j++) ...[
+                            if (j > i) const SizedBox(width: gap),
+                            _ProjectCard(
+                              project: items[j],
+                              width: cardWidth,
+                              stretch: stretch,
+                            ),
+                          ],
+                        ],
+                      ),
                     ),
+                  ],
                 ],
               );
             },
@@ -167,12 +181,14 @@ class _ProjectCard extends StatefulWidget {
   const _ProjectCard({
     required this.project,
     required this.width,
-    required this.height,
+    this.stretch = false,
   });
 
   final Project project;
   final double width;
-  final double height;
+
+  /// True inside a multi-column row: the card fills the row height.
+  final bool stretch;
 
   @override
   State<_ProjectCard> createState() => _ProjectCardState();
@@ -198,8 +214,11 @@ class _ProjectCardState extends State<_ProjectCard> {
     final t = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
     final languageCode = Localizations.localeOf(context).languageCode;
+    final active = _hovered || _focused;
     final borderColor =
-        _hovered || _focused ? colorScheme.primary : colorScheme.outline;
+        active ? colorScheme.primary : colorScheme.outlineVariant;
+    final tokens = Theme.of(context).extension<PortfolioTokens>()!;
+    final fixedHeight = widget.stretch;
 
     return MouseRegion(
       cursor: _hasLink ? SystemMouseCursors.click : MouseCursor.defer,
@@ -223,8 +242,8 @@ class _ProjectCardState extends State<_ProjectCard> {
               child: AnimatedContainer(
                 duration: const Duration(milliseconds: 180),
                 curve: Curves.easeOut,
+                transform: Matrix4.translationValues(0, active ? -2 : 0, 0),
                 width: widget.width,
-                height: widget.height,
                 padding: const EdgeInsets.all(BrandTheme.spaceLG),
                 decoration: BoxDecoration(
                   color: colorScheme.surface,
@@ -234,39 +253,17 @@ class _ProjectCardState extends State<_ProjectCard> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      children: [
-                        Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            borderRadius:
-                                BorderRadius.circular(BrandTheme.radius),
-                            border: Border.all(
-                              color: colorScheme.outlineVariant,
-                              width: 1,
-                            ),
-                          ),
-                          child: Icon(
-                            widget.project.icon,
-                            size: 20,
-                            color: colorScheme.primary,
-                          ),
-                        ),
-                        const Spacer(),
-                        Text(
-                          widget.project
-                              .localizedCategory(languageCode)
-                              .toUpperCase(),
-                          style: BrandTextStyles.mono(
-                            fontSize: 11,
+                    Text(
+                      widget.project
+                          .localizedCategory(languageCode)
+                          .toUpperCase(),
+                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
                             color: colorScheme.onSurfaceVariant,
+                            fontWeight: FontWeight.w500,
                             letterSpacing: 0.8,
                           ),
-                        ),
-                      ],
                     ),
-                    const SizedBox(height: BrandTheme.spaceLG),
+                    const SizedBox(height: BrandTheme.spaceSM),
                     Text(
                       widget.project.title,
                       style: Theme.of(context).textTheme.titleLarge,
@@ -274,14 +271,15 @@ class _ProjectCardState extends State<_ProjectCard> {
                     const SizedBox(height: BrandTheme.spaceSM),
                     Text(
                       widget.project.localizedDescription(languageCode),
-                      maxLines: 4,
-                      overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             color: colorScheme.onSurfaceVariant,
                             height: 1.6,
                           ),
                     ),
-                    const Spacer(),
+                    if (fixedHeight)
+                      const Spacer()
+                    else
+                      const SizedBox(height: BrandTheme.spaceMD),
                     Wrap(
                       spacing: BrandTheme.spaceXS + 2,
                       runSpacing: BrandTheme.spaceXS + 2,
@@ -294,26 +292,24 @@ class _ProjectCardState extends State<_ProjectCard> {
                               vertical: BrandTheme.spaceXS,
                             ),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(
-                                BrandTheme.radiusSM,
-                              ),
-                              border: Border.all(
-                                color: colorScheme.outlineVariant,
-                                width: 1,
-                              ),
+                              color: tokens.elevated.withValues(alpha: 0.6),
+                              borderRadius:
+                                  BorderRadius.circular(BrandTheme.radius),
                             ),
                             child: Text(
                               tech,
-                              style: BrandTextStyles.mono(
-                                fontSize: 11,
-                                color: colorScheme.onSurfaceVariant,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(
+                                    color: colorScheme.onSurfaceVariant,
+                                  ),
                             ),
                           ),
                       ],
                     ),
                     if (_hasLink) ...[
-                      const SizedBox(height: BrandTheme.spaceMD + 4),
+                      const SizedBox(height: BrandTheme.spaceMD),
                       Row(
                         children: [
                           Text(

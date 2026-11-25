@@ -51,9 +51,10 @@ void main() {
     double top(Type type) => tester.getTopLeft(find.byType(type)).dy;
     final order = <double>[
       top(HeroWidget),
-      top(AboutSkillsWidget),
+      top(AboutWidget),
       top(ExperienceSection),
       top(PortfolioWidget),
+      top(SkillsSection),
       top(CertificationsSection),
       top(ContactWidget),
     ];
@@ -70,6 +71,7 @@ void main() {
     for (final entry in <String, String>{
       'years': '4',
       'users': '~115',
+      'stores': '2',
       'remote': '3',
     }.entries) {
       final row = find.byKey(Key('about-fact-${entry.key}'));
@@ -79,7 +81,7 @@ void main() {
           reason: entry.key);
     }
     expect(find.text('+30'), findsNothing);
-    expect(find.text('Competencias clave'), findsOneWidget);
+    expect(find.text('Con qué trabajo'), findsOneWidget);
     for (final label in <String>[
       'Desarrollo móvil (Flutter)',
       'IA aplicada y automatización',
@@ -94,14 +96,14 @@ void main() {
   testWidgets('experience uses the CV date format', (tester) async {
     await pumpApp(tester);
 
-    expect(find.text('09/2023 — 09/2026'), findsOneWidget);
-    expect(find.text('09/2022 — 07/2023'), findsOneWidget);
+    expect(find.text('sep 2023 – sep 2026'), findsOneWidget);
+    expect(find.text('sep 2022 – jul 2023'), findsOneWidget);
   });
 
   testWidgets('education precedes the CV certification groups', (tester) async {
     await pumpApp(tester);
 
-    expect(find.text('Educación y certificaciones'), findsOneWidget);
+    expect(find.text('Formación y certificaciones'), findsOneWidget);
     expect(find.text('Universidad César Vallejo'), findsOneWidget);
     expect(find.text('Ingeniería de Sistemas (Título Profesional)'),
         findsOneWidget);
@@ -114,7 +116,7 @@ void main() {
     }
   });
 
-  testWidgets('contact closes with availability and languages from the CV',
+  testWidgets('contact closes with availability and a quiet languages line',
       (tester) async {
     await pumpApp(tester);
 
@@ -125,13 +127,8 @@ void main() {
       ),
       findsOneWidget,
     );
-    expect(
-      find.descendant(
-        of: find.byKey(const Key('contact-languages')),
-        matching: find.textContaining('Inglés (B1 intermedio, EF SET)'),
-      ),
-      findsOneWidget,
-    );
+    final meta = tester.widget<Text>(find.byKey(const Key('contact-meta')));
+    expect(meta.data, contains('español e inglés (B1)'));
   });
 
   testWidgets('the portfolio project card links to the live site',

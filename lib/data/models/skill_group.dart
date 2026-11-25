@@ -1,4 +1,4 @@
-/// One "Competencias clave" group from the CV (DESIGN.md 3.6).
+/// One "Competencias clave" group from the CV (DESIGN.md 3.5).
 ///
 /// The visible group label comes from l10n (`skill_group_<id>`).
 class SkillGroup {

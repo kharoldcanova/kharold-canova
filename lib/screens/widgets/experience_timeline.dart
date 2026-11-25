@@ -34,8 +34,18 @@ class ExperienceTimeline extends StatelessWidget {
 }
 
 /// CV date format: `09/2023`.
-String cvMonth(DateTime date) =>
-    '${date.month.toString().padLeft(2, '0')}/${date.year}';
+const _monthsEs = [
+  'ene', 'feb', 'mar', 'abr', 'may', 'jun', //
+  'jul', 'ago', 'sep', 'oct', 'nov', 'dic',
+];
+const _monthsEn = [
+  'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', //
+  'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+];
+
+/// "sep 2023" / "Sep 2023": how a person writes a date on a portfolio.
+String cvMonth(DateTime date, [String languageCode = 'es']) =>
+    '${(languageCode == 'en' ? _monthsEn : _monthsEs)[date.month - 1]} ${date.year}';
 
 class _ExperienceEntry extends StatelessWidget {
   const _ExperienceEntry({required this.experience});
@@ -48,17 +58,16 @@ class _ExperienceEntry extends StatelessWidget {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final languageCode = Localizations.localeOf(context).languageCode;
-    final end =
-        experience.endDate == null ? t.present : cvMonth(experience.endDate!);
-    final period = '${cvMonth(experience.startDate)} — $end';
+    final end = experience.endDate == null
+        ? t.present
+        : cvMonth(experience.endDate!, languageCode);
+    final period = '${cvMonth(experience.startDate, languageCode)} – $end';
 
     final periodText = Text(
       period,
-      style: BrandTextStyles.mono(
-        fontSize: 12,
-        weight: FontWeight.w500,
-        color: colorScheme.primary,
-        letterSpacing: 0.6,
+      style: theme.textTheme.bodySmall?.copyWith(
+        color: colorScheme.onSurfaceVariant,
+        fontFeatures: const [FontFeature.tabularFigures()],
       ),
     );
 

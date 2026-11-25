@@ -332,18 +332,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get skill_group_backend => 'Backend y APIs';
 
   @override
-  String get presentation_mode => 'Iniciar presentación';
-
-  @override
-  String get presentation_previous => 'Diapositiva anterior';
-
-  @override
-  String get presentation_next => 'Diapositiva siguiente';
-
-  @override
-  String get presentation_close => 'Cerrar presentación';
-
-  @override
   String get terminal_open => 'Abrir terminal';
 
   @override
@@ -362,21 +350,19 @@ class AppLocalizationsEs extends AppLocalizations {
   String get stat_years_value => '4';
 
   @override
-  String get stat_years_label =>
-      'años llevando apps móviles y APIs a producción';
+  String get stat_years_label => 'años haciendo apps y APIs';
 
   @override
   String get stat_users_value => '~115';
 
   @override
-  String get stat_users_label =>
-      'usuarios activos en mm2 (App Store y Google Play)';
+  String get stat_users_label => 'personas usan mm2';
 
   @override
   String get stat_remote_value => '3';
 
   @override
-  String get stat_remote_label => 'años en remoto para una empresa de EE.UU.';
+  String get stat_remote_label => 'años en remoto con un equipo de EE.UU.';
 
   @override
   String get projects_cv_note =>
@@ -392,7 +378,7 @@ class AppLocalizationsEs extends AppLocalizations {
   String get nav_education => 'Formación';
 
   @override
-  String get education_title => 'Educación y certificaciones';
+  String get education_title => 'Formación y certificaciones';
 
   @override
   String get education => 'Educación';
@@ -431,4 +417,86 @@ class AppLocalizationsEs extends AppLocalizations {
   @override
   String get languages_desc =>
       'Español (nativo) · Inglés (B1 intermedio, EF SET): lectura técnica y comunicación escrita con equipos de EE.UU.';
+
+  @override
+  String get hero_greeting => 'Hola, soy';
+
+  @override
+  String get availability_now => 'Disponibilidad inmediata';
+
+  @override
+  String get hero_role_lead => 'Desarrollador full stack, entre';
+
+  @override
+  String get hero_role_and => 'y la';
+
+  @override
+  String get hero_role_ai => 'IA';
+
+  @override
+  String get hero_value =>
+      'Hace cuatro años que hago apps y APIs que la gente usa a diario. También me gusta ver hasta dónde llega una IA que corre en tu propio equipo, sin depender de la nube.';
+
+  @override
+  String get nn_title => 'Las redes detrás de mis proyectos';
+
+  @override
+  String get nn_hint => 'interactivo';
+
+  @override
+  String get nn_vision => 'Visión';
+
+  @override
+  String get nn_voice => 'Voz';
+
+  @override
+  String get nn_sql => 'Texto → SQL';
+
+  @override
+  String get nn_semantics =>
+      'Tres redes neuronales animadas: visión, voz y texto a SQL. Se activan al pasar el cursor o al tocarlas.';
+
+  @override
+  String get about_p1 =>
+      'Soy ingeniero de sistemas y llevo cuatro años haciendo apps móviles y APIs. Los últimos tres trabajé en remoto desde Piura para un estudio legal de EE.UU., donde estuve a cargo de su app de clientes: primero la mantuve, después la rehice desde cero con Clean Architecture y BLoC, y dejé su publicación en las tiendas automatizada.';
+
+  @override
+  String get about_p2 =>
+      'Además construyo cosas con IA: un asistente que ve y habla dentro de un celular sin internet, un RAG que convierte preguntas en SQL y automatizaciones con n8n. Lo que más me motiva es hacer productos que le simplifiquen el día a alguien.';
+
+  @override
+  String get photo_alt => 'Foto de Kharold Canova';
+
+  @override
+  String get stat_stores_value => '2';
+
+  @override
+  String get stat_stores_label => 'tiendas donde está publicada';
+
+  @override
+  String get skills_title => 'Con qué trabajo';
+
+  @override
+  String get projects_desc =>
+      'Proyectos propios. Casi todos los hice con ayuda de agentes de código.';
+
+  @override
+  String get contact_title => 'Hablemos';
+
+  @override
+  String get contact_text =>
+      'Estoy buscando mi siguiente trabajo en desarrollo móvil o IA. Si tienes algo en mente, o solo quieres conversar sobre Flutter o modelos locales, escríbeme.';
+
+  @override
+  String get contact_meta =>
+      'Piura, Perú (UTC−5) · remoto o híbrido en Lima · español e inglés (B1)';
+
+  @override
+  String get copy_email => 'Copiar';
+
+  @override
+  String get email_copied => 'Email copiado';
+
+  @override
+  String get footer_made_with => 'Hecho con Flutter Web';
 }
